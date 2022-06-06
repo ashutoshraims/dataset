@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}
-  namespace: osdu
+  namespace: {{ .Values.global.namespace | default "osdu" }}
 spec:
   replicas: {{ .Values.global.replicaCount }}
   selector:
