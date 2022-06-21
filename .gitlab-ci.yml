@@ -41,7 +41,6 @@ include:
     file: "scanners/gitlab-ultimate.yml"
 
   - project: "osdu/platform/ci-cd-pipelines"
-    ref: GONRG-4961-fix-anthos-int-test-for-dataset
     file: "cloud-providers/osdu-gcp-global.yml"
 
   - local: "devops/gcp/pipeline/override-stages.yml"
