@@ -274,7 +274,7 @@ public class TestDataset extends Dataset {
     }
 
     private String getFileUnsignedUrl(String relativePath) {
-        return minioConfig.getMinioEndpoint() + "/" + AnthosConfig.getGcpStoragePersistentArea() + relativePath;
+        return minioConfig.getMinioEndpoint() + AnthosConfig.getGcpStoragePersistentArea() + relativePath;
     }
 
     @Before
