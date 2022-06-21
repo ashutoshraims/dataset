@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 import com.google.common.collect.ImmutableMap;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.IOException;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringSubstitutor;
 import org.hamcrest.core.Is;
 import org.opengroup.osdu.dataset.HeaderUtils;
@@ -32,7 +32,7 @@ import org.opengroup.osdu.dataset.TestUtils;
 import org.opengroup.osdu.dataset.anthos.util.FileUtils;
 
 
-@Log
+@Slf4j
 public class DatasetConfiguration {
 
     private static final String INPUT_DATASET_FILE_SCHEMA_JSON = "input/datasetFileSchema.json";

@@ -33,11 +33,10 @@ import io.minio.messages.Item;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,7 +49,7 @@ import org.opengroup.osdu.dataset.anthos.model.IntTestFileCollectionInstructions
 import org.opengroup.osdu.dataset.anthos.model.IntTestFileInstructionsItem;
 
 
-@Log
+@Slf4j
 public class CloudStorageUtilAnthos extends CloudStorageUtil {
 
     private final MinioConfig minioConfig = MinioConfig.Instance();
@@ -77,7 +76,7 @@ public class CloudStorageUtilAnthos extends CloudStorageUtil {
             Builder builder = resource.accept(MediaType.APPLICATION_JSON).type(MediaType.TEXT_PLAIN);
             ClientResponse put = builder.method(HttpMethod.PUT, ClientResponse.class, fileContents);
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Upload file by signed URL FAIL", e);
+            log.error("Upload file by signed URL FAIL", e);
         }
         return fileInstructionsItem.getFileSource();
     }
@@ -115,7 +114,7 @@ public class CloudStorageUtilAnthos extends CloudStorageUtil {
         try {
             return FileUtils.readFileFromUrl(fileInstructionsItem.getSignedUrl());
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Download file by signed URL FAIL", e);
+            log.error( "Download file by signed URL FAIL", e);
         }
         return null;
     }
@@ -134,13 +133,14 @@ public class CloudStorageUtilAnthos extends CloudStorageUtil {
         try {
             return FileUtils.readFileFromUrl(instructionsItem.getSignedUrl());
         } catch (IOException e) {
-            log.log(Level.SEVERE, "Download file by signed URL FAIL", e);
+            log.error( "Download file by signed URL FAIL", e);
         }
         return null;
     }
 
     @SneakyThrows
     public void deleteCloudFile(String unsignedUrl) {
+        log.info(String.format("Going to delete blob created during tests, location: %s", unsignedUrl));
         String[] gsPathParts = unsignedUrl.split("https://");
         String[] gsObjectKeyParts = gsPathParts[1].split("/");
         String bucketName = gsObjectKeyParts[1];
