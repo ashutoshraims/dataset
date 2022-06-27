@@ -16,7 +16,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Chart.Name }}
-  namespace: osdu
+  namespace: {{ .Values.global.namespace | default "osdu" }}
 spec:
   type: ClusterIP
   ports:
