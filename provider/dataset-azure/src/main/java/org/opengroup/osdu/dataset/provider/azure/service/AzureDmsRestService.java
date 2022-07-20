@@ -33,7 +33,7 @@ import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructions
 
 public class AzureDmsRestService extends DmsRestService {
 
-  private static final String RETRIEVAL_INSTRUCTIONS_PATH = "/getRetrievalInstructions";
+  private static final String RETRIEVAL_INSTRUCTIONS_PATH = "/retrievalInstructions";
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
