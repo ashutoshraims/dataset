@@ -1,0 +1,351 @@
+{
+    "$schema": "osdu-aws-services-helm",
+    "type": "object",
+    "default": {},
+    "required": [
+        "accountID",
+        "region",
+        "resourcePrefix",
+        "namespace",
+        "gatewayName",
+        "image",
+        "imagePullPolicy",
+        "service",
+        "logLevel",
+        "podAnnotations",
+        "replicaCount",
+        "serviceAccountRole",
+        "securityContext",
+        "allowedPrincipals"
+    ],
+    "properties": {
+        "accountID": {
+            "type": "string",
+            "title": "The accountID of the OSDU on AWS deployment"
+        },
+        "region": {
+            "type": "string",
+            "default": "us-east-1",
+            "title": "The region of the OSDU on AWS deployment",
+            "examples": [
+               "eu-north-1",
+                "ap-south-1",
+                "eu-west-3",
+                "eu-west-2",
+                "eu-west-1",
+                "ap-northeast-3",
+                "ap-northeast-2",
+                "me-south-1",
+                "ap-northeast-1",
+                "sa-east-1",
+                "ca-central-1",
+                "ap-east-1",
+                "ap-southeast-1",
+                "ap-southeast-2",
+                "eu-central-1",
+                "us-east-1",
+                "us-east-2",
+                "us-west-1",
+                "us-west-2"
+            ]
+        },
+        "resourcePrefix": {
+            "type": "string",
+            "title": "The resourcePrefix of the OSDU on AWS deployment"
+        },
+        "namespace": {
+            "type": "string",
+            "default": "osdu-services",
+            "title": "The namespace of the core services"
+        },
+        "gatewayName": {
+            "type": "string",
+            "default": "osdu-gateway",
+            "title": "The name of the OSDU Core services gateway"
+        },
+        "image": {
+            "type": "string",
+            "title": "The service container image URL"
+        },
+        "imagePullPolicy": {
+            "type": "string",
+            "pattern": "^(Always|Never|IfNotPresent)$",
+            "default": "Always"
+        },
+        "service": {
+            "type": "object",
+            "required": [
+                "type",
+                "port",
+                "apiPath"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "ClusterIP"
+                },
+                "port": {
+                    "type": "integer",
+                    "default": 8080,
+                    "title": "The port the service is hosted on",
+                    "examples": [
+                        8080,
+                        443,
+                        80
+                    ]
+                },
+                "apiPath": {
+                    "type": "string",
+                    "title": "The main API path",
+                    "examples": [
+                        "/api/service/v1/"
+                    ]
+                },
+                "readinessProbeHttpPath": {
+                    "type": "string",
+                    "examples": [
+                        "/api/service/v1/actuator/health"
+                    ]
+                },
+                "livenessProbeHttpPath": {
+                    "type": "string",
+                    "examples": [
+                        "/api/service/v1/actuator/health"
+                    ]
+                },
+                "startupProbeHttpPath": {
+                    "type": "string",
+                    "examples": [
+                        "/api/service/v1/actuator/health"
+                    ]
+                }
+            },
+            "examples": [{
+                "type": "ClusterIP",
+                "port": 8080,
+                "apiPath": "/api/service/v1/",
+                "readinessProbeHttpPath": "/api/service/v1/actuator/health",
+                "livenessProbeHttpPath": "/api/service/v1/actuator/health",
+                "startupProbeHttpPath": "/api/service/v1/actuator/health"
+            }]
+        },
+        "serviceParameters": {
+            "type": "array",
+            "title": "The secret parameters consumed by the service",
+            "items": {
+                "type": "object",
+                "required": [
+                    "objectName",
+                    "objectType",
+                    "objectAlias"
+                ],
+                "properties": {
+                    "objectName": {
+                        "type": "string",
+                        "title": "The SSM or secrets parameter name",
+                        "examples": [
+                            "/osdu/resource-prefix/redis/redisauthtoken",
+                            "/osdu/resource-prefix/redis-core/end-point"
+                        ]
+                    },
+                    "objectType": {
+                        "type": "string",
+                        "title": "The type of parameter",
+                        "pattern": "^(secretsmanager|ssmparameter|)$"
+                    },
+                    "objectAlias": {
+                        "type": "string",
+                        "title": "The name of the environment variable consumed by the service",
+                        "examples": [
+                            "CACHE_CLUSTER_KEY",
+                            "CACHE_CLUSTER_ENDPOINT"
+                        ]
+                    }
+                },
+                "examples": [{
+                    "objectName": "/osdu/resource-prefix/redis/redisauthtoken",
+                    "objectType": "secretsmanager",
+                    "objectAlias": "CACHE_CLUSTER_KEY"
+                },
+                {
+                    "objectName": "/osdu/resource-prefix/redis-core/end-point",
+                    "objectType": "ssmparameter",
+                    "objectAlias": "CACHE_CLUSTER_ENDPOINT"
+                }]
+            }
+        },
+        "environmentVariables": {
+            "type": "array",
+            "title": "The environment variables consumed by the service",
+            "items": {
+                "type": "object",
+                "title": "An environment variable definition",
+                "required": [
+                    "name",
+                    "value"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "The name of the environment variable consumed by the service",
+                        "examples": [
+                            "APPLICATION_PORT",
+                            "AWS_REGION"
+                        ]
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "The value of the environment variable"
+                    }
+                },
+                "examples": [{
+                    "name": "APPLICATION_PORT",
+                    "value": "8080"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "us-east-1"
+                }]
+            }
+        },
+        "logLevel": {
+            "type": "string",
+            "default": "INFO",
+            "pattern": "^(TRACE|DEBUG|INFO|WARN|ERROR|FATAL|OFF)$"
+        },
+        "podAnnotations": {
+            "type": "object",
+            "default": {}
+        },
+        "replicaCount": {
+            "type": "integer",
+            "default": 1,
+            "title": "The number of pod replicas"
+        },
+        "maxConnections": {
+            "type": "integer",
+            "default": 200,
+            "title": "The max number of service connections"
+        },
+        "resources": {
+            "type": "object"
+        },
+        "autoscaling": {
+            "type": "object"
+        },
+        "serviceAccountRole": {
+            "type": "string",
+            "default": "",
+            "title": "The service account IAM role"
+        },
+        "cors": {
+            "type": "object",
+            "default": {},
+            "title": "The cors Schema",
+            "required": [
+                "maxAge",
+                "allowCredentials",
+                "allowMethods",
+                "allowHeaders",
+                "allowOrigins"
+            ],
+            "properties": {
+                "maxAge": {
+                    "type": "string",
+                    "default": "60m",
+                    "title": "The max age of the request"
+                },
+                "allowCredentials": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "The allowCredentials Schema"
+                },
+                "allowMethods": {
+                    "type": "array",
+                    "title": "A list of supported API request methods",
+                    "items": {
+                        "type": "string",
+                        "title": "Supported API request methods",
+                        "pattern": "^(GET|POST|PUT|PATCH|OPTIONS|DELETE)$"
+                    },
+                    "examples": [
+                        ["POST",
+                            "GET",
+                            "PATCH",
+                            "DELETE"
+                        ]
+                    ]
+                },
+                "allowHeaders": {
+                    "type": "array",
+                    "title": "A list of supported headers",
+                    "items": {
+                        "type": "string"
+                    },
+                    "examples": [
+                        ["Authorization",
+                            "Data-Partition-Id",
+                            "Correlation-Id",
+                            "Content-Type"
+                        ]
+                    ]
+                },
+                "allowOrigins": {
+                    "type": "array",
+                    "default": [],
+                    "title": "A list of the allowed origins",
+                    "items": {
+                        "type": "object",
+                        "default": {},
+                        "title": "Istio string match pattern",
+                        "pattern": "^(prefix|exact|regex)$",
+                        "examples": [{
+                            "prefix": "*"
+                        }]
+                    },
+                    "examples": [
+                        [
+                            {"prefix": "*"},
+                            {"prefix": "www.example.com/"}
+                        ]
+                    ]
+                }
+            },
+            "examples": [{
+                "maxAge": "60m",
+                "allowCredentials": true,
+                "allowMethods": [
+                    "POST",
+                    "GET",
+                    "PATCH",
+                    "DELETE"
+                ],
+                "allowHeaders": [
+                    "Authorization",
+                    "Data-Partition-Id",
+                    "Correlation-Id",
+                    "Content-Type"
+                ],
+                "allowOrigins": [{
+                    "prefix": "*"
+                }]
+            }]
+        },
+        "securityContext": {
+            "type": "object",
+            "default": {}
+        },
+        "allowedPrincipals": {
+            "type": "array",
+            "title": "A list of allowed service principals",
+            "items": {
+                "type": "string",
+                "title": "Allowed principal",
+                "examples": [
+                    "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account",
+                    "cluster.local/ns/osdu-services/sa/compliance-queue"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+
+{{- /*
+DEPLOYMENT
+*/ -}}
+{{- template "common.deployment" (list . "service.deployment") -}}
+{{- define "service.deployment" -}}
+## Define overrides for the service deployment resource here
+{{- end -}}

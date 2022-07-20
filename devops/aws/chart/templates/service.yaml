@@ -1,0 +1,8 @@
+{{- /*
+SERVICE
+REQUIRED VALUES: [service.port, service.type, namespace]
+*/ -}}
+{{- template "common.service" (list . "service.service") -}}
+{{- define "service.service" -}}
+## Define overrides for the service resource here
+{{- end -}}

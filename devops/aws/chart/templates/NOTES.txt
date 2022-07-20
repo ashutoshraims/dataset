@@ -1,0 +1,2 @@
+{{ .Chart.Name }} deployed to {{ .Values.namespace }} namespace
+Application URL available at path {{ .Values.service.apiPath }}

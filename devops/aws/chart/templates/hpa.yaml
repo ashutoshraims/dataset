@@ -1,0 +1,11 @@
+
+{{- /*
+HPA
+REQUIRED VALUES: [autoscaling, namespace]
+*/ -}}
+{{- define "service.hpa" -}}
+{{- if .Values.autoscaling.enabled }}
+{{- template "common.hpa" (list . "service.hpa") -}}
+## Define overrides for the service HPA resource here
+{{- end }}
+{{- end -}}

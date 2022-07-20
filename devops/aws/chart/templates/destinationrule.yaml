@@ -1,0 +1,9 @@
+{{- /*
+DESTINATION RULE
+REQUIRED VALUES: [service.port, namespace]
+*/ -}}
+
+{{- template "common.destinationrule" (list . "service.destinationrule") -}}
+{{- define "service.destinationrule" -}}
+## Define overrides for the service destination rule resource here
+{{- end -}}
