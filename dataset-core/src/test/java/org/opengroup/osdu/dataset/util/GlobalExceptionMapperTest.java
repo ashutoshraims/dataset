@@ -50,6 +50,7 @@ public class GlobalExceptionMapperTest {
         AppException e = new AppException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 String.format(DmsValidationDoc.KIND_SUB_TYPE_NOT_REGISTERED_ERROR, "error"));
         ResponseEntity<Object> response = (ResponseEntity<Object>) m.invoke(globalExceptionMapper, e);
+        assertEquals(response.getStatusCode(),HttpStatus.BAD_REQUEST);
     }
 
     @Test

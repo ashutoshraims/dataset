@@ -43,7 +43,7 @@ import javassist.NotFoundException;
 public class GlobalExceptionMapper extends ResponseEntityExceptionHandler {
 
     @Inject
-    private JaxRsDpsLog logger;
+    private JaxRsDpsLog jaxRsDpsLogger;
 
     @ExceptionHandler(AppException.class)
     protected ResponseEntity<Object> handleAppException(AppException e) {
@@ -98,9 +98,9 @@ public class GlobalExceptionMapper extends ResponseEntityExceptionHandler {
                 : e.getError().getMessage();
 
         if (e.getError().getCode() > 499) {
-            this.logger.error(exceptionMsg, e);
+            this.jaxRsDpsLogger.error(exceptionMsg, e);
         } else {
-            this.logger.warning(exceptionMsg, e);
+            this.jaxRsDpsLogger.warning(exceptionMsg, e);
         }
 
         return new ResponseEntity<Object>(e.getError(), HttpStatus.resolve(e.getError().getCode()));
