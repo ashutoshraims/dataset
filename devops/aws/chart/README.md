@@ -8,6 +8,7 @@ The below software must be installed before continuing:
 * [AWS CLI ^2.7.0](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 * [kubectl 1.21-1.22](https://kubernetes.io/docs/tasks/tools/)
 * [Helm ^3.7.1](https://helm.sh/docs/intro/install/)
+* [Helm S3 Plugin ^0.12.0](https://github.com/hypnoglow/helm-s3)
 
 Additionally, an OSDU on AWS environment must be deployed.
 
@@ -15,12 +16,12 @@ Additionally, an OSDU on AWS environment must be deployed.
 To install or update the service application by executing the following command in the devops/aws/chart folder:
 
 ```bash
-helm upgrade [RELEASE_NAME] .
+helm upgrade [RELEASE_NAME] . -i
 ```
 
 To observe the Kubernetes resources before deploying them using the command:
 ```bash
-helm upgrade [RELEASE_NAME] . --dry-run --debug
+helm upgrade [RELEASE_NAME] . -i --dry-run --debug
 ```
 
 To observe the history of the current release, use the following command:
