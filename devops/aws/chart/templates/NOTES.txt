@@ -1,2 +1,4 @@
 {{ .Chart.Name }} deployed to {{ .Values.global.namespace }} namespace
+{{- if (.Values.service).apiPath }}
 Application URL available at path {{ .Values.service.apiPath }}
+{{- end }}

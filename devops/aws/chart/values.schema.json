@@ -3,66 +3,15 @@
     "type": "object",
     "default": {},
     "required": [
-        "accountID",
-        "region",
-        "resourcePrefix",
-        "namespace",
-        "gatewayName",
         "image",
         "imagePullPolicy",
         "service",
-        "logLevel",
         "podAnnotations",
         "replicaCount",
         "serviceAccountRole",
-        "securityContext",
-        "allowedPrincipals"
+        "securityContext"
     ],
     "properties": {
-        "accountID": {
-            "type": "string",
-            "title": "The accountID of the OSDU on AWS deployment"
-        },
-        "region": {
-            "type": "string",
-            "default": "us-east-1",
-            "title": "The region of the OSDU on AWS deployment",
-            "examples": [
-               "eu-north-1",
-                "ap-south-1",
-                "eu-west-3",
-                "eu-west-2",
-                "eu-west-1",
-                "ap-northeast-3",
-                "ap-northeast-2",
-                "me-south-1",
-                "ap-northeast-1",
-                "sa-east-1",
-                "ca-central-1",
-                "ap-east-1",
-                "ap-southeast-1",
-                "ap-southeast-2",
-                "eu-central-1",
-                "us-east-1",
-                "us-east-2",
-                "us-west-1",
-                "us-west-2"
-            ]
-        },
-        "resourcePrefix": {
-            "type": "string",
-            "title": "The resourcePrefix of the OSDU on AWS deployment"
-        },
-        "namespace": {
-            "type": "string",
-            "default": "osdu-services",
-            "title": "The namespace of the core services"
-        },
-        "gatewayName": {
-            "type": "string",
-            "default": "osdu-gateway",
-            "title": "The name of the OSDU Core services gateway"
-        },
         "image": {
             "type": "string",
             "title": "The service container image URL"
@@ -208,11 +157,6 @@
                 }]
             }
         },
-        "logLevel": {
-            "type": "string",
-            "default": "INFO",
-            "pattern": "^(TRACE|DEBUG|INFO|WARN|ERROR|FATAL|OFF)$"
-        },
         "podAnnotations": {
             "type": "object",
             "default": {}
@@ -246,8 +190,7 @@
                 "maxAge",
                 "allowCredentials",
                 "allowMethods",
-                "allowHeaders",
-                "allowOrigins"
+                "allowHeaders"
             ],
             "properties": {
                 "maxAge": {
@@ -289,26 +232,6 @@
                             "Content-Type"
                         ]
                     ]
-                },
-                "allowOrigins": {
-                    "type": "array",
-                    "default": [],
-                    "title": "A list of the allowed origins",
-                    "items": {
-                        "type": "object",
-                        "default": {},
-                        "title": "Istio string match pattern",
-                        "pattern": "^(prefix|exact|regex)$",
-                        "examples": [{
-                            "prefix": "*"
-                        }]
-                    },
-                    "examples": [
-                        [
-                            {"prefix": "*"},
-                            {"prefix": "www.example.com/"}
-                        ]
-                    ]
                 }
             },
             "examples": [{
@@ -325,10 +248,7 @@
                     "Data-Partition-Id",
                     "Correlation-Id",
                     "Content-Type"
-                ],
-                "allowOrigins": [{
-                    "prefix": "*"
-                }]
+                ]
             }]
         },
         "securityContext": {
