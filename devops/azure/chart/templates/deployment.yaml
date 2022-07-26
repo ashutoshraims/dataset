@@ -39,6 +39,10 @@ spec:
       - name: {{ .Chart.Name }}
         image: {{ .Values.image.repository }}/{{ .Chart.Name }}-{{ .Values.image.branch }}:{{ .Values.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sleep","90"]
         ports:
         - containerPort: 80
         volumeMounts:
@@ -117,3 +121,4 @@ spec:
           value: http://file/api/file/v2/file-collections
         - name: external_dataset_service_endpoint
           value: http://eds-dms/api/eds/v1
+      terminationGracePeriodSeconds: 101
