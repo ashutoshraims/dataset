@@ -21,3 +21,6 @@
 .idea/
 *.tmproj
 .vscode/
+# Build files
+*.html
+build-info.json
