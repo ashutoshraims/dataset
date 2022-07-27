@@ -1,9 +1,4 @@
-{{- /*
-DESTINATION RULE
-REQUIRED VALUES: [service.port, namespace]
-*/ -}}
-
-{{- template "common.destinationrule" (list . "service.destinationrule") -}}
-{{- define "service.destinationrule" -}}
+{{- template "common.destinationrule" (list . "os-dataset.destinationrule") -}}
+{{- define "os-dataset.destinationrule" -}}
 ## Define overrides for the service destination rule resource here
 {{- end -}}

@@ -1,8 +1,4 @@
-{{- /*
-SERVICE
-REQUIRED VALUES: [service.port, service.type, namespace]
-*/ -}}
-{{- template "common.service" (list . "service.service") -}}
-{{- define "service.service" -}}
+{{- template "common.service" (list . "os-dataset.service") -}}
+{{- define "os-dataset.service" -}}
 ## Define overrides for the service resource here
 {{- end -}}
