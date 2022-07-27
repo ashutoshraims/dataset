@@ -1,4 +1,4 @@
-{{ .Chart.Name }} deployed to {{ .Values.global.namespace }} namespace
+{{ .Chart.Name }} deployed to {{ .Release.Namespace }} namespace
 {{- if (.Values.service).apiPath }}
 Application URL available at path {{ .Values.service.apiPath }}
 {{- end }}
