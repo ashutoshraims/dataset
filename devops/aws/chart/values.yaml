@@ -64,7 +64,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Security Config
-serviceAccountRole: arn:aws:iam::{{ .Values.global.accountID }}:role/osdu-{{ .Values.global.resourcePrefix }}-{{ include "common.name" . }}
+serviceAccountRole: arn:aws:iam::{{ .Values.global.accountID }}:role/{{ .Values.global.resourcePrefix }}-{{ include "common.name" . }}
 cors:
   maxAge: "60m"
   allowCredentials: true
