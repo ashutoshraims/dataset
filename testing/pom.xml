@@ -30,6 +30,11 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<properties>
+		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+	</properties>
+
 	<modules>
 		<module>dataset-test-core</module>
 		<module>dataset-test-azure</module>
