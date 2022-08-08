@@ -1097,8 +1097,6 @@ The following software have components provided under the terms of this license:
 ========================================================================
 unknown
 ========================================================================
-The following software have components provided under the terms of this license:
-
 - Bouncy Castle Provider (from http://www.bouncycastle.org/java.html, https://www.bouncycastle.org/java.html)
 - Byte Buddy (without dependencies) (from https://repo1.maven.org/maven2/net/bytebuddy/byte-buddy)
 - Checker Qual (from https://checkerframework.org)
