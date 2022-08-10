@@ -219,6 +219,7 @@
                     <excludes>
                         <exclude>**/*org/opengroup/osdu/dataset/provider/azure/cache/**</exclude>
                         <exclude>**/*org/opengroup/osdu/dataset/provider/azure/di/**Config.class</exclude>
+                        <exclude>**/*org/opengroup/osdu/dataset/provider/azure/di/**Factory.class</exclude>
                         <exclude>**/*org/opengroup/osdu/dataset/provider/azure/security/**</exclude>
                         <exclude>**/*org/opengroup/osdu/dataset/provider/azure/DatasetAzureApplication.class</exclude>
                     </excludes>
