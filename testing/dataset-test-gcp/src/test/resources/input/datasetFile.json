@@ -20,7 +20,7 @@
 				"DatasetProperties": {
 					"FileSourceInfo": {
 						"FileSource": "${filepath}",
-						"PreLoadFilePath": "${filepath}"
+						"PreloadFilePath": "${filepath}"
 					}
 				}
 			},
