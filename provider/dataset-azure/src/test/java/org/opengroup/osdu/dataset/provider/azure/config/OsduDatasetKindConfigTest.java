@@ -22,8 +22,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class OsduDatasetKindConfigTest {
 
-    private final String FILE = "file_name";
-    private final String FILE_COLLECTION = "file-collection";
+    private static final String FILE = "file_name";
+    private static final String FILE_COLLECTION = "file-collection";
+    private static final String CONNECTED_SOURCE = "ConnectedSource";
 
     @Test
     public void should_successfully_create_config() {
@@ -31,9 +32,11 @@ public class OsduDatasetKindConfigTest {
 
         config.setFile(FILE);
         config.setFileCollection(FILE_COLLECTION);
+        config.setConnectedSource(CONNECTED_SOURCE);
 
         assertEquals(FILE, config.getFile());
         assertEquals(FILE_COLLECTION, config.getFileCollection());
+        assertEquals(CONNECTED_SOURCE, config.getConnectedSource());
     }
 
 }
