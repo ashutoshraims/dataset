@@ -239,7 +239,7 @@ public abstract class Dataset extends TestBase {
 		HashMap<String, Object> datasetProperties = new HashMap<>();
 		HashMap<String, Object> fileSourceInfo = new HashMap<>();
 		fileSourceInfo.put("FileSource", "");
-		fileSourceInfo.put("PreLoadFilePath", unsignedUrl);
+		fileSourceInfo.put("PreloadFilePath", unsignedUrl);
 		datasetProperties.put("FileSourceInfo", fileSourceInfo);
 		data.put("DatasetProperties", datasetProperties);
 		datasetRegistry.setData(data);
@@ -297,7 +297,7 @@ public abstract class Dataset extends TestBase {
 	// 	String preLoadFilePath = datasetRegistry.get("data").getAsJsonObject()
 	// 			.get("DatasetProperties").getAsJsonObject()
 	// 			.get("FileSourceInfo").getAsJsonObject()
-	// 			.get("PreLoadFilePath").getAsString();
+	// 			.get("PreloadFilePath").getAsString();
 	// 	Assert.assertEquals(unsignedUrl + "/test.json", preLoadFilePath);
 
 	// 	// get file delivery of what was just created
