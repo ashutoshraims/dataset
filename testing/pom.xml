@@ -19,7 +19,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opengroup.osdu</groupId>
 	<artifactId>os-dataset-testing</artifactId>
-	<version>0.16.0-SNAPSHOT</version>
+	<version>0.17.0-SNAPSHOT</version>
 	<description>Dataset integration testing code</description>
 	<packaging>pom</packaging>
 
@@ -30,13 +30,19 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<properties>
+		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+	</properties>
+
 	<modules>
 		<module>dataset-test-core</module>
 		<module>dataset-test-azure</module>
 		<module>dataset-test-aws</module>
 		<module>dataset-test-gcp</module>
 		<module>dataset-test-ibm</module>
-	</modules>
+        <module>dataset-test-anthos</module>
+    </modules>
 
 	<profiles>
 		<profile>

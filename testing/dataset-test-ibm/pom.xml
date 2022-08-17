@@ -12,7 +12,7 @@
 	<parent>
         <groupId>org.opengroup.osdu</groupId>
         <artifactId>os-dataset-testing</artifactId>
-        <version>0.16.0-SNAPSHOT</version>
+        <version>0.17.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -32,7 +32,7 @@
 		<dependency>
             <groupId>org.opengroup.osdu.storage</groupId>
             <artifactId>dataset-test-core</artifactId>
-            <version>0.16.0-SNAPSHOT</version>
+            <version>0.17.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
@@ -93,7 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.5</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>integration-test</phase>
