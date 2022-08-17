@@ -30,7 +30,53 @@
 	<version>0.17.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
+	<properties>
+		<spring-webmvc.version>5.3.22</spring-webmvc.version>
+	</properties>
+
 	<dependencies>
+		<!--TODO spring mvc dependencies added explicitly to override dependencies version from parent pom, can be removed if issue resolved https://community.opengroup.org/osdu/platform/system/dataset/-/issues/42 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jcl</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring-webmvc.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>dataset-core</artifactId>
@@ -56,12 +102,7 @@
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>core-lib-gcp</artifactId>
-			<version>0.15.0-rc3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>5.3.22</version>
+			<version>0.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
