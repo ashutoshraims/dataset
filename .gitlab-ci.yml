@@ -49,12 +49,7 @@ include:
     ref: release/0.15
 
   - project: "osdu/platform/ci-cd-pipelines"
-<<<<<<< HEAD
-    file: "cloud-providers/osdu-gcp-gke.yml"
-    ref: release/0.15
-=======
     file: "cloud-providers/osdu-gcp-global.yml"
->>>>>>> dev
 
   - local: "devops/gcp/pipeline/override-stages.yml"
 # disable the eslint scanner
