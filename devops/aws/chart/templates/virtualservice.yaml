@@ -1,0 +1,4 @@
+{{- template "common.virtualservice" (list . "os-dataset.virtualservice") -}}
+{{- define "os-dataset.virtualservice" -}}
+## Define overrides for the service's virtual service resource here
+{{- end -}}

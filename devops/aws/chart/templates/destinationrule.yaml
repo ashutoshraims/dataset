@@ -1,0 +1,4 @@
+{{- template "common.destinationrule" (list . "os-dataset.destinationrule") -}}
+{{- define "os-dataset.destinationrule" -}}
+## Define overrides for the service destination rule resource here
+{{- end -}}

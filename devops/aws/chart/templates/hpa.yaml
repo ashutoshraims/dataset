@@ -1,0 +1,4 @@
+{{- template "common.hpa" (list . "os-dataset.hpa") -}}
+{{- define "os-dataset.hpa" -}}
+## Define overrides for the service HPA resource here
+{{- end -}}
