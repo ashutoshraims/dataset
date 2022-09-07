@@ -69,8 +69,6 @@ public class DatasetFilter implements Filter {
 			this.dpsHeaders.put(FOR_HEADER_NAME, fetchConversionHeader);
 		}
 
-		chain.doFilter(request, response);
-
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		this.dpsHeaders.addCorrelationIdIfMissing();
@@ -86,6 +84,8 @@ public class DatasetFilter implements Filter {
 		if (httpRequest.getMethod().equalsIgnoreCase(OPTIONS_STRING)) {
 			httpResponse.setStatus(HttpStatus.SC_OK);
 		}
+
+		chain.doFilter(httpRequest, httpResponse);
 	}
 
 	@Override
