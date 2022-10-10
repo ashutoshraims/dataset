@@ -11,6 +11,9 @@ variables:
   IBM_BUILD_SUBDIR: provider/dataset-ibm
   IBM_INT_TEST_SUBDIR: testing/dataset-test-ibm
 
+  IBM_HELM_CONFIG_PATH: devops/ibm/ibm-dataset-config
+  IBM_HELM_DEPLOY_PATH: devops/ibm/ibm-dataset-deploy
+
   #Azure
   AZURE_SERVICE: dataset
   AZURE_BUILD_SUBDIR: provider/dataset-azure
