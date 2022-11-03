@@ -45,11 +45,11 @@ This service uses specific implementations of DestinationResolvers based on the 
 - resolver creates a data source, connects to the resource, remembers the datasource
 - resolver gives the datasource to the mapper in the Resolution object
 - Google Cloud resolvers do not receive special properties from the Partition service for connection, 
-because the location of the resources is unambiguously known - they are in the GCP project. 
+because the location of the resources is unambiguously known - they are in the Google Cloud project. 
 And credentials are also not needed - access to data is made on behalf of the Google Identity SA
 under which the service itself is launched. Therefore, resolver takes only 
 the value of the **projectId** property from PartitionInfo and uses it to connect to a resource 
-in the corresponding GCP project.
+in the corresponding Google Cloud project.
 
 # Configuration
 
@@ -60,8 +60,8 @@ Most of them are common to all hosting environments, but there are properties th
 
 ### Anthos Service Configuration:
 [Anthos service configuration ](docs/anthos/README.md)
-### GCP Service Configuration:
-[Gcp service configuration ](docs/gcp/README.md)
+##***REMOVED*** Service Configuration:
+[Google Cloud service configuration ](docs/gcp/README.md)
 
 ### Run Locally
 Check that maven is installed:
@@ -140,8 +140,8 @@ cd provider/dataset-gcp && mvn spring-boot:run
  
  ### Anthos test configuration:
  [Anthos service configuration ](docs/anthos/README.md)
- ### GCP test configuration:
- [Gcp service configuration ](docs/gcp/README.md)
+ ##***REMOVED*** test configuration:
+ [Google Cloud service configuration ](docs/gcp/README.md)
 
 ## Deployment
 
