@@ -14,7 +14,7 @@ Must have:
 
 | name | value | description | sensitive? | source |
 | ---  | ---   | ---         | ---        | ---    |
-| `SPRING_PROFILES_ACTIVE` | ex `anthos` | Spring profile that activate default configuration for GCP environment | false | - |
+| `SPRING_PROFILES_ACTIVE` | ex `anthos` | Spring profile that activate default configuration for Google Cloud environment | false | - |
 | `<POSTGRES_PASSWORD_ENV_VARIABLE_NAME>` | ex `POSTGRES_PASS_OSDU` | Postgres password env name, name of that variable not defined at the service level, the name will be received through partition service. Each tenant can have it's own ENV name value, and it must be present in ENV of Dataset service | yes | - |
 
 ### Common properties for all environments
@@ -196,6 +196,6 @@ Execute following command to build code and run all the integration tests:
  ```
 
  ```bash
- # build + run GCP integration tests.
+ # build + run Google Cloud integration tests.
  $ (cd testing/dataset-test-anthos/ && mvn clean test)
  ```
