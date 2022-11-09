@@ -139,9 +139,9 @@ This section describes the deployment process for each cloud provider.
 ##***REMOVED***
  This service is deployed as part of the CloudFormation package
  
-### GCP
+##***REMOVED***
 
-All documentation for the GCP implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
+All documentation for the Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
 
 
 ## Running integration tests
@@ -152,9 +152,9 @@ Integration tests are located in a separate project for each cloud in the ```tes
 
 Instructions for running the AWS integration tests can be found [here](./provider/dataset-aws/README.md)
 
-### GCP
+##***REMOVED***
 
-All documentation for the GCP implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
+All documentation for Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
 
 ## License
 Copyright © 2021 Amazon Web Services

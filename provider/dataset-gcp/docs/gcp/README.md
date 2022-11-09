@@ -1,4 +1,4 @@
-# Service Configuration for GCP
+# Service Configuration for Google Cloud
 
 ## Table of Contents <a name="TOC"></a>
 * [Environment variables](#Environment-variables)
@@ -15,7 +15,7 @@ Must have:
 | name | value | description | sensitive? | source |
 | ---  | ---   | ---         | ---        | ---    |
 | `GOOGLE_AUDIENCES` | ex `*****.apps.googleusercontent.com` | Client ID for getting access to cloud resources | yes | https://console.cloud.google.com/apis/credentials |
-| `SPRING_PROFILES_ACTIVE` | ex `gcp` | Spring profile that activate default configuration for GCP environment | false | - |
+| `SPRING_PROFILES_ACTIVE` | ex `gcp` | Spring profile that activate default configuration for Google Cloud environment | false | - |
 
 ### Common properties for all environments
 
@@ -103,6 +103,6 @@ Execute following command to build code and run all the integration tests:
  $ (cd testing/dataset-test-core/ && mvn clean install)
  ```
  ```bash
- # build + run GCP integration tests.
+ # build + run Google Cloud integration tests.
  $ (cd testing/dataset-test-gcp/ && mvn clean test)
  ```
