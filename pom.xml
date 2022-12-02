@@ -29,7 +29,7 @@
 		<os-core-common.version>0.17.0</os-core-common.version>
 		<jackson.version>2.11.2</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
-		<snakeyaml.version>1.26</snakeyaml.version>
+		<snakeyaml.version>1.33</snakeyaml.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
 		<log4j2.version>2.17.1</log4j2.version>
@@ -188,6 +188,7 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>2.7.4</version>
 					<executions>
 						<execution>
 							<id>build-info</id>
