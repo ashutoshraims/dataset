@@ -58,6 +58,9 @@ data:
   DMS_API_BASE: TBD
   VM_CACHE_EXPIRATION: "{{ .Values.data.cacheExpiration }}"
   MAX_CACHE_VALUE_SIZE: "{{ .Values.data.cacheMaxSize }}"
-  FILE_API: "https://{{ .Release.Name }}-ibm-file-deploy:8080/api/file/v2"
-  FILE_COLLECTION_API: "https://{{ .Release.Name }}-ibm-file-deploy:8080/api/file/v2"
+  FILE_API: "http://{{ .Release.Name }}-ibm-file-deploy:8080/api/file/v2/files"
+  FILE_COLLECTION_API: "http://{{ .Release.Name }}-ibm-file-deploy:8080/api/file/v2/file-collections"
   SCHEMA_API:  "http://{{ .Release.Name }}-ibm-schema-deploy:8080/api/schema-service/v1"
+  osdu.dataset.config.useRestDms: 'true'
+  STORAGE_API: "http://{{ .Release.Name }}-ibm-storage-deploy:8080/api/storage/v2/"
+  storage.api: "http://{{ .Release.Name }}-ibm-storage-deploy:8080/api/storage/v2"
