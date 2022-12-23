@@ -21,8 +21,8 @@
         <log4j2.version>2.17.1</log4j2.version>
         <jackson-dataformat-cbor.version>2.13.0</jackson-dataformat-cbor.version>
         <!--<os-core-common.version>0.3.28</os-core-common.version>-->
-        <jackson-databind.version>2.13.2.2</jackson-databind.version>
-        <jackson.version>2.13.2</jackson.version>
+        <jackson-databind.version>2.13.4.2</jackson-databind.version>
+        <jackson.version>2.13.4</jackson.version>
     </properties>
 
    
@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>9.0.67</version>		
+			<version>9.0.68</version>		
 		</dependency>      
 
         <!-- Third party Apache 2.0 license packages -->
@@ -221,6 +221,13 @@
             	</exclusion>
             </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+		    <groupId>org.yaml</groupId>
+		    <artifactId>snakeyaml</artifactId>
+		    <version>1.33</version>
+		</dependency>
+
     </dependencies>
 
     <build>
