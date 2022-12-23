@@ -32,8 +32,8 @@
 
 	<properties>
 		<spring-webmvc.version>5.3.22</spring-webmvc.version>
-		<jackson-databind.version>2.13.2.2</jackson-databind.version>
-		<jackson.version>2.13.2</jackson.version>
+		<jackson-databind.version>2.13.4.2</jackson-databind.version>
+		<jackson.version>2.13.4</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -150,6 +150,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+		    <groupId>org.yaml</groupId>
+		    <artifactId>snakeyaml</artifactId>
+		    <version>1.33</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-core</artifactId>
+		    <version>9.0.68</version>
+		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
