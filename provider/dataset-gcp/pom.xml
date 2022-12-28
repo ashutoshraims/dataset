@@ -32,6 +32,7 @@
 
 	<properties>
 		<spring-webmvc.version>5.3.22</spring-webmvc.version>
+		<spring.security.web.version>5.7.5</spring.security.web.version>
 		<jackson-databind.version>2.13.4.2</jackson-databind.version>
 		<jackson.version>2.13.4</jackson.version>
 	</properties>
@@ -77,6 +78,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
 			<version>${spring-webmvc.version}</version>
+		</dependency>
+		<dependency>
+			<artifactId>spring-security-web</artifactId>
+			<groupId>org.springframework.security</groupId>
+			<version>${spring.security.web.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -160,7 +166,7 @@
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-core</artifactId>
-		    <version>9.0.68</version>
+		    <version>9.0.69</version>
 		</dependency>
 
 	</dependencies>

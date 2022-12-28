@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>9.0.68</version>		
+			<version>9.0.69</version>
 		</dependency>      
 
         <!-- Third party Apache 2.0 license packages -->
@@ -168,7 +168,7 @@
         <dependency>
     		<groupId>org.springframework.security</groupId>
     		<artifactId>spring-security-core</artifactId>
-    		<version>5.7.2</version>
+    		<version>5.7.5</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
