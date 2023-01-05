@@ -1,6 +1,8 @@
 variables:
   OSDU_GCP_SERVICE: dataset
   OSDU_GCP_VENDOR: gcp
+  # FIXME remove when all services are migrated to a single helm
+  OSDU_GCP_ENABLE_HELM_CONFIG: "false"
 
 osdu-gcp-test:
   variables:

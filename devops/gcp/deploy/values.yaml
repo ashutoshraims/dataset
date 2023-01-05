@@ -3,6 +3,14 @@
 # Declare variables to be passed into your templates.
 
 data:
+  # Configmap
+  logLevel: "ERROR"
+  springProfilesActive: "gcp"
+  expirationDays: 1
+  redisGroupHost: ""
+  redisGroupPort: 6379
+  googleAudiences: ""
+  # Deployment
   requestsCpu: "0.1"
   requestsMemory: "256M"
   limitsCpu: "1"
