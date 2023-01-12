@@ -9,7 +9,6 @@ data:
   expirationDays: 1
   redisGroupHost: ""
   redisGroupPort: 6379
-  googleAudiences: ""
   # Deployment
   requestsCpu: "0.1"
   requestsMemory: "256M"

@@ -30,7 +30,7 @@ public class GcpTestUtils extends TestUtils {
 	public String getToken() throws Exception {
 		if (token == null || token.isEmpty()) {
 			token = new GoogleServiceAccount(GcpConfig.getIntTester())
-				.getAuthToken(GcpConfig.getTargetAudience());
+				.getAuthToken();
 		}
 		return "Bearer " + token;
 	}
@@ -38,7 +38,7 @@ public class GcpTestUtils extends TestUtils {
 	public String getNoDataAccessToken() throws Exception {
 		if (noDataAccesstoken == null || noDataAccesstoken.isEmpty()) {
 			noDataAccesstoken = new GoogleServiceAccount(GcpConfig.getNoAccessTester())
-				.getAuthToken(GcpConfig.getTargetAudience());
+				.getAuthToken();
 		}
 		return "Bearer " + token;
 	}

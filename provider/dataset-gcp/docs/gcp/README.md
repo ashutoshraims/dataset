@@ -14,7 +14,6 @@ Must have:
 
 | name | value | description | sensitive? | source |
 | ---  | ---   | ---         | ---        | ---    |
-| `GOOGLE_AUDIENCES` | ex `*****.apps.googleusercontent.com` | Client ID for getting access to cloud resources | yes | https://console.cloud.google.com/apis/credentials |
 | `SPRING_PROFILES_ACTIVE` | ex `gcp` | Spring profile that activate default configuration for Google Cloud environment | false | - |
 
 ### Common properties for all environments
@@ -65,14 +64,13 @@ This section describes how to run cloud OSDU E2E tests (testing/dataset-test-gcp
 You will need to have the following environment variables defined.
 
 | name | value | description | sensitive? | source |
- | ---  | ---   | ---         | ---        | ---    |
+| ---  | ---   | ---         | ---        | ---    |
 | `DOMAIN` | ex `osdu-gcp.go3-nrg.projects.epam.com` | - | no | - |
 | `STORAGE_BASE_URL` | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
 | `LEGAL_BASE_URL` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
 | `DATASET_BASE_URL` | ex `http://localhost:8080/api/dataset/v1/` | Dataset API endpoint | no | output of infrastructure deployment |
 | `SCHEMA_API` | ex `https://os-schema-jvmvia5dea-uc.a.run.app/api/schema-service/v1` | Schema API endpoint | no | output of infrastructure deployment |
 | `PROVIDER_KEY` | `GCP` | required for response verification | no | - |
-| `INTEGRATION_TEST_AUDIENCE` | ex `****.apps.googleusercontent.com;` | Client application ID | yes | https://console.cloud.google.com/apis/credentials |
 | `INTEGRATION_TESTER` | `********` | Service account for API calls, passed as a filename or JSON content, plain or Base64 encoded.  Note: this user must have entitlements configured already | yes | https://console.cloud.google.com/iam-admin/serviceaccounts |
 | `GCP_DEPLOY_FILE` | `********` | Service account for test data tear down, passed as a filename or JSON content, plain or Base64 encoded. Must have cloud storage role configured | yes | https://console.cloud.google.com/iam-admin/serviceaccounts |
 | `TENANT_NAME` | `opendes` | Tenant name | no | - |
@@ -84,14 +82,14 @@ You will need to have the following environment variables defined.
 
 **Entitlements configuration for integration accounts**
 
-| INTEGRATION_TESTER | 
- | ---  | 
+| INTEGRATION_TESTER |
+| ---  |
 | users<br/>service.entitlements.user<br/>service.storage.admin<br/>service.legal.user<br/>service.search.user<br/>service.delivery.viewer<br/>service.dataset.viewers<br/>service.dataset.editors | 
 
 **Cloud roles configuration for integration accounts**
 
 | GCP_DEPLOY_FILE|
- | ---  |
+| ---  |
 | storage.admin access to the Google Cloud Storage |
 
 Execute following command to build code and run all the integration tests:

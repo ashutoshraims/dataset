@@ -27,10 +27,6 @@ public class GcpConfig {
 		return getEnvironmentVariableOrDefaultValue("NO_DATA_ACCESS_TESTER", "");
 	}
 
-	public static String getTargetAudience() {
-		return getEnvironmentVariableOrDefaultValue("INTEGRATION_TEST_AUDIENCE", "");
-	}
-
 	public static String getSchemaServiceHost() {
 		return getEnvironmentVariableOrDefaultValue("SCHEMA_API", "");
 	}
