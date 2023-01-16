@@ -1,17 +1,18 @@
 variables:
-  OSDU_GCP_SERVICE: dataset
-  OSDU_GCP_VENDOR: gcp
+  GC_SERVICE: dataset
   # FIXME remove when all services are migrated to a single helm
-  OSDU_GCP_ENABLE_HELM_CONFIG: "false"
+  GC_ENABLE_HELM_CONFIG: "false"
+  GC_SERVICE: dataset
+  GC_VENDOR: gc
 
-osdu-gcp-test:
+gc-test:
   variables:
     LEGAL_TAG: datatest-int-tag
 
-osdu-gcp-dev2-test:
+gc-dev2-test:
   variables:
     LEGAL_TAG: datatest-int-tag
 
-osdu-gcp-anthos-test:
+gc-anthos-test:
   variables:
     LEGAL_TAG: public-usa-dataset-1

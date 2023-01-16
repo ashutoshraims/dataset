@@ -39,7 +39,7 @@
 		<module>dataset-test-core</module>
 		<module>dataset-test-azure</module>
 		<module>dataset-test-aws</module>
-		<module>dataset-test-gcp</module>
+		<module>dataset-test-gc</module>
 		<module>dataset-test-ibm</module>
         <module>dataset-test-anthos</module>
     </modules>

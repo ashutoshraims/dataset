@@ -154,7 +154,7 @@ You will need to have the following environment variables defined.
 
 | name | value | description | sensitive? | source |
  | ---  | ---   | ---         | ---        | ---    |
-| `DOMAIN` | ex `osdu-gcp.go3-nrg.projects.epam.com` | - | no | - |
+| `DOMAIN` | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
 | `STORAGE_BASE_URL` | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
 | `LEGAL_BASE_URL` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
 | `LEGAL_HOST` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
