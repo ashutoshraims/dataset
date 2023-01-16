@@ -1,6 +1,7 @@
 # OSDU Dataset Service
 
 ## Contents
+
 [[_TOC_]]
 
 ## Introduction
@@ -18,7 +19,6 @@ The File service defines the following workflows:
 * Dataset Registry Registration
 * Dataset Registry Retrieval
 
-
 ### Dataset Storage Instructions
 
 The dataset storage instructions workflow is defined for the `/v1/getStorageInstructions` API endpoint.  The following diagram illustrates the workflow.
@@ -31,19 +31,17 @@ The dataset retrieval instructions workflow is defined for the `/v1/getRetrieval
 
 ![OSDU Dataset Service getRetrievalInstructions](docs/img/getRetrievalInstructions.png)
 
-
 ### Dataset Registry Registration
+
 The dataset registry registration workflow is defined for the `/v1/registerDataset` API endpoint. The following diagram illustrates the workflow.
 
 ![OSDU Dataset Service registerDatasetRegistry](docs/img/registerDatasetRegistry.png)
-
 
 ### Dataset Registry Retrieval
 
 The dataset registry retrieval workflow is defined for the `/v1/getDatasetRegistry` API endpoints (GET/POST). The following diagram illustrates the workflow.
 
 ![OSDU Dataset Service getDatasetRegistry](docs/img/getDatasetRegistry.png)
-
 
 ## Validations
 
@@ -53,11 +51,9 @@ authorization token and data partition ID before the service starts the core fun
 However, the Dataset service doesn't perform any verification whether a
 dataset upload/download happened or whether the user registered a dataset after upload.
 
-## API Request/Response 
+## API Request/Response
 
 API information is available in the swagger doc located in the docs folder: [Dataset Swagger Doc](docs/dataset.swagger.yaml)
-
-
 
 ## Service Provider Interfaces
 
@@ -70,17 +66,21 @@ The Dataset service has a few Service Provider Interfaces that can be implemente
 | IDatasetDmsServiceMap  | Required to implement   | `dataset-core/src/main/java/.../provider/interfaces/IDatasetDmsServiceMap`  |
 
 ## Running integration tests
+
 Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
 #***REMOVED*** Implementation
+
 ### Running the Dataset Registry Service locally
+
 The Dataset Registry Service is a Maven multi-module project with each cloud implemention placed in its submodule.
 
 #### Other platforms
 
-1. Navigate to the module of the cloud of interest, for example, ```dataset-aws```. Configure ```application.properties``` and optionally ```logback-spring.xml```. Intead of changing these files in the source, you can also provide external files at run time. 
+1. Navigate to the module of the cloud of interest, for example, ```dataset-aws```. Configure ```application.properties``` and optionally ```logback-spring.xml```. Intead of changing these files in the source, you can also provide external files at run time.
 
 2. Navigate to the root of the dataset registry project, build and run unit tests in command line:
+
     ```bash
     mvn clean package
     ```
@@ -99,17 +99,19 @@ The Dataset Registry Service is a Maven multi-module project with each cloud imp
     Install windows Redis client by following the instructions [here](https://github.com/MicrosoftArchive/redis/releases). Use default port 6379.
 
 4. Set environment variables:
-    
-**AWS**: AWS service account credentials are read from the environment variables in order to 
-authenticate AWS requests. The following variables can be set as either system environment 
+
+**AWS**: AWS service account credentials are read from the environment variables in order to
+authenticate AWS requests. The following variables can be set as either system environment
 variables or user environment variables. User values will take precedence if both are set.
+
 1. `AWS_ACCESS_KEY_ID=<YOURAWSACCESSKEYID>`
 2. `AWS_SECRET_KEY=<YOURAWSSECRETKEY>`
 
-Note that these values can be found in the IAM stack's export values in the AWS console. To 
+Note that these values can be found in the IAM stack's export values in the AWS console. To
 deploy resources to the AWS console, see the deployment section below.
 
 1. Run dataset service in command line:
+
     ```bash
     # Running AWS:
     java -jar provider\dataset-aws\target\dataset-aws-0.0.1-SNAPSHOT-spring-boot.jar
@@ -117,36 +119,38 @@ deploy resources to the AWS console, see the deployment section below.
 
 2. Access the service:
 
-    The port and path for the service endpoint can be configured in ```application.properties``` in the provider folder as following. If not specified, then  the web container (ex. Tomcat) default is used: 
+    The port and path for the service endpoint can be configured in ```application.properties``` in the provider folder as following. If not specified, then  the web container (ex. Tomcat) default is used:
+
     ```bash
     server.servlet.contextPath=/api/dataset/v1/
     server.port=8080
     ```
 
 3. Build and test in IntelliJ:
-    1. Import the maven project from the root of this project. 
-    2. Create a ```JAR Application``` in ```Run/Debug Configurations``` with the ```Path to JAR``` set to the target jar file. 
+    1. Import the maven project from the root of this project.
+    2. Create a ```JAR Application``` in ```Run/Debug Configurations``` with the ```Path to JAR``` set to the target jar file.
     3. To run unit tests, creat a ```JUnit``` configuration in ```Run/Debug Configurations```, specify, for example:
 
     ```text
     Test kind: All in a package
     Search for tests: In whole project
     ```
-   
+
 ### Cloud Deployment
+
 This section describes the deployment process for each cloud provider.
 
 ##***REMOVED***
+
  This service is deployed as part of the CloudFormation package
- 
+
 ##***REMOVED***
 
-All documentation for the Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
-
+All documentation for the Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gc/README.md)
 
 ## Running integration tests
-Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory. 
 
+Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
 ##***REMOVED***
 
@@ -154,14 +158,15 @@ Instructions for running the AWS integration tests can be found [here](./provide
 
 ##***REMOVED***
 
-All documentation for Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gcp/README.md)
+All documentation for Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gc/README.md)
 
 ## License
+
 Copyright © 2021 Amazon Web Services
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at 
+You may obtain a copy of the License at
 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 

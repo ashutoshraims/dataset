@@ -61,7 +61,7 @@ Most of them are common to all hosting environments, but there are properties th
 ### Anthos Service Configuration:
 [Anthos service configuration ](docs/anthos/README.md)
 ##***REMOVED*** Service Configuration:
-[Google Cloud service configuration ](docs/gcp/README.md)
+[Google Cloud service configuration ](docs/gc/README.md)
 
 ### Run Locally
 Check that maven is installed:
@@ -131,7 +131,7 @@ mvn clean install -DskipTests
 After configuring your environment as specified above, you can follow these steps to build and run the application. These steps should be invoked from the *repository root.*
 
 ```bash
-cd provider/dataset-gcp && mvn spring-boot:run
+cd provider/dataset-gc && mvn spring-boot:run
 ```
 ## Testing
 
@@ -141,7 +141,7 @@ cd provider/dataset-gcp && mvn spring-boot:run
  ### Anthos test configuration:
  [Anthos service configuration ](docs/anthos/README.md)
  ##***REMOVED*** test configuration:
- [Google Cloud service configuration ](docs/gcp/README.md)
+ [Google Cloud service configuration ](docs/gc/README.md)
 
 ## Deployment
 
