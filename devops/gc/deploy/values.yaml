@@ -6,7 +6,6 @@ data:
   # Configmap
   logLevel: "ERROR"
   springProfilesActive: "gcp"
-  expirationDays: 1
   redisGroupHost: ""
   redisGroupPort: 6379
   # Deployment
