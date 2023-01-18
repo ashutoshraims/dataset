@@ -7,7 +7,6 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
 data:
   LOG_LEVEL: {{ .Values.data.logLevel | quote }}
-  EXPIRATION_DAYS: {{ .Values.data.expirationDays | quote }}
   REDIS_GROUP_HOST: {{ .Values.data.redisGroupHost | quote }}
   REDIS_GROUP_PORT: {{ .Values.data.redisGroupPort | quote }}
   SPRING_PROFILES_ACTIVE: {{ .Values.data.springProfilesActive | quote }}
