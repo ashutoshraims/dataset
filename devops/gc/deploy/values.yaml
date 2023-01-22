@@ -6,16 +6,18 @@ data:
   # Configmap
   logLevel: "ERROR"
   springProfilesActive: "gcp"
-  redisGroupHost: ""
-  redisGroupPort: 6379
   # Deployment
-  requestsCpu: "0.1"
-  requestsMemory: "256M"
+  requestsCpu: "50m"
+  requestsMemory: "350M"
   limitsCpu: "1"
   limitsMemory: "1G"
   serviceAccountName: ""
   imagePullPolicy: "IfNotPresent"
   image: ""
+  # redis connection. Change it if you want to use external redis
+  redisDatasetHost: ""
+  redisDatasetPort: 6379
+  redisImage: "redis:7"
 
 conf:
   configmap: "dataset-config"
@@ -23,9 +25,10 @@ conf:
   appName: "dataset"
   onPremEnabled: false
   domain: ""
+  datasetRedisSecretName: "dataset-redis-secret"
 
 istio:
-  proxyCPU: "50m"
-  proxyCPULimit: "500m"
+  proxyCPU: "25m"
+  proxyCPULimit: "200m"
   proxyMemory: "64Mi"
-  proxyMemoryLimit: "512Mi"
+  proxyMemoryLimit: "256Mi"
