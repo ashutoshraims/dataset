@@ -1,7 +1,7 @@
 apiVersion: v2
 name: "os-dataset"
 version: __CHART_VERSION__
-kubeVersion: ">= 1.21.x-x-x < 1.24.x-x-x"
+kubeVersion: "v1.21.x-x-x"
 description: Dataset Helm Chart for Kubernetes
 type: application
 appVersion: __VERSION__
