@@ -3,11 +3,7 @@
 
 package org.opengroup.osdu.dataset.ibm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
@@ -15,6 +11,9 @@ import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.dataset.DatasetIT;
 import org.opengroup.osdu.dataset.ibm.util.CloudStorageUtilIbm;
 import org.opengroup.osdu.dataset.ibm.util.IBMTestUtils;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDatasetIbm extends DatasetIT {
 
@@ -56,7 +55,9 @@ public class TestDatasetIbm extends DatasetIT {
     @Override
     public void validateRetrievalInstructions(RetrievalInstructionsResponse retrievalInstructions,
                                               int expectedDatasets) {
-        assertEquals("IBM", retrievalInstructions.getProviderKey());
         assertEquals(expectedDatasets, retrievalInstructions.getDatasets().size());
+        retrievalInstructions.getDatasets().stream().forEach(
+                datasetRetrievalProperties ->
+                        assertEquals("IBM", datasetRetrievalProperties.getProviderKey()));
     }
 }

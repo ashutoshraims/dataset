@@ -46,7 +46,7 @@ public class DmsServiceTest {
 
     private final String API_KEY = "key";
     private final String GetDatasetStorageInstructionsResponse_body = "{\"providerKey\":\"dummy-key\",\"storageLocation\":{\"key1\":{},\"key2\":{}}}";
-    private final String RetrievalInstructionsResponse_body =  "{\"providerKey\":\"dummy-key\",\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}}}]}";
+    private final String RetrievalInstructionsResponse_body =  "{\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}}, \"providerKey\":\"dummy-key\"}]}";
     @Mock
     private DmsServiceProperties dmsServiceProperties;
 

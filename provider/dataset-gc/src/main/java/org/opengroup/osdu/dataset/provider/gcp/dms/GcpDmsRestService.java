@@ -71,14 +71,12 @@ public class GcpDmsRestService extends DmsRestService {
   @Override
   public GetDatasetRetrievalInstructionsResponse getDatasetRetrievalInstructions(GetDatasetRegistryRequest request) {
     RetrievalInstructionsResponse retrievalInstructions = super.getRetrievalInstructions(request);
-    String providerKey = retrievalInstructions.getProviderKey();
-
     List<DatasetRetrievalDeliveryItem> datasetRetrievalDeliveryItemList = new ArrayList<>();
 
     for (DatasetRetrievalProperties properties : retrievalInstructions.getDatasets()) {
       DatasetRetrievalDeliveryItem retrievalDeliveryItem = new DatasetRetrievalDeliveryItem(
           properties.getDatasetRegistryId(), properties.getRetrievalProperties(),
-          providerKey);
+          properties.getProviderKey());
       datasetRetrievalDeliveryItemList.add(retrievalDeliveryItem);
     }
 
