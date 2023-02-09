@@ -53,12 +53,12 @@ public class AwsDmsRestService extends DmsRestService {
     @Override
     public GetDatasetRetrievalInstructionsResponse getDatasetRetrievalInstructions(GetDatasetRegistryRequest request) {
         RetrievalInstructionsResponse retrievalInstructions = super.getRetrievalInstructions(request);
-        String providerKey = retrievalInstructions.getProviderKey();
 
         List<DatasetRetrievalDeliveryItem> datasetRetrievalDeliveryItemList =
             retrievalInstructions.getDatasets()
                 .stream()
-                .map(dataset -> new DatasetRetrievalDeliveryItem(dataset.getDatasetRegistryId(), dataset.getRetrievalProperties(), providerKey))
+                .map(dataset -> new DatasetRetrievalDeliveryItem(dataset.getDatasetRegistryId(),
+                        dataset.getRetrievalProperties(), dataset.getProviderKey()))
                 .collect(Collectors.toList());
 
         return new GetDatasetRetrievalInstructionsResponse(datasetRetrievalDeliveryItemList);

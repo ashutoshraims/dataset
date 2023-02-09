@@ -143,7 +143,6 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
                 IDmsProvider dmsProvider = dmsFactory.create(headers, kindSubTypeToDmsServiceMap.get(datasetRegistryRequestEntry.getKey()));
                 RetrievalInstructionsResponse entryResponse = dmsProvider.getRetrievalInstructions(datasetRegistryRequestEntry.getValue());
                 response.getDatasets().addAll(entryResponse.getDatasets());
-                response.setProviderKey(entryResponse.getProviderKey());
             }
             catch(DmsException e) {
                 handleDmsException(e);
