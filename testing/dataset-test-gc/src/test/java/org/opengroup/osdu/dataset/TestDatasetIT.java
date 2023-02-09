@@ -205,8 +205,10 @@ public class TestDatasetIT extends TestBase {
 
   public void validateRetrievalInstructions(RetrievalInstructionsResponse retrievalInstructions,
       int expectedDatasets) {
-    assertEquals("GCP", retrievalInstructions.getProviderKey());
     assertEquals(expectedDatasets, retrievalInstructions.getDatasets().size());
+    retrievalInstructions.getDatasets().stream().forEach(
+            datasetRetrievalProperties ->
+                    assertEquals("GCP", datasetRetrievalProperties.getProviderKey()));
   }
 
   public void validateStorageInstructions(StorageInstructionsResponse storageInstructions) {

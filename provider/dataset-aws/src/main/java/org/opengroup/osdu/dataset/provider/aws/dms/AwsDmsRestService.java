@@ -57,7 +57,8 @@ public class AwsDmsRestService extends DmsRestService {
         List<DatasetRetrievalDeliveryItem> datasetRetrievalDeliveryItemList =
             retrievalInstructions.getDatasets()
                 .stream()
-                .map(dataset -> new DatasetRetrievalDeliveryItem(dataset.getDatasetRegistryId(), dataset.getRetrievalProperties(), dataset.getProviderKey()))
+                .map(dataset -> new DatasetRetrievalDeliveryItem(dataset.getDatasetRegistryId(),
+                        dataset.getRetrievalProperties(), dataset.getProviderKey()))
                 .collect(Collectors.toList());
 
         return new GetDatasetRetrievalInstructionsResponse(datasetRetrievalDeliveryItemList);

@@ -52,7 +52,7 @@ public class DmsRestServiceTest {
     private final String URL = "https://contoso.com";
     private final String INVALID_URL = "http://finance.yahoo.com/q/h?s=^IXIC";
     private final String GetDatasetStorageInstructionsResponse_body = "{\"providerKey\":\"dummy-key\",\"storageLocation\":{\"key1\":{},\"key2\":{}}}";
-    private final String RetrievalInstructionsResponse_body = "{\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}},\"providerKey\":\"dummy-key\"}]}";
+    private final String RetrievalInstructionsResponse_body =  "{\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}}, \"providerKey\":\"dummy-key\"}]}";
     private final String CopyDmsResponse_body = "[{\"success\": true, \"datasetBlobStoragePath\": \"string\"}]";
     @Mock
     private DmsServiceProperties dmsServiceProperties;

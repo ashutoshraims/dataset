@@ -68,7 +68,9 @@ public class TestDatasetAzure extends DatasetIT {
     @Override
     public void validateRetrievalInstructions(RetrievalInstructionsResponse retrievalInstructions,
                                               int expectedDatasets) {
-        assertEquals("AZURE", retrievalInstructions.getProviderKey());
         assertEquals(expectedDatasets, retrievalInstructions.getDatasets().size());
+        retrievalInstructions.getDatasets().stream().forEach(
+                datasetRetrievalProperties ->
+                        assertEquals("AZURE", datasetRetrievalProperties.getProviderKey()));
     }
 }
