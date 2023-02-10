@@ -23,7 +23,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties
 @Data
 public class GcpConfigProperties {
-    private String redisGroupHost;
-    private Integer redisGroupPort;
     private String dmsApiBase;
 }
