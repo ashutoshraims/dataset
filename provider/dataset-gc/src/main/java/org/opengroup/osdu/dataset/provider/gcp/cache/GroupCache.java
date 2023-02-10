@@ -17,17 +17,30 @@
 
 package org.opengroup.osdu.dataset.provider.gcp.cache;
 
-import org.opengroup.osdu.core.common.cache.RedisCache;
+import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.core.common.model.entitlements.Groups;
-import org.opengroup.osdu.dataset.provider.gcp.config.GcpConfigProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GroupCache extends RedisCache<String, Groups> {
+public class GroupCache implements ICache<String, Groups> {
 
-	public GroupCache(GcpConfigProperties propertiesConfig) {
-		super(propertiesConfig.getRedisGroupHost(), propertiesConfig.getRedisGroupPort(), 30, String.class,
-			Groups.class);
+	@Override
+	public void put(String s, Groups o) {
+		//do nothing
 	}
 
+	@Override
+	public Groups get(String s) {
+		return null;
+	}
+
+	@Override
+	public void delete(String s) {
+		//do nothing
+	}
+
+	@Override
+	public void clearAll() {
+		//do nothing
+	}
 }

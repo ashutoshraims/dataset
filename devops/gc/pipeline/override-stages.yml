@@ -1,8 +1,5 @@
 variables:
   GC_SERVICE: dataset
-  # FIXME remove when all services are migrated to a single helm
-  GC_ENABLE_HELM_CONFIG: "false"
-  GC_SERVICE: dataset
   GC_VENDOR: gc
 
 gc-test:

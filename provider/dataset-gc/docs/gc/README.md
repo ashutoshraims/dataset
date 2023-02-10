@@ -28,8 +28,6 @@ Must have:
 | `STORAGE_API` | ex `http://storage/api/legal/v1` | Storage API endpoint | no | output of infrastructure deployment |
 | `SCHEMA_API` | ex `http://schema/api/legal/v1` | Schema API endpoint | no | output of infrastructure deployment |
 | `GOOGLE_APPLICATION_CREDENTIALS` | ex `/path/to/directory/service-key.json` | Service account credentials, you only need this if running locally | yes | <https://console.cloud.google.com/iam-admin/serviceaccounts> |
-| `REDIS_GROUP_HOST` |  ex `127.0.0.1` | Redis host for groups | no | <https://console.cloud.google.com/memorystore/redis/instances> |
-| `REDIS_GROUP_PORT` |  ex `1111` | Redis port | no | <https://console.cloud.google.com/memorystore/redis/instances> |
 | `DMS_API_BASE` | ex `http://localhost:8081/api/file/v2/files` | *Only for local usage.* Allows to override DMS service base url value from Datastore. | no | - |
 
 These variables define service behavior, and are used to switch between `anthos` or `gcp` environments, their overriding and usage in mixed mode was not tested.
