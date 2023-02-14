@@ -39,8 +39,8 @@ First you need to set variables in **values.yaml** file using any code editor. S
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
-**data.requestsCpu** | amount of requested CPU | string | "50m" | yes
-**data.requestsMemory** | amount of requested memory| string | "350M" | yes
+**data.requestsCpu** | amount of requested CPU | string | "20m" | yes
+**data.requestsMemory** | amount of requested memory| string | "400Mi" | yes
 **data.limitsCpu** | CPU limit | string | "1" | yes
 **data.limitsMemory** | memory limit | string | "1G" | yes
 **data.serviceAccountName** | name of your service account | string | - | yes
@@ -63,9 +63,9 @@ First you need to set variables in **values.yaml** file using any code editor. S
 
 | Name | Description | Type | Default |Required |
 |------|-------------|------|---------|---------|
-**istio.proxyCPU** | CPU request for Envoy sidecars | string | 25m | yes
+**istio.proxyCPU** | CPU request for Envoy sidecars | string | 10m | yes
 **istio.proxyCPULimit** | CPU limit for Envoy sidecars | string | 200m | yes
-**istio.proxyMemory** | memory request for Envoy sidecars | string | 64Mi | yes
+**istio.proxyMemory** | memory request for Envoy sidecars | string | 100Mi | yes
 **istio.proxyMemoryLimit** | memory limit for Envoy sidecars | string | 256Mi | yes
 
 ### Install the helm chart
