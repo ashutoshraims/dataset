@@ -34,6 +34,8 @@ In order to run the service locally or remotely, you will need to have the follo
 | `ENTITLEMENTS_BASE_URL`  | `http://localhost:8081` or `https://some-hosted-url` | yes      | Specify the base url for an entitlements service instance. Can be run locally or remotely     | no         |
 | `SCHEMA_BASE_URL`        | `http://localhost:8082` or `https://some-hosted-url` | yes      | Specify the base url for a schema service instance. Can be run locally or remotely            | no         | 
 | `STORAGE_BASE_URL`       | `http://localhost:8083` or `https://some-hosted-url` | yes      | Specify the base url for a storage service instance. Can be run locally or remotely           | no         |
+| `PARTITION_BASE_URL`     | `http://localhost:8084` or `https://some-hosted-url` | yes      | Specify the base url for a partition service instance. Can be run locally or remotely         | no         |
+| `DMS_BASE_URL`           | `http://localhost:8085` or `https://some-hosted-url` | yes      | Specify the base url for a file service instance. Can be run locally or remotely              | no         |
 | `DISABLE_CACHE`          | `true`                                               | no       | Set to true to disable caching to redis. Either set this or configure cache config env vars   | no         | 
 | `CACHE_CLUSTER_ENDPOINT` | `127.0.0.1`                                          | no       | Redis endpoint uri. Either set this or DISABLE_CACHE                                          | no         | 
 | `CACHE_CLUSTER_PORT`     | `6379`                                               | no       | Redis port. Either set this or DISABLE_CACHE                                                  | no         | 
