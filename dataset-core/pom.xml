@@ -46,7 +46,7 @@
 			<dependency>
 				<groupId>org.opengroup.osdu</groupId>
 				<artifactId>os-core-common</artifactId>
-				<version>0.19.0-rc6</version>
+				<version>0.19.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>os-core-common</artifactId>
-			<version>0.19.0-rc2</version>
+			<version>0.19.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>elasticsearch</artifactId>
