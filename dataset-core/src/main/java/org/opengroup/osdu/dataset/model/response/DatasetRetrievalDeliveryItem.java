@@ -40,5 +40,5 @@ public class DatasetRetrievalDeliveryItem {
     public DatasetRetrievalDeliveryItem() {
         //default constructor for serialization/deserialization
     }
-    
+
 }
