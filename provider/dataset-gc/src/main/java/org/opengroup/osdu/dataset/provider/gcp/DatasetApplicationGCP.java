@@ -24,9 +24,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan(basePackages = "org.opengroup")
+@PropertySource("classpath:swagger.properties")
 @ComponentScan(value = {"org.opengroup.osdu"}, excludeFilters = {
 	@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {DmsClientFactory.class,
 		DatasetApplication.class})})

@@ -22,7 +22,18 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
+import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.model.http.AppError;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.DeliveryRole;
@@ -43,6 +54,7 @@ import org.springframework.web.context.annotation.RequestScope;
 	
 @RestController
 @RequestMapping("/")
+@Tag(name = "dataset", description = "dataset api operations")
 @RequestScope
 @Validated
 public class DatasetDmsApi {
@@ -56,7 +68,7 @@ public class DatasetDmsApi {
 	@Inject
 	private AuditLogger auditLogger;
 
-
+	@Deprecated
     @GetMapping("/getStorageInstructions")	
 	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
 	public ResponseEntity<GetDatasetStorageInstructionsResponse> getStorageInstructions( 
@@ -67,15 +79,29 @@ public class DatasetDmsApi {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@Operation(summary = "${datasetDmsApi.storageInstructions.summary}", description = "${datasetDmsApi.storageInstructions.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = GetDatasetStorageInstructionsResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
 	@PostMapping("/storageInstructions")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_EDITOR_ROLE + "')")
 	public ResponseEntity<GetDatasetStorageInstructionsResponse> storageInstructions(
+			@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
 			@RequestParam(value = "kindSubType") String kindSubType) {
 		GetDatasetStorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType);
 		this.auditLogger.readStorageInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
+
+	@Deprecated
 	@GetMapping("/getRetrievalInstructions")	
 	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
 	public ResponseEntity<Object> getRetrievalInstructions( 
@@ -89,6 +115,7 @@ public class DatasetDmsApi {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@Deprecated
 	@PostMapping("/getRetrievalInstructions")	
 	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
 	public ResponseEntity<Object> getRetrievalInstructions( 
@@ -99,9 +126,22 @@ public class DatasetDmsApi {
 			return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
+	@Operation(summary = "${datasetDmsApi.retrievalInstructions.summary}", description = "${datasetDmsApi.retrievalInstructions.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = RetrievalInstructionsResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
 	@GetMapping("/retrievalInstructions")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
-	public ResponseEntity<Object> retrievalInstructions(
+	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry id",
+			example = "opendes:dataset--File.Generic:8118591ee2")
 			@RequestParam(value = "id") String datasetRegistryId) {
 
 		List<String> datasetRegistryIds = new ArrayList<>();
@@ -110,9 +150,21 @@ public class DatasetDmsApi {
 		return getRetrievalInstructions(datasetRegistryIds);
 	}
 
+	@Operation(summary = "${datasetDmsApi.retrievalInstructionsWithPost.summary}", description = "${datasetDmsApi.retrievalInstructionsWithPost.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = RetrievalInstructionsResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
 	@PostMapping("/retrievalInstructions")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
-	public ResponseEntity<Object> retrievalInstructions(
+	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry ids")
 			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
 
 		return getRetrievalInstructions(request.datasetRegistryIds);

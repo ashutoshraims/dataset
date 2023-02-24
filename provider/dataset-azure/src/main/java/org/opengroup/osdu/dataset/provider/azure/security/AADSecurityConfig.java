@@ -40,15 +40,16 @@ public class AADSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/index.html",
-                        "/v2/api-docs",
-                        "/v3/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
+                    .antMatchers("/", "/index.html",
+                        "/api-docs.yaml",
+                        "/api-docs/swagger-config",
+                        "/api-docs/**",
                         "/configuration/security",
+                        "/configuration/ui",
                         "/swagger",
                         "/swagger-ui.html",
                         "/swagger-ui/**",
+                        "/swagger-resources/**",
                         "/info",
                         "/webjars/**").permitAll()
                 .anyRequest().authenticated()
