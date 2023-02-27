@@ -3,8 +3,12 @@
 ## Table of Contents <a name="TOC"></a>
 
 * [Environment variables](#Environment-variables)
-    * [Common properties for all environments](#Common-properties-for-all-environments)
-    * [For OSM Postgres](#For-OSM-Postgres)
+  * [Common properties for all environments](#Common-properties-for-all-environments)
+  * [Properties set in Partition service](#properties-set-in-partition-service)
+  * [For OSM Postgres](#For-OSM-Postgres)
+* [Keycloak configuration](#keycloak-configuration)
+* [Running E2E Tests](#running-e2e-tests)
+* [License](#license)
 
 ## Environment variables
 
@@ -144,14 +148,30 @@ curl -L -X PATCH 'https://api/partition/v1/partitions/opendes' -H 'data-partitio
 
 </details>
 
-### Running E2E Tests
+## Keycloak configuration
+
+[Keycloak service accounts setup](https://www.keycloak.org/docs/latest/server_admin/#_service_accounts)
+
+Configure Clients. One Client per OSDU service. Set them “confidential”.
+
+![Screenshot](./pics/client.png)
+
+Each Client has embedded Service Account (SA) option. Enable SAs for Clients, make “Authorization enabled”:
+
+![Screenshot](./pics/sa.png)
+
+Add `partition-and-entitlements` scope to `Default Client Scopes` and generate Keys.
+
+Give `client-id` and `client-secret` to services, which should be authorized within the platform.
+
+## Running E2E Tests
 
 This section describes how to run cloud OSDU E2E tests (testing/dataset-test-anthos).
 
 You will need to have the following environment variables defined.
 
 | name | value | description | sensitive? | source |
- | ---  | ---   | ---         | ---        | ---    |
+| ---  | ---   | ---         | ---        | ---    |
 | `DOMAIN` | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
 | `STORAGE_BASE_URL` | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
 | `LEGAL_BASE_URL` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
@@ -175,7 +195,7 @@ You will need to have the following environment variables defined.
 **Entitlements configuration for integration accounts**
 
 | INTEGRATION_TESTER | 
- | ---  | 
+| ---  | 
 | users<br/>service.entitlements.user<br/>service.storage.admin<br/>service.legal.user<br/>service.search.user<br/>service.delivery.viewer<br/>service.dataset.viewers<br/>service.dataset.editors | 
 
 **Access configuration for minio test accounts**
@@ -197,3 +217,21 @@ Execute following command to build code and run all the integration tests:
  # build + run Google Cloud integration tests.
  $ (cd testing/dataset-test-anthos/ && mvn clean test)
  ```
+
+## License
+
+Copyright 2021 Google LLC
+
+Copyright 2021 EPAM Systems, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
