@@ -11,7 +11,6 @@ The below software must be installed before continuing:
 * [Helm S3 Plugin ^0.12.0](https://github.com/hypnoglow/helm-s3)
 
 Additionally, an OSDU on AWS environment must be deployed.
-
 ## Installation/Updating
 To install or update the service application by executing the following command in the CHART folder:
 
