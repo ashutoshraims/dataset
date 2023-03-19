@@ -31,6 +31,7 @@ First you need to set variables in **values.yaml** file using any code editor. S
 | Name | Description | Type | Default |Required |
 |------|-------------|------|---------|---------|
 **global.domain** | your domain for the external endpoint, ex `example.com` | string | - | yes
+**global.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
 
 ### Configmap variables
 
@@ -62,7 +63,6 @@ First you need to set variables in **values.yaml** file using any code editor. S
 **conf.appName** | name of the app | string | "dataset" | yes
 **conf.postgresSecretName** | secret for Postgres | string | "dataset-postgres-secret" | yes
 **conf.datasetRedisSecretName** | secret for redis that contains redis password with REDIS_PASSWORD key | string | `dataset-redis-secret` | yes
-**conf.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
 
 ### ISTIO variables
 
