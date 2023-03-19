@@ -2,6 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  domain: ""
+
 data:
   # Configmap
   logLevel: "ERROR"
@@ -24,7 +27,6 @@ conf:
   postgresSecretName: "dataset-postgres-secret"
   appName: "dataset"
   onPremEnabled: false
-  domain: ""
   datasetRedisSecretName: "dataset-redis-secret"
 
 istio:
