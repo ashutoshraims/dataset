@@ -4,6 +4,7 @@
 
 global:
   domain: ""
+  onPremEnabled: false
 
 data:
   # Configmap
@@ -26,7 +27,6 @@ conf:
   configmap: "dataset-config"
   postgresSecretName: "dataset-postgres-secret"
   appName: "dataset"
-  onPremEnabled: false
   datasetRedisSecretName: "dataset-redis-secret"
 
 istio:
