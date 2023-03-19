@@ -26,6 +26,12 @@ Packages are only needed for installation from a local computer.
 
 First you need to set variables in **values.yaml** file using any code editor. Some of the values are prefilled, but you need to specify some values as well. You can find more information about them below.
 
+### Global variables
+
+| Name | Description | Type | Default |Required |
+|------|-------------|------|---------|---------|
+**global.domain** | your domain for the external endpoint, ex `example.com` | string | - | yes
+
 ### Configmap variables
 
 | Name | Description | Type | Default | Required |
@@ -57,7 +63,6 @@ First you need to set variables in **values.yaml** file using any code editor. S
 **conf.postgresSecretName** | secret for Postgres | string | "dataset-postgres-secret" | yes
 **conf.datasetRedisSecretName** | secret for redis that contains redis password with REDIS_PASSWORD key | string | `dataset-redis-secret` | yes
 **conf.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
-**conf.domain** | your domain | string | - | yes
 
 ### ISTIO variables
 
