@@ -32,7 +32,7 @@ public class GcpConfig {
 	}
 
 	public static String getStorageAccount() {
-		return getEnvironmentVariableOrDefaultValue("GCP_DEPLOY_FILE", "");
+		return getEnvironmentVariableOrDefaultValue("GC_DEPLOY_FILE", "");
 	}
 
 	public static String getDatasetKindSubType() {
