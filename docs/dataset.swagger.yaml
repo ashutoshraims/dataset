@@ -19,7 +19,6 @@ paths:
       tags:
           - dataset-api
       summary: getDatasetRegistry
-      description:         **Required roles**: 'service.storage.creator' or 'service.storage.admin' or 'service.storage.viewer'.
       operationId: getDatasetRegistryUsingGET
       consumes:
         - application.json
@@ -55,7 +54,6 @@ paths:
       tags:
           - dataset-api
       summary: getDatasetRegistries
-      description:         **Required roles**: 'service.storage.creator' or 'service.storage.admin' or 'service.storage.viewer'.
       operationId: getDatasetRegistryUsingPOST
       consumes:
         - application.json
@@ -92,7 +90,6 @@ paths:
       tags:
         - dataset-api
       summary: createOrUpdateDatasetRegistries
-      description:         **Required roles**: 'service.storage.creator' or 'service.storage.admin'.
       operationId: createOrUpdateDatasetRegistryUsingPUT
       consumes:
         - application/json
@@ -130,7 +127,6 @@ paths:
       tags:
           - dataset-api
       summary: get storage/upload location for datasets
-      description:         **Required roles**: 'service.delivery.viewer'.
       operationId: getDatasetUploadInfoUsingGET
       consumes:
         - application.json
@@ -167,7 +163,6 @@ paths:
       tags:
           - dataset-api
       summary: getDatasetRetrievalInstructions
-      description:         **Required roles**: 'service.delivery.viewer'.
       operationId: getStorageRetrievalInfoUsingGET
       consumes:
         - application.json
@@ -203,7 +198,6 @@ paths:
       tags:
           - dataset-api
       summary: getDatasetRetrievalInstructions
-      description:         **Required roles**: 'service.delivery.viewer'.
       operationId: getStorageRetrievalInfoUsingPOST
       consumes:
         - application.json
@@ -241,7 +235,6 @@ paths:
       tags:
         - dataset-api
       summary: Generate storage instructions (Eg - Signed URLs) for datasets
-      description:         **Required roles**: 'service.dataset.editors'.
       operationId: storageInstructions
       consumes:
         - application.json
@@ -279,7 +272,6 @@ paths:
       tags:
         - dataset-api
       summary: Generate retrieval instructions (Eg - Signed URLs) for single dataset
-      description:         **Required roles**: 'service.dataset.viewers'.
       operationId: retrievalInstructions
       consumes:
         - application.json
@@ -315,7 +307,6 @@ paths:
       tags:
         - dataset-api
       summary: Generate retrieval instructions (Eg - Signed URLs) for multiple datasets
-      description:         **Required roles**: 'service.dataset.viewers'.
       operationId: retrievalInstructionsWithPost
       consumes:
         - application.json
@@ -593,6 +584,9 @@ definitions:
   RetrievalInstructionsResponse:
     type: object
     properties:
+      providerKey:
+        type: string
+        example: "AZURE"
       datasets:
         type: array
         items:
@@ -610,9 +604,6 @@ definitions:
                   type: string
                 CSP_SPECIFIC_PROPERTY_3:
                   type: string
-            providerKey:
-              type: string
-              example: "AZURE"
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
