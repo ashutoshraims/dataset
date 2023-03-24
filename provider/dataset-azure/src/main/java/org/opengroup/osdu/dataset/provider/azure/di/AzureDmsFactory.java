@@ -22,7 +22,7 @@ import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.dms.IDmsFactory;
 import org.opengroup.osdu.dataset.dms.IDmsProvider;
-import org.opengroup.osdu.dataset.provider.azure.service.AzureDmsRestService;
+import org.opengroup.osdu.dataset.provider.azure.service.AzureDmsService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +34,6 @@ public class AzureDmsFactory implements IDmsFactory {
 
   @Override
   public IDmsProvider create(DpsHeaders headers, DmsServiceProperties dmsServiceRoute) {
-    return new AzureDmsRestService(dmsServiceRoute, httpClient, headers);
+    return new AzureDmsService(dmsServiceRoute, httpClient, headers);
   }
 }

@@ -20,27 +20,14 @@ package org.opengroup.osdu.dataset.dms;
 import org.opengroup.osdu.core.common.http.HttpClient;
 import org.opengroup.osdu.core.common.http.IHttpClient;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
-import org.opengroup.osdu.dataset.di.DatasetConfig;
 
 public class DmsFactory implements IDmsFactory {
-
-    private DatasetConfig datasetConfig;
-
     private IHttpClient httpClient = new HttpClient();
-
-    public DmsFactory(DatasetConfig datasetConfig) {
-        this.datasetConfig = datasetConfig;
-    }
-
     @Override
     public IDmsProvider create(DpsHeaders headers, DmsServiceProperties dmsServiceProperties) {
         if (headers == null) {
             throw new NullPointerException("headers cannot be null");
         }
-        if (datasetConfig.isUseRestDms()) {
-            return new DmsRestService(dmsServiceProperties, httpClient, headers);
-        } else {
-            return new DmsService(dmsServiceProperties, httpClient, headers);
-        }
+        return new DmsService(dmsServiceProperties, httpClient, headers);
     }
 }
