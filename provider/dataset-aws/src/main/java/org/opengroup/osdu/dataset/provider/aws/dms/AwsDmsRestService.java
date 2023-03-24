@@ -16,25 +16,17 @@ package org.opengroup.osdu.dataset.provider.aws.dms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.utils.URIBuilder;
-import org.opengroup.osdu.core.common.dms.model.DatasetRetrievalProperties;
-import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
-import org.opengroup.osdu.dataset.dms.DmsRestService;
+import org.opengroup.osdu.dataset.dms.DmsService;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
-import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
-import org.opengroup.osdu.dataset.model.response.DatasetRetrievalDeliveryItem;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
 
 
-public class AwsDmsRestService extends DmsRestService {
+public class AwsDmsRestService extends DmsService {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final DmsServiceProperties dmsServiceProperties;
@@ -48,20 +40,6 @@ public class AwsDmsRestService extends DmsRestService {
         this.dmsServiceProperties = dmsServiceProperties;
         this.httpClient = httpClient;
         this.headers = headers;
-    }
-
-    @Override
-    public GetDatasetRetrievalInstructionsResponse getDatasetRetrievalInstructions(GetDatasetRegistryRequest request) {
-        RetrievalInstructionsResponse retrievalInstructions = super.getRetrievalInstructions(request);
-
-        List<DatasetRetrievalDeliveryItem> datasetRetrievalDeliveryItemList =
-            retrievalInstructions.getDatasets()
-                .stream()
-                .map(dataset -> new DatasetRetrievalDeliveryItem(dataset.getDatasetRegistryId(),
-                        dataset.getRetrievalProperties(), dataset.getProviderKey()))
-                .collect(Collectors.toList());
-
-        return new GetDatasetRetrievalInstructionsResponse(datasetRetrievalDeliveryItemList);
     }
 
     private String createUrl(String path) {

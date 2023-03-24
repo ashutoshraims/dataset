@@ -46,6 +46,7 @@ import org.opengroup.osdu.dataset.model.response.IntTestGetDatasetRetrievalInstr
 import org.opengroup.osdu.dataset.model.response.IntTestGetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.util.CloudStorageUtilGcp;
 import org.opengroup.osdu.dataset.util.FileUtils;
+import org.opengroup.osdu.dataset.util.GcHeaderUtils;
 import org.opengroup.osdu.dataset.util.GcpTestUtils;
 
 public class TestDataset extends Dataset {
@@ -153,7 +154,7 @@ public class TestDataset extends Dataset {
 		IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
 		getDatasetRequest.getDatasetRegistryIds().add(recordId);
 
-		ClientResponse retrievalClientResponse = TestUtils.send("getRetrievalInstructions", "POST",
+		ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
 			jsonMapper.writeValueAsString(getDatasetRequest),
 			"");
@@ -165,15 +166,15 @@ public class TestDataset extends Dataset {
 		IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper
 			.readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
 
-		return getRetrievalInstResponse.getDelivery().get(0);
+		return getRetrievalInstResponse.getDatasets().get(0);
 	}
 
 	private IntTestGetDatasetStorageInstructionsResponse getDatasetInstructions(String dataset) throws Exception {
 		ClientResponse response = TestUtils.send(
-			"getStorageInstructions",
-			"GET",
-			HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
-			"",
+			"storageInstructions",
+			"POST",
+			GcHeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
+			"{}",
 			dataset);
 		Assert.assertEquals(200, response.getStatus());
 

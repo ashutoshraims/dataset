@@ -28,25 +28,32 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.opengroup.osdu.core.common.dms.model.CopyDmsRequest;
+import org.opengroup.osdu.core.common.dms.model.CopyDmsResponse;
+import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.http.HttpRequest;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
-import org.opengroup.osdu.core.common.http.json.HttpResponseBodyParsingException;
-import org.opengroup.osdu.core.common.model.http.DpsException;
+import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DmsServiceTest {
 
-    private final String API_KEY = "key";
-    private final String GetDatasetStorageInstructionsResponse_body = "{\"providerKey\":\"dummy-key\",\"storageLocation\":{\"key1\":{},\"key2\":{}}}";
+    private final String URL = "https://contoso.com";
+    private final String INVALID_URL = "http://finance.yahoo.com/q/h?s=^IXIC";
+    private final String StorageInstructionsResponse_body = "{\"storageLocation\":{\"key1\":{},\"key2\":{}}, \"providerKey\":\"dummy-key\"}";
     private final String RetrievalInstructionsResponse_body =  "{\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}}, \"providerKey\":\"dummy-key\"}]}";
+    private final String CopyDmsResponse_body = "[{\"success\": true, \"datasetBlobStoragePath\": \"string\"}]";
     @Mock
     private DmsServiceProperties dmsServiceProperties;
 
@@ -62,122 +69,165 @@ public class DmsServiceTest {
     @Mock
     private DpsHeaders headers;
 
+    @InjectMocks
+    private DmsService dmsRestService;
+
     @Before
     public void init() {
         when(headers.getHeaders()).thenReturn(headersMap);
         when(httpClient.send(any())).thenReturn(response);
-        when(dmsServiceProperties.getApiKey()).thenReturn(API_KEY);
     }
 
     @Test
-    public void getStorageInstructions_success() throws DmsException {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        when(response.isSuccessCode()).thenReturn(true);
-        when(response.getBody()).thenReturn(GetDatasetStorageInstructionsResponse_body);
+    public void getStorageInstructions_success() {
+        when(response.getBody()).thenReturn(StorageInstructionsResponse_body);
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        StorageInstructionsResponse body = dmsRestService.getStorageInstructions();
 
-        GetDatasetStorageInstructionsResponse result = dmsService.getStorageInstructions();
-        assertNotNull(result);
-        assertEquals(result.getProviderKey(), "dummy-key");
-        verify(response, times(1)).isSuccessCode();
+        assertNotNull(body);
         verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
         verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
     }
 
     @Test
-    public void getStorageInstructions_DmsException() {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        when(response.isSuccessCode()).thenReturn(true);
-        when(httpClient.send(any())).thenReturn(response);
-        when(response.getBody()).thenReturn("{\"key\": \"value\"");
+    public void getStorageInstructions_URISyntaxException() {
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(INVALID_URL);
+        try {
+            dmsRestService.getStorageInstructions();
+        }
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Invalid URL", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
+        }
+
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
+        verify(httpClient, times(0)).send(any(HttpRequest.class));
+    }
+
+    @Test
+    public void getStorageInstructions_JsonProcessingException() {
+
+        when(response.getBody()).thenReturn("");
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
 
         try {
-            dmsService.getStorageInstructions();
+            dmsRestService.getStorageInstructions();
         }
-        catch (Exception exception) {
-            assertTrue(exception instanceof DmsException);
-            assertEquals(exception.getMessage(), "Error parsing response. Check the inner HttpResponse for more info.");
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Internal Server Error", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
         }
-        verify(response, times(1)).isSuccessCode();
-        verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
         verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(headers, times(1)).getHeaders();
     }
 
-    @Test
-    public void getStorageInstructions_generateException() throws DpsException, HttpResponseBodyParsingException {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        when(response.isSuccessCode()).thenReturn(false);
-        when(httpClient.send(any())).thenReturn(response);
-
-        try {
-            dmsService.getStorageInstructions();
-        }
-        catch (Exception exception) {
-            assertTrue(exception instanceof DmsException);
-            assertEquals(exception.getMessage(), "Error making request to DMS service. Check the inner HttpResponse for more info.");
-        }
-        verify(response, times(1)).isSuccessCode();
-        verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
-        verify(httpClient, times(1)).send(any(HttpRequest.class));
-    }
-
-    /////////////////////////////////////////////////////////
 
     @Test
-    public void getDatasetRetrievalInstructions_success() throws DmsException {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
-        when(response.isSuccessCode()).thenReturn(true);
+    public void getRetrievalInstructions_success() {
         when(response.getBody()).thenReturn(RetrievalInstructionsResponse_body);
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
+        getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
 
-        GetDatasetRetrievalInstructionsResponse result = dmsService.getDatasetRetrievalInstructions(getDatasetRegistryRequest);
-        assertNotNull(result);
-        verify(response, times(1)).isSuccessCode();
+        RetrievalInstructionsResponse body = dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+
+        assertNotNull(body);
         verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
         verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
     }
 
     @Test
-    public void getDatasetRetrievalInstructions_DmsException() {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        when(response.isSuccessCode()).thenReturn(true);
-        when(httpClient.send(any())).thenReturn(response);
-        when(response.getBody()).thenReturn("{\"key\": \"value\"");
-
+    public void getRetrievalInstructions_URISyntaxException() {
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(INVALID_URL);
+        GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
+        getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
         try {
-            GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
-            dmsService.getDatasetRetrievalInstructions(getDatasetRegistryRequest);
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
         }
-        catch (Exception exception) {
-            assertTrue(exception instanceof DmsException);
-            assertEquals(exception.getMessage(), "Error parsing response. Check the inner HttpResponse for more info.");
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Invalid URL", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
         }
-        verify(response, times(1)).isSuccessCode();
-        verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
-        verify(httpClient, times(1)).send(any(HttpRequest.class));
+
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
+        verify(httpClient, times(0)).send(any(HttpRequest.class));
     }
 
     @Test
-    public void getDatasetRetrievalInstructions_generateException() throws DpsException, HttpResponseBodyParsingException {
-        DmsService dmsService = new DmsService(dmsServiceProperties, httpClient, headers);
-        when(response.isSuccessCode()).thenReturn(false);
-        when(httpClient.send(any())).thenReturn(response);
+    public void getRetrievalInstructions_JsonProcessingException() {
 
+        when(response.getBody()).thenReturn("");
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
+        getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
         try {
-            GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
-            dmsService.getDatasetRetrievalInstructions(getDatasetRegistryRequest);
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
         }
-        catch (Exception exception) {
-            assertTrue(exception instanceof DmsException);
-            assertEquals(exception.getMessage(), "Error making request to DMS service. Check the inner HttpResponse for more info.");
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Internal Server Error", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
         }
-        verify(response, times(1)).isSuccessCode();
-        verify(headers, times(1)).getHeaders();
-        verify(dmsServiceProperties, times(2)).getApiKey();
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
         verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(headers, times(1)).getHeaders();
+    }
+
+
+    @Test
+    public void copyDmsToPersistentStorage_success() {
+        when(response.getBody()).thenReturn(CopyDmsResponse_body);
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        List<CopyDmsResponse> data = dmsRestService.copyDmsToPersistentStorage(new CopyDmsRequest());
+        assertNotNull(data);
+        verify(headers, times(1)).getHeaders();
+        verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
+    }
+
+    @Test
+    public void copyDmsToPersistentStorage_URISyntaxException() {
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(INVALID_URL);
+        try {
+            dmsRestService.copyDmsToPersistentStorage(new CopyDmsRequest());
+        }
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Invalid URL", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
+        }
+
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
+        verify(httpClient, times(0)).send(any(HttpRequest.class));
+    }
+
+    @Test
+    public void copyDmsToPersistentStorage_JsonProcessingException() {
+
+        when(response.getBody()).thenReturn("");
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        try {
+            dmsRestService.copyDmsToPersistentStorage(new CopyDmsRequest());
+        }
+        catch (Exception e) {
+            assertNotNull(e);
+            assertTrue(e instanceof AppException);
+            assertEquals("Internal Server Error", ((AppException) e).getError().getReason());
+            assertEquals(500, ((AppException) e).getError().getCode());
+        }
+        verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
+        verify(httpClient, times(1)).send(any(HttpRequest.class));
+        verify(headers, times(1)).getHeaders();
     }
 }
