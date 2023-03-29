@@ -23,6 +23,7 @@
         <!--<os-core-common.version>0.3.28</os-core-common.version>-->
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
+        <spring.security.version>5.7.5</spring.security.version>
     </properties>
 
    
@@ -81,7 +82,7 @@
       <dependency>
       	<groupId>io.netty</groupId>
         <artifactId>netty-codec</artifactId>
-        <version>4.1.68.Final</version>
+        <version>4.1.86.Final</version>
       </dependency>
       	<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -148,6 +149,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
+            <version>${spring.security.version}</version>
             <exclusions>
             	<exclusion>
             		<groupId>org.springframework.security</groupId>
@@ -168,7 +170,12 @@
         <dependency>
     		<groupId>org.springframework.security</groupId>
     		<artifactId>spring-security-core</artifactId>
-    		<version>5.7.5</version>
+    		<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.springframework.security</groupId>
+    		<artifactId>spring-security-web</artifactId>
+    		<version>${spring.security.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
