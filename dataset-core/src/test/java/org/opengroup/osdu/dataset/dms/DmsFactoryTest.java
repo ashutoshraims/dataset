@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,13 +29,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
-import org.opengroup.osdu.dataset.di.DatasetConfig;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DmsFactoryTest {
-    @Mock
-    private DatasetConfig datasetConfig;
-
     @Mock
     private DpsHeaders headers;
 
@@ -48,22 +43,9 @@ public class DmsFactoryTest {
 
     @Test
     public void create_success_return_DmsRestService_Object() {
-        when(datasetConfig.isUseRestDms()).thenReturn(true);
-        IDmsProvider dmsRestService = dmsFactory.create(headers, dmsServiceProperties);
-        assertNotNull(dmsRestService);
-        assertTrue(dmsRestService instanceof DmsRestService);
-
-        verify(datasetConfig, times(1)).isUseRestDms();
-    }
-
-    @Test
-    public void create_success_return_DmsService_Object() {
-        when(datasetConfig.isUseRestDms()).thenReturn(false);
         IDmsProvider dmsRestService = dmsFactory.create(headers, dmsServiceProperties);
         assertNotNull(dmsRestService);
         assertTrue(dmsRestService instanceof DmsService);
-
-        verify(datasetConfig, times(1)).isUseRestDms();
     }
 
     @Test
@@ -76,6 +58,5 @@ public class DmsFactoryTest {
             assertTrue(exception instanceof NullPointerException);
             assertEquals("headers cannot be null", exception.getMessage());
         }
-        verify(datasetConfig, times(0)).isUseRestDms();
     }
 }

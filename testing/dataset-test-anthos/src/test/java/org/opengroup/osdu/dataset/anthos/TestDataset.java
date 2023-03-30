@@ -157,7 +157,7 @@ public class TestDataset extends Dataset {
         IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
         getDatasetRequest.getDatasetRegistryIds().add(recordId);
 
-        ClientResponse retrievalClientResponse = TestUtils.send("getRetrievalInstructions", "POST",
+        ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
             jsonMapper.writeValueAsString(getDatasetRequest),
             "");
@@ -169,13 +169,13 @@ public class TestDataset extends Dataset {
         IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper
             .readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
 
-        return getRetrievalInstResponse.getDelivery().get(0);
+        return getRetrievalInstResponse.getDatasets().get(0);
     }
 
     private IntTestGetDatasetStorageInstructionsResponse getDatasetInstructions(String dataset) throws Exception {
         ClientResponse response = TestUtils.send(
-            "getStorageInstructions",
-            "GET",
+            "storageInstructions",
+            "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
             "",
             dataset);

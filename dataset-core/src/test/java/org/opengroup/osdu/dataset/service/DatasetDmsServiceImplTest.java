@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.dms.DmsException;
@@ -14,8 +15,6 @@ import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.dms.IDmsFactory;
 import org.opengroup.osdu.dataset.dms.IDmsProvider;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 
 
@@ -90,14 +89,14 @@ public class DatasetDmsServiceImplTest {
     @Test(expected = AppException.class)
     public void testGetStorageInstructionsIfDmsServiceIsNull() {
         when(dmsServiceMap.getResourceTypeToDmsServiceMap()).thenReturn(kindSubTypeToDmsServiceMap);
-        GetDatasetStorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(INVALID_KIND);
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(INVALID_KIND);
     }
 
     @Test(expected = AppException.class)
     public void testGetStorageInstructionsIfAllowStorageIsNull() {
         when(dmsServiceMap.getResourceTypeToDmsServiceMap()).thenReturn(kindSubTypeToDmsServiceMap);
         when(dmsServiceProperties.isAllowStorage()).thenReturn(false);
-        GetDatasetStorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
     }
 
     @Test
@@ -105,10 +104,10 @@ public class DatasetDmsServiceImplTest {
 
         datasetRegistryIds = Collections.singletonList(RECORD_ID);
         GetDatasetRegistryRequest request = mock(GetDatasetRegistryRequest.class);
-        GetDatasetRetrievalInstructionsResponse entryResponse = new GetDatasetRetrievalInstructionsResponse(new ArrayList<>());
+        RetrievalInstructionsResponse entryResponse = new RetrievalInstructionsResponse(new ArrayList<>());
         injectWhenClauseForDmsServiceMapAndDmsFactory();
-        when(dmsProvider.getDatasetRetrievalInstructions(any())).thenReturn(entryResponse);
-        GetDatasetRetrievalInstructionsResponse actualResponse = datasetDmsService. getDatasetRetrievalInstructions(datasetRegistryIds);
+        when(dmsProvider.getRetrievalInstructions(any())).thenReturn(entryResponse);
+        RetrievalInstructionsResponse actualResponse = datasetDmsService.getRetrievalInstructions(datasetRegistryIds);
         verifydmsServiceMapAndDmsFactory();
     }
 
@@ -145,11 +144,10 @@ public class DatasetDmsServiceImplTest {
     }
 
     private void testGetStorageInstructions() throws DmsException {
-
         injectWhenClauseForDmsServiceMapAndDmsFactory();
         when(dmsServiceProperties.isAllowStorage()).thenReturn(true);
-        GetDatasetStorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
-        GetDatasetStorageInstructionsResponse expectedResponse = new GetDatasetStorageInstructionsResponse();
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
+        StorageInstructionsResponse expectedResponse = new StorageInstructionsResponse();
         verifydmsServiceMapAndDmsFactory();
         verify(dmsProvider, times(1)).getStorageInstructions();
     }

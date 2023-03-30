@@ -593,6 +593,9 @@ definitions:
   RetrievalInstructionsResponse:
     type: object
     properties:
+      providerKey:
+        type: string
+        example: "AZURE"
       datasets:
         type: array
         items:
@@ -610,9 +613,6 @@ definitions:
                   type: string
                 CSP_SPECIFIC_PROPERTY_3:
                   type: string
-            providerKey:
-              type: string
-              example: "AZURE"
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com

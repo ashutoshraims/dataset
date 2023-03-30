@@ -17,16 +17,12 @@ package org.opengroup.osdu.dataset.di;
 import lombok.AllArgsConstructor;
 import org.opengroup.osdu.dataset.dms.DmsFactory;
 import org.opengroup.osdu.dataset.dms.IDmsFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
 public class DmsClientFactory extends AbstractFactoryBean<IDmsFactory> {
-
-	private final DatasetConfig datasetConfig;
 
 	@Override
 	public Class<?> getObjectType() {
@@ -35,6 +31,6 @@ public class DmsClientFactory extends AbstractFactoryBean<IDmsFactory> {
 
 	@Override
 	protected IDmsFactory createInstance() throws Exception {
-		return new DmsFactory(datasetConfig);
+		return new DmsFactory();
 	}
 }

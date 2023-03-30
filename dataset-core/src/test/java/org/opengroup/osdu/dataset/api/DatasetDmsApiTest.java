@@ -29,11 +29,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.tenant.TenantInfo;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
-import org.opengroup.osdu.dataset.model.request.DeliveryRole;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.service.DatasetDmsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -72,21 +72,19 @@ public class DatasetDmsApiTest {
 
         String resourceType = "srn:type:file";
       
-        GetDatasetStorageInstructionsResponse expectedResponse = new GetDatasetStorageInstructionsResponse(new HashMap<String, Object>(), "DUMMY");
+        StorageInstructionsResponse expectedResponse = new StorageInstructionsResponse("DUMMY", new HashMap<String, Object>());
         when(this.datasetDmsService.getStorageInstructions(resourceType)).thenReturn(expectedResponse);
 
-        ResponseEntity response = this.datasetDmsApi.getStorageInstructions(resourceType);
+        ResponseEntity response = this.datasetDmsApi.storageInstructions(resourceType);
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
         assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
-    public void should_allowAccessToGetStorageInstructions_when_userBelongsToViewerGroup() throws Exception {
-
-        Method method = this.datasetDmsApi.getClass().getMethod("getStorageInstructions", String.class);
+    public void should_allowAccessToGetStorageInstructions_when_userBelongsToEditorGroup() throws Exception {
+        Method method = this.datasetDmsApi.getClass().getMethod("storageInstructions", String.class);
         PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
-
-        assertTrue(annotation.value().contains(DeliveryRole.VIEWER));
+        assertTrue(annotation.value().contains(DatasetConstants.DATASET_EDITOR_ROLE));
     }
 }

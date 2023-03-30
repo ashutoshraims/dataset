@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,10 +32,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.AppError;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
-import org.opengroup.osdu.dataset.model.request.DeliveryRole;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.service.DatasetDmsService;
@@ -68,17 +67,6 @@ public class DatasetDmsApi {
 	@Inject
 	private AuditLogger auditLogger;
 
-	@Deprecated
-    @GetMapping("/getStorageInstructions")	
-	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
-	public ResponseEntity<GetDatasetStorageInstructionsResponse> getStorageInstructions( 
-		@RequestParam(value = "kindSubType") String kindSubType) {
-
-			GetDatasetStorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType);
-			this.auditLogger.readStorageInstructionsSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-
 	@Operation(summary = "${datasetDmsApi.storageInstructions.summary}", description = "${datasetDmsApi.storageInstructions.description}",
 			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
 	@ApiResponses(value = {
@@ -93,37 +81,12 @@ public class DatasetDmsApi {
 	})
 	@PostMapping("/storageInstructions")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_EDITOR_ROLE + "')")
-	public ResponseEntity<GetDatasetStorageInstructionsResponse> storageInstructions(
+	public ResponseEntity<StorageInstructionsResponse> storageInstructions(
 			@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
 			@RequestParam(value = "kindSubType") String kindSubType) {
-		GetDatasetStorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType);
+		StorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType);
 		this.auditLogger.readStorageInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-
-	@Deprecated
-	@GetMapping("/getRetrievalInstructions")	
-	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
-	public ResponseEntity<Object> getRetrievalInstructions( 
-		@RequestParam(value = "id") String datasetRegistryId) {
-
-			List<String> datasetRegistryIds = new ArrayList<>();
-			datasetRegistryIds.add(datasetRegistryId);
-
-			Object response = this.datasetDmsService.getDatasetRetrievalInstructions(datasetRegistryIds);
-			this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-
-	@Deprecated
-	@PostMapping("/getRetrievalInstructions")	
-	@PreAuthorize("@authorizationFilter.hasRole('" + DeliveryRole.VIEWER + "')")
-	public ResponseEntity<Object> getRetrievalInstructions( 
-		@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
-
-			Object response = this.datasetDmsService.getDatasetRetrievalInstructions(request.datasetRegistryIds);
-			this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 
 	@Operation(summary = "${datasetDmsApi.retrievalInstructions.summary}", description = "${datasetDmsApi.retrievalInstructions.description}",
