@@ -29,7 +29,7 @@
 		<os-core-common.version>0.19.0</os-core-common.version>
 		<jackson.version>2.13.4.2</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
-		<snakeyaml.version>1.33</snakeyaml.version>
+		<snakeyaml.version>2.0</snakeyaml.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
 		<log4j2.version>2.17.1</log4j2.version>
@@ -129,7 +129,7 @@
 		<dependency>
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
-		    <version>1.33</version>
+		    <version>2.0</version>
 		</dependency>
 
 	</dependencies>
