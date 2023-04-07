@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.http.json.HttpResponseBodyMapper;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
@@ -30,8 +31,6 @@ import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.dms.IDmsFactory;
 import org.opengroup.osdu.dataset.dms.IDmsProvider;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.model.validation.DmsValidationDoc;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.springframework.http.HttpStatus;
@@ -55,7 +54,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
     private final HttpResponseBodyMapper bodyMapper;
 
     @Override
-    public GetDatasetStorageInstructionsResponse getStorageInstructions(String kindSubType) {
+    public StorageInstructionsResponse getStorageInstructions(String kindSubType) {
 
         Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap = dmsServiceMap.getResourceTypeToDmsServiceMap();
 
@@ -84,7 +83,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
                     String.format(DmsValidationDoc.DMS_STORAGE_NOT_SUPPORTED_ERROR, kindSubType));
         }
 
-        GetDatasetStorageInstructionsResponse response = null;
+        StorageInstructionsResponse response = null;
 
         try {
 
@@ -96,38 +95,6 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
         }
 
         return response;
-    }
-
-    /**
-     * 1. Parse the KindSubType from Dataset Registry ID
-     * 
-     * 2. Check all dataset registries to see if they have registered resource type
-     * dms handlers a. map datasets to DMS for use by DMS caller b. throw exception
-     * if any unhandled
-     * 
-     * 3. Call each DMS one by one and get the delivery instructions a. group all
-     * same type dms types b. merge all responses into a single delivery object
-     */
-    @Override
-    public GetDatasetRetrievalInstructionsResponse getDatasetRetrievalInstructions(List<String> datasetRegistryIds) {
-
-        Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap = dmsServiceMap.getResourceTypeToDmsServiceMap();
-        HashMap<String, GetDatasetRegistryRequest> datasetRegistryRequestMap =
-                segregateDatasetIdsToDms(datasetRegistryIds, kindSubTypeToDmsServiceMap);
-
-        GetDatasetRetrievalInstructionsResponse mergedResponse = new GetDatasetRetrievalInstructionsResponse(new ArrayList<>());
-          
-        for (Map.Entry<String,GetDatasetRegistryRequest> datasetRegistryRequestEntry : datasetRegistryRequestMap.entrySet()) {
-            try {
-                IDmsProvider dmsProvider = dmsFactory.create(headers, kindSubTypeToDmsServiceMap.get(datasetRegistryRequestEntry.getKey()));
-                GetDatasetRetrievalInstructionsResponse entryResponse = dmsProvider.getDatasetRetrievalInstructions(datasetRegistryRequestEntry.getValue());
-                mergedResponse.getDelivery().addAll(entryResponse.getDelivery());
-            }
-            catch(DmsException e) {
-                handleDmsException(e);
-            }
-        }
-        return mergedResponse;
     }
 
     @Override

@@ -20,7 +20,7 @@
     <parent>
         <artifactId>os-dataset-testing</artifactId>
         <groupId>org.opengroup.osdu</groupId>
-        <version>0.20.0-SNAPSHOT</version>
+        <version>0.21.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.opengroup.osdu.storage</groupId>
             <artifactId>dataset-test-core</artifactId>
-            <version>0.20.0-SNAPSHOT</version>
+            <version>0.21.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

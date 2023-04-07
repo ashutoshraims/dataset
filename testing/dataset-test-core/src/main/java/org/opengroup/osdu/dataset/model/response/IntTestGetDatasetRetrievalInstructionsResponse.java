@@ -25,7 +25,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IntTestGetDatasetRetrievalInstructionsResponse {
-
-    List<IntTestDatasetRetrievalDeliveryItem> delivery;
+    List<IntTestDatasetRetrievalDeliveryItem> datasets;
     
 }
