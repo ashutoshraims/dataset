@@ -11,8 +11,8 @@ data:
   logLevel: "ERROR"
   springProfilesActive: "gcp"
   # Deployment
-  requestsCpu: "20m"
-  requestsMemory: "400Mi"
+  requestsCpu: "5m"
+  requestsMemory: "300Mi"
   limitsCpu: "1"
   limitsMemory: "1G"
   serviceAccountName: ""
@@ -30,7 +30,7 @@ conf:
   datasetRedisSecretName: "dataset-redis-secret"
 
 istio:
-  proxyCPU: "10m"
+  proxyCPU: "5m"
   proxyCPULimit: "200m"
-  proxyMemory: "100Mi"
+  proxyMemory: "50Mi"
   proxyMemoryLimit: "256Mi"
