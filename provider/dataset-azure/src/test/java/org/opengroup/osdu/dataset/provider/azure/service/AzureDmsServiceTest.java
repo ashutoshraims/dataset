@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
 import org.opengroup.osdu.core.common.model.http.AppException;
@@ -33,7 +34,7 @@ import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AzureDmsRestServiceTest {
+public class AzureDmsServiceTest {
 
   @Mock
   private DmsServiceProperties dmsServiceProperties;
@@ -45,34 +46,34 @@ public class AzureDmsRestServiceTest {
   private DpsHeaders headers;
 
   @InjectMocks
-  private AzureDmsRestService restService;
+  private AzureDmsService restService;
 
   @Test
   public void should_successfully_get_retrieval_instructions() {
     String url = "https://host/api/dms/eds/v1";
     HttpResponse httpResponse = new HttpResponse();
-    String body = "{\"delivery\" : []}";
+    String body = "{\"datasets\" : []}";
     httpResponse.setBody(body);
-    GetDatasetRetrievalInstructionsResponse retrievalInstructionsResponse = new GetDatasetRetrievalInstructionsResponse(new ArrayList<>());
+    RetrievalInstructionsResponse retrievalInstructionsResponse = new RetrievalInstructionsResponse(new ArrayList<>());
 
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
     Mockito.when(this.httpClient.send(Mockito.any())).thenReturn(httpResponse);
 
-    assertEquals(retrievalInstructionsResponse, this.restService.getDatasetRetrievalInstructions(null));
+    assertEquals(retrievalInstructionsResponse, this.restService.getRetrievalInstructions(null));
   }
 
   @Test(expected = AppException.class)
   public void should_throw_exception_when_response_is_not_valid() {
     String url = "https://host/api/dms/eds/v1";
     HttpResponse httpResponse = new HttpResponse();
-    String body = "{\"delivery\" : {}}";
+    String body = "{\"datasets\" : {}}";
     httpResponse.setBody(body);
-    GetDatasetRetrievalInstructionsResponse retrievalInstructionsResponse = new GetDatasetRetrievalInstructionsResponse(new ArrayList<>());
+    RetrievalInstructionsResponse retrievalInstructionsResponse = new RetrievalInstructionsResponse(new ArrayList<>());
 
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
     Mockito.when(this.httpClient.send(Mockito.any())).thenReturn(httpResponse);
 
-    this.restService.getDatasetRetrievalInstructions(null);
+    this.restService.getRetrievalInstructions(null);
   }
 
   @Test(expected = AppException.class)
@@ -80,6 +81,6 @@ public class AzureDmsRestServiceTest {
     String url = "#:/$&#";
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
 
-    this.restService.getDatasetRetrievalInstructions(null);
+    this.restService.getRetrievalInstructions(null);
   }
 }

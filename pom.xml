@@ -17,7 +17,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opengroup.osdu</groupId>
 	<artifactId>os-dataset</artifactId>
-	<version>0.20.0-SNAPSHOT</version>
+	<version>0.21.0-SNAPSHOT</version>
 	<description>Root Dataset Registry Service project</description>
 
 	<properties>
@@ -26,15 +26,14 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<os-core-common.version>0.18.0</os-core-common.version>
+		<os-core-common.version>0.19.0</os-core-common.version>
 		<jackson.version>2.13.4.2</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
-		<snakeyaml.version>1.33</snakeyaml.version>
+		<snakeyaml.version>2.0</snakeyaml.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
 		<log4j2.version>2.17.1</log4j2.version>
-		<!-- <springfox.version>3.0.0</springfox.version> -->
-		<openapi.version>1.6.13</openapi.version>
+		<openapi.version>1.6.14</openapi.version>
 		<json-smart.version>2.4.7</json-smart.version>
 	</properties>
 
@@ -76,7 +75,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<!-- <version>2.3.4.RELEASE</version> -->
-				<version>2.7.2</version>
+				<version>2.7.5</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -121,11 +120,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- swagger dependency -->
-		<!-- <dependency>
-      		<groupId>io.springfox</groupId>
-      		<artifactId>springfox-boot-starter</artifactId>
-      		<version>${springfox.version}</version>
-    	</dependency> -->
     	<dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
@@ -135,7 +129,7 @@
 		<dependency>
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
-		    <version>1.33</version>
+		    <version>2.0</version>
 		</dependency>
 
 	</dependencies>

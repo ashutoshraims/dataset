@@ -116,7 +116,7 @@ public abstract class Dataset extends TestBase {
 
 	@Test
 	public void should_getUploadLocation() throws Exception {
-		ClientResponse response = TestUtils.send("getStorageInstructions", "GET",
+		ClientResponse response = TestUtils.send("storageInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), "", "?kindSubType=dataset--File.Generic");
 		Assert.assertEquals(200, response.getStatus());
 		
@@ -138,7 +138,7 @@ public abstract class Dataset extends TestBase {
 		String kindSubType = "dataset--File.Generic";
 		
 		//Step 1: Get Storage Instructions for File
-		ClientResponse getStorageInstClientResp = TestUtils.send("getStorageInstructions", "GET",
+		ClientResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), "", String.format("?kindSubType=%s", kindSubType));
 		
 		Assert.assertEquals(200, getStorageInstClientResp.getStatus());
@@ -176,7 +176,7 @@ public abstract class Dataset extends TestBase {
 		IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
 		getDatasetRequest.getDatasetRegistryIds().add(datasetRegistryId);
 
-		ClientResponse retrievalClientResponse = TestUtils.send("getRetrievalInstructions", "POST",
+		ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), 
 				jsonMapper.writeValueAsString(getDatasetRequest),
 				 "");
@@ -187,7 +187,7 @@ public abstract class Dataset extends TestBase {
 
 		IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper.readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
 		
-		IntTestDatasetRetrievalDeliveryItem datasetRetrievalItem = getRetrievalInstResponse.getDelivery().get(0);
+		IntTestDatasetRetrievalDeliveryItem datasetRetrievalItem = getRetrievalInstResponse.getDatasets().get(0);
 
 		validate_dataset_retrieval_delivery_item(datasetRetrievalItem);
 		

@@ -3,9 +3,11 @@
 ## Table of Contents <a name="TOC"></a>
 
 * [Environment variables](#Environment-variables)
-* [Common properties for all environments](#Common-properties-for-all-environments)
+  * [Common properties for all environments](#Common-properties-for-all-environments)
 * [Datastore configuration](#Datastore-configuration)
 * [Google cloud service account configuration](#Google-cloud-service-account-configuration)
+* [Running E2E Tests](#running-e2e-tests)
+* [License](#license)
 
 ## Environment variables
 
@@ -58,7 +60,7 @@ TBD
 | ---    |
 | - |
 
-### Running E2E Tests
+## Running E2E Tests
 
 This section describes how to run cloud OSDU E2E tests (testing/dataset-test-gc).
 
@@ -106,3 +108,21 @@ Execute following command to build code and run all the integration tests:
  # build + run Google Cloud integration tests.
  $ (cd testing/dataset-test-gc/ && mvn clean test)
  ```
+
+## License
+
+Copyright 2021 Google LLC
+
+Copyright 2021 EPAM Systems, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

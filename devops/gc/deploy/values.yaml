@@ -2,13 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+global:
+  domain: ""
+  onPremEnabled: false
+
 data:
   # Configmap
   logLevel: "ERROR"
   springProfilesActive: "gcp"
   # Deployment
-  requestsCpu: "50m"
-  requestsMemory: "350M"
+  requestsCpu: "20m"
+  requestsMemory: "400Mi"
   limitsCpu: "1"
   limitsMemory: "1G"
   serviceAccountName: ""
@@ -23,12 +27,10 @@ conf:
   configmap: "dataset-config"
   postgresSecretName: "dataset-postgres-secret"
   appName: "dataset"
-  onPremEnabled: false
-  domain: ""
   datasetRedisSecretName: "dataset-redis-secret"
 
 istio:
-  proxyCPU: "25m"
+  proxyCPU: "10m"
   proxyCPULimit: "200m"
-  proxyMemory: "64Mi"
+  proxyMemory: "100Mi"
   proxyMemoryLimit: "256Mi"

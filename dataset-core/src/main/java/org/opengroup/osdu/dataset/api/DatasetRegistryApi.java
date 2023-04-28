@@ -22,12 +22,22 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.opengroup.osdu.core.common.model.http.AppError;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.CreateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
+import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +55,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 @RestController
 @RequestMapping("/")
+@Tag(name = "dataset", description = "dataset api operations")
 @RequestScope
 @Validated
 public class DatasetRegistryApi {
@@ -58,20 +69,47 @@ public class DatasetRegistryApi {
 	@Inject
 	private AuditLogger auditLogger;
 
-	@PutMapping("/registerDataset")	
+
+	@Operation(summary = "${datasetRegistryApi.createOrUpdateDatasetRegistry.summary}", description = "${datasetRegistryApi.createOrUpdateDatasetRegistry.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = GetCreateUpdateDatasetRegistryResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
+	@PutMapping("/registerDataset")
 	@PreAuthorize("@authorizationFilter.hasRole('" + StorageRole.CREATOR + "', '" + StorageRole.ADMIN + "')")
 	public ResponseEntity<GetCreateUpdateDatasetRegistryResponse> createOrUpdateDatasetRegistry(
-		@RequestBody @Valid @NotNull CreateDatasetRegistryRequest request) {
+			@Parameter(description = "Dataset registry ids")
+			@RequestBody @Valid @NotNull CreateDatasetRegistryRequest request) {
 
 			GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.createOrUpdateDatasetRegistry(request.datasetRegistries);
 			this.auditLogger.registerDatasetSuccess(Collections.singletonList(response.toString()));
 			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.CREATED);
 	}
 
+	@Operation(summary = "${datasetRegistryApi.getDatasetRegistry.summary}", description = "${datasetRegistryApi.getDatasetRegistry.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = GetCreateUpdateDatasetRegistryResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
 	@GetMapping("/getDatasetRegistry")	
 	@PreAuthorize("@authorizationFilter.hasRole('" + StorageRole.CREATOR + "', '" + StorageRole.ADMIN + "', '" + StorageRole.VIEWER + "')")
-	public ResponseEntity<GetCreateUpdateDatasetRegistryResponse> getDatasetRegistry( 
-		@RequestParam(value = "id") String datasetRegistryId) {
+	public ResponseEntity<GetCreateUpdateDatasetRegistryResponse> getDatasetRegistry(@Parameter(description = "Dataset registry id",
+			example = "opendes:dataset--File.Generic:8118591ee2")
+			@RequestParam(value = "id") String datasetRegistryId) {
 
 			List<String> datasetRegistryIds = new ArrayList<>();
 			datasetRegistryIds.add(datasetRegistryId);
@@ -81,10 +119,22 @@ public class DatasetRegistryApi {
 			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.OK);
 	}
 
-	@PostMapping("/getDatasetRegistry")	
+	@Operation(summary = "${datasetRegistryApi.getDatasetRegistryUsingPOST.summary}", description = "${datasetRegistryApi.getDatasetRegistryUsingPOST.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = { @Content(schema = @Schema(implementation = GetCreateUpdateDatasetRegistryResponse.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action.",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "404", description = "Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class ))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
+	})
+	@PostMapping("/getDatasetRegistry")
 	@PreAuthorize("@authorizationFilter.hasRole('" + StorageRole.CREATOR + "', '" + StorageRole.ADMIN + "', '" + StorageRole.VIEWER + "')")
-	public ResponseEntity<GetCreateUpdateDatasetRegistryResponse> getDatasetRegistry(
-		@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
+	public ResponseEntity<GetCreateUpdateDatasetRegistryResponse> getDatasetRegistry(@Parameter(description = "Dataset registry ids")
+			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
 			GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.getDatasetRegistries(request.datasetRegistryIds);
 			this.auditLogger.readDatasetRegistriesSuccess(Collections.singletonList(response.toString()));
 			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.OK);

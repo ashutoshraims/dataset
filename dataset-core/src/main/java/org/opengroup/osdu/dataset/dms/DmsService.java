@@ -1,99 +1,94 @@
-// Copyright © 2021 Amazon Web Services
-// Copyright 2017-2019, Schlumberger
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-//TODO: Move to os-core-common
+/*
+ * Copyright 2021 Microsoft Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.opengroup.osdu.dataset.dms;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonSyntaxException;
-
-import org.apache.commons.lang3.StringUtils;
+import java.net.URISyntaxException;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.utils.URIBuilder;
+import org.opengroup.osdu.core.common.dms.model.CopyDmsRequest;
+import org.opengroup.osdu.core.common.dms.model.CopyDmsResponse;
+import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
+import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.http.HttpRequest;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
-import org.opengroup.osdu.core.common.http.json.HttpResponseBodyMapper;
-import org.opengroup.osdu.core.common.http.json.HttpResponseBodyParsingException;
+import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 
+@RequiredArgsConstructor
 public class DmsService implements IDmsProvider {
 
-    private String dmsServiceUrl;
-    private DmsServiceProperties dmsServiceProperties;
+    private final DmsServiceProperties dmsServiceProperties;
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final IHttpClient httpClient;
     private final DpsHeaders headers;
 
-    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-    private final HttpResponseBodyMapper bodyMapper = new HttpResponseBodyMapper(objectMapper);
-
-    public DmsService(DmsServiceProperties dmsServiceProperties, IHttpClient httpClient, DpsHeaders headers) {
-
-        this.dmsServiceProperties = dmsServiceProperties;
-        this.dmsServiceUrl = dmsServiceProperties.getDmsServiceBaseUrl();
-        this.httpClient = httpClient;
-        this.headers = headers;
-
-        if (dmsServiceProperties.getApiKey() != null) {
-            headers.put("AppKey", dmsServiceProperties.getApiKey());
-        }
-
-    }
-
     @Override
-    public GetDatasetStorageInstructionsResponse getStorageInstructions() throws DmsException {
-
-        String url = this.createUrl("/getStorageInstructions");
+    public StorageInstructionsResponse getStorageInstructions() {
+        String url = this.createUrl("/storageInstructions");
         HttpResponse result = this.httpClient
-                .send(HttpRequest.get().url(url).headers(this.headers.getHeaders()).build());
-        return this.getResult(result, GetDatasetStorageInstructionsResponse.class);
-    }
-
-    @Override
-    public GetDatasetRetrievalInstructionsResponse getDatasetRetrievalInstructions(
-            GetDatasetRegistryRequest datasetRegistryRequest) throws DmsException {
-
-        String url = this.createUrl("/getRetrievalInstructions");
-        HttpResponse result = this.httpClient
-                .send(HttpRequest.post(datasetRegistryRequest).url(url).headers(this.headers.getHeaders()).build());
-        return this.getResult(result, GetDatasetRetrievalInstructionsResponse.class);
-    }
-
-    private String createUrl(String requestPathAndQuery) {
-        return StringUtils.join(this.dmsServiceUrl, requestPathAndQuery);
-    }
-
-    private <T> T getResult(HttpResponse result, Class<T> type) throws DmsException {
-        if (result.isSuccessCode()) {
-            try {
-                return bodyMapper.parseBody(result, type);
-            } catch (JsonSyntaxException | HttpResponseBodyParsingException e) {
-                throw new DmsException("Error parsing response. Check the inner HttpResponse for more info.",
-                        result);
-            }
-        } else {
-            throw this.generateException(result);
+                .send(HttpRequest.post().url(url).headers(this.headers.getHeaders()).build());
+        try {
+            return OBJECT_MAPPER.readValue(result.getBody(), StorageInstructionsResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", e.getMessage(), e);
         }
     }
 
-    private DmsException generateException(HttpResponse result) {
-        return new DmsException(
-                "Error making request to DMS service. Check the inner HttpResponse for more info.", result);
+    @Override
+    public RetrievalInstructionsResponse getRetrievalInstructions(GetDatasetRegistryRequest request) {
+        String url = this.createUrl("/retrievalInstructions");
+        HttpResponse result = this.httpClient
+                .send(HttpRequest.post(request).url(url).headers(this.headers.getHeaders()).build());
+
+        try {
+            return OBJECT_MAPPER.readValue(result.getBody(), RetrievalInstructionsResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", e.getMessage(), e);
+        }
     }
 
+    @Override
+    public List<CopyDmsResponse> copyDmsToPersistentStorage(CopyDmsRequest copyDmsRequest) {
+        String url = this.createUrl("/copy");
+        HttpResponse result = this.httpClient
+                .send(HttpRequest.post(copyDmsRequest).url(url).headers(this.headers.getHeaders()).build());
+        try {
+            return OBJECT_MAPPER.readValue(result.getBody(), new TypeReference<List<CopyDmsResponse>>(){});
+        } catch (JsonProcessingException e) {
+            throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", e.getMessage(), e);
+        }
+    }
+
+    private String createUrl(String path) {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(dmsServiceProperties.getDmsServiceBaseUrl());
+            uriBuilder.setPath(uriBuilder.getPath() + path);
+            return uriBuilder.build().normalize().toString();
+        } catch (URISyntaxException e) {
+            throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Invalid URL", e.getMessage(), e);
+        }
+    }
 }

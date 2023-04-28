@@ -26,6 +26,13 @@ Packages are only needed for installation from a local computer.
 
 First you need to set variables in **values.yaml** file using any code editor. Some of the values are prefilled, but you need to specify some values as well. You can find more information about them below.
 
+### Global variables
+
+| Name | Description | Type | Default |Required |
+|------|-------------|------|---------|---------|
+**global.domain** | your domain for the external endpoint, ex `example.com` | string | - | yes
+**global.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
+
 ### Configmap variables
 
 | Name | Description | Type | Default | Required |
@@ -39,8 +46,8 @@ First you need to set variables in **values.yaml** file using any code editor. S
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
-**data.requestsCpu** | amount of requested CPU | string | "50m" | yes
-**data.requestsMemory** | amount of requested memory| string | "350M" | yes
+**data.requestsCpu** | amount of requested CPU | string | "20m" | yes
+**data.requestsMemory** | amount of requested memory| string | "400Mi" | yes
 **data.limitsCpu** | CPU limit | string | "1" | yes
 **data.limitsMemory** | memory limit | string | "1G" | yes
 **data.serviceAccountName** | name of your service account | string | - | yes
@@ -56,16 +63,14 @@ First you need to set variables in **values.yaml** file using any code editor. S
 **conf.appName** | name of the app | string | "dataset" | yes
 **conf.postgresSecretName** | secret for Postgres | string | "dataset-postgres-secret" | yes
 **conf.datasetRedisSecretName** | secret for redis that contains redis password with REDIS_PASSWORD key | string | `dataset-redis-secret` | yes
-**conf.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
-**conf.domain** | your domain | string | - | yes
 
 ### ISTIO variables
 
 | Name | Description | Type | Default |Required |
 |------|-------------|------|---------|---------|
-**istio.proxyCPU** | CPU request for Envoy sidecars | string | 25m | yes
+**istio.proxyCPU** | CPU request for Envoy sidecars | string | 10m | yes
 **istio.proxyCPULimit** | CPU limit for Envoy sidecars | string | 200m | yes
-**istio.proxyMemory** | memory request for Envoy sidecars | string | 64Mi | yes
+**istio.proxyMemory** | memory request for Envoy sidecars | string | 100Mi | yes
 **istio.proxyMemoryLimit** | memory limit for Envoy sidecars | string | 256Mi | yes
 
 ### Install the helm chart
