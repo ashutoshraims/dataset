@@ -26,7 +26,7 @@ public class ProviderConfigurationBag {
     @Value("${aws.parameter.prefix}")
     public String ssmParameterPrefix;
 
-    @Value("${aws.dynamodb.dmsRegistrationTable.ssm.relativePath:/common/dataset/DmsRegistrationTable}")
+    @Value("${aws.dynamodb.dmsRegistrationTable.ssm.relativePath:/common/dataset/dms-registration-table}")
     public String dmsRegistrationTableRelativePath;
 
     @Value("${aws.elasticache.cluster.endpoint:null}")

@@ -1,0 +1,4 @@
+{{- template "common.scaledobject" (list . "os-dataset.scaledobject") -}}
+{{- define "os-dataset.scaledobject" -}}
+## Define overrides for the service's scaled object resource here
+{{- end -}}
