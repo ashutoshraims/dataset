@@ -32,7 +32,7 @@ public class AnthosConfig {
     }
 
     public static String getGcpStoragePersistentArea() {
-        return getEnvironmentVariableOrDefaultValue("ANTHOS_STORAGE_PERSISTENT_AREA", "");
+        return getEnvironmentVariableOrDefaultValue("BAREMETAL_STORAGE_PERSISTENT_AREA", "");
     }
 
     private static String getEnvironmentVariableOrDefaultValue(String key, String defaultValue) {

@@ -1,4 +1,4 @@
-# Service Configuration for Anthos
+# Service Configuration for Baremetal
 
 ## Table of Contents <a name="TOC"></a>
 
@@ -33,7 +33,7 @@ Must have:
 | `SCHEMA_API` | ex `http://schema/api/legal/v1` | Schema API endpoint | no | output of infrastructure deployment |
 | `DMS_API_BASE` | ex `http://localhost:8081/api/file/v2/files` | *Only for local usage.* Allows to override DMS service base url value from Datastore.  | no | - |
 
-These variables define service behavior, and are used to switch between `anthos` or `gcp` environments, their overriding
+These variables define service behavior, and are used to switch between `baremetal` or `gcp` environments, their overriding
 and usage in mixed mode was not tested. Usage of spring profiles is preferred.
 
 | name | value | description | sensitive? | source |
@@ -166,7 +166,7 @@ Give `client-id` and `client-secret` to services, which should be authorized wit
 
 ## Running E2E Tests
 
-This section describes how to run cloud OSDU E2E tests (testing/dataset-test-anthos).
+This section describes how to run cloud OSDU E2E tests (testing/dataset-test-baremetal).
 
 You will need to have the following environment variables defined.
 
@@ -182,7 +182,7 @@ You will need to have the following environment variables defined.
 | `TENANT_NAME` | `opendes` | Tenant name | no | - |
 | `KIND_SUBTYPE` | `DatasetTest` | Kind subtype that will be used in int tests, schema creation automated , result kind will be `TENANT_NAME::wks-test:dataset--FileCollection.KIND_SUBTYPE:1.0.0`| no | - |
 | `LEGAL_TAG` | `public-usa-dataset-1` | Legal tag name, if tag with that name doesn't exist then it will be created during preparing step | no | - |
-| `ANTHOS_STORAGE_PERSISTENT_AREA` | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
+| `BAREMETAL_STORAGE_PERSISTENT_AREA` | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
 | `TEST_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$INTEGRATION_TESTER` | yes | -- |
 | `TEST_OPENID_PROVIDER_CLIENT_SECRET` | `********` |  | Client secret for `$INTEGRATION_TESTER` | -- |
 | `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$NO_ACCESS_INTEGRATION_TESTER` | yes | -- |
@@ -215,7 +215,7 @@ Execute following command to build code and run all the integration tests:
 
  ```bash
  # build + run Google Cloud integration tests.
- $ (cd testing/dataset-test-anthos/ && mvn clean test)
+ $ (cd testing/dataset-test-baremetal/ && mvn clean test)
  ```
 
 ## License

@@ -41,7 +41,7 @@
 		<module>dataset-test-aws</module>
 		<module>dataset-test-gc</module>
 		<module>dataset-test-ibm</module>
-        <module>dataset-test-anthos</module>
+        <module>dataset-test-baremetal</module>
     </modules>
 
 	<profiles>
