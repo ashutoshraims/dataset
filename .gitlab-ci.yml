@@ -46,7 +46,6 @@ include:
     file: "scanners/gitlab-ultimate.yml"
 
   - project: "osdu/platform/ci-cd-pipelines"
-    ref: "GONRG-no-domain-var"
     file: "cloud-providers/gc-global.yml"
 
   - local: "devops/gc/pipeline/override-stages.yml"
