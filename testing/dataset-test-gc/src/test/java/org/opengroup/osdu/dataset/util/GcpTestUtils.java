@@ -22,10 +22,17 @@ import org.opengroup.osdu.dataset.TestUtils;
 import org.opengroup.osdu.dataset.configuration.GcpConfig;
 import org.opengroup.osdu.dataset.credentials.GoogleServiceAccount;
 
+import java.util.Optional;
+
 public class GcpTestUtils extends TestUtils {
 
 	private static String token;
 	private static String noDataAccesstoken;
+
+	public GcpTestUtils() {
+		domain = Optional.ofNullable(System.getProperty("GROUP_ID", System.getenv("GROUP_ID")))
+				.orElse("group");
+	}
 
 	public String getToken() throws Exception {
 		if (token == null || token.isEmpty()) {
