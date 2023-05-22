@@ -170,27 +170,27 @@ This section describes how to run cloud OSDU E2E tests (testing/dataset-test-bar
 
 You will need to have the following environment variables defined.
 
-| name | value | description | sensitive? | source |
-| ---  | ---   | ---         | ---        | ---    |
-| `DOMAIN` | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
-| `STORAGE_BASE_URL` | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
-| `LEGAL_BASE_URL` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
-| `LEGAL_HOST` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
-| `DATASET_BASE_URL` | ex `http://localhost:8080/api/dataset/v1/` | Dataset API endpoint | no | output of infrastructure deployment |
-| `SCHEMA_API` | ex `https://os-schema-jvmvia5dea-uc.a.run.app/api/schema-service/v1` | Schema API endpoint | no | output of infrastructure deployment |
-| `PROVIDER_KEY` | `ANTHOS` | required for response verification | no | - |
-| `TENANT_NAME` | `opendes` | Tenant name | no | - |
-| `KIND_SUBTYPE` | `DatasetTest` | Kind subtype that will be used in int tests, schema creation automated , result kind will be `TENANT_NAME::wks-test:dataset--FileCollection.KIND_SUBTYPE:1.0.0`| no | - |
-| `LEGAL_TAG` | `public-usa-dataset-1` | Legal tag name, if tag with that name doesn't exist then it will be created during preparing step | no | - |
-| `BAREMETAL_STORAGE_PERSISTENT_AREA` | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
-| `TEST_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$INTEGRATION_TESTER` | yes | -- |
-| `TEST_OPENID_PROVIDER_CLIENT_SECRET` | `********` |  | Client secret for `$INTEGRATION_TESTER` | -- |
-| `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$NO_ACCESS_INTEGRATION_TESTER` | yes | -- |
+| name                                           | value | description | sensitive? | source |
+|------------------------------------------------| ---   | ---         | ---        | ---    |
+| `GROUP_ID`                                     | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
+| `STORAGE_BASE_URL`                             | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
+| `LEGAL_BASE_URL`                               | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
+| `LEGAL_HOST`                                   | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
+| `DATASET_BASE_URL`                             | ex `http://localhost:8080/api/dataset/v1/` | Dataset API endpoint | no | output of infrastructure deployment |
+| `SCHEMA_API`                                   | ex `https://os-schema-jvmvia5dea-uc.a.run.app/api/schema-service/v1` | Schema API endpoint | no | output of infrastructure deployment |
+| `PROVIDER_KEY`                                 | `ANTHOS` | required for response verification | no | - |
+| `TENANT_NAME`                                  | `opendes` | Tenant name | no | - |
+| `KIND_SUBTYPE`                                 | `DatasetTest` | Kind subtype that will be used in int tests, schema creation automated , result kind will be `TENANT_NAME::wks-test:dataset--FileCollection.KIND_SUBTYPE:1.0.0`| no | - |
+| `LEGAL_TAG`                                    | `public-usa-dataset-1` | Legal tag name, if tag with that name doesn't exist then it will be created during preparing step | no | - |
+| `BAREMETAL_STORAGE_PERSISTENT_AREA`            | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
+| `TEST_OPENID_PROVIDER_CLIENT_ID`               | `********` | Client Id for `$INTEGRATION_TESTER` | yes | -- |
+| `TEST_OPENID_PROVIDER_CLIENT_SECRET`           | `********` |  | Client secret for `$INTEGRATION_TESTER` | -- |
+| `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_ID`     | `********` | Client Id for `$NO_ACCESS_INTEGRATION_TESTER` | yes | -- |
 | `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_SECRET` | `********` |  | Client secret for `$NO_ACCESS_INTEGRATION_TESTER` | -- |
-| `TEST_OPENID_PROVIDER_URL` | `https://keycloak.com/auth/realms/osdu` | OpenID provider url | yes | -- |
-| `TEST_MINIO_SECRET_KEY` | `********` | MinIO secret key | yes | -- |
-| `TEST_MINIO_ACCESS_KEY` | `********` | MinIO access key | yes | -- |
-| `TEST_MINIO_URL` | `https://minio.com` | Endpoint of MinIO used by File service | no | -- |
+| `TEST_OPENID_PROVIDER_URL`                     | `https://keycloak.com/auth/realms/osdu` | OpenID provider url | yes | -- |
+| `TEST_MINIO_SECRET_KEY`                        | `********` | MinIO secret key | yes | -- |
+| `TEST_MINIO_ACCESS_KEY`                        | `********` | MinIO access key | yes | -- |
+| `TEST_MINIO_URL`                               | `https://minio.com` | Endpoint of MinIO used by File service | no | -- |
 
 **Entitlements configuration for integration accounts**
 
