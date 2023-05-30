@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2021 Google LLC
-  ~ Copyright 2021 EPAM Systems, Inc
+  ~ Copyright 2020-2023 Google LLC
+  ~ Copyright 2020-2023 EPAM Systems, Inc
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -32,6 +32,14 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>libraries-bom</artifactId>
+				<version>26.15.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml.jackson</groupId>
 				<artifactId>jackson-bom</artifactId>
@@ -77,7 +85,7 @@
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>os-core-common</artifactId>
-			<version>0.19.0</version>
+			<version>0.21.0</version>
 			<exclusions>
 				<!-- conflict with http client from core-lib-gc -->
 				<exclusion>
@@ -88,8 +96,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>core-lib-gcp</artifactId>
-			<version>0.19.0-rc3</version>
+			<artifactId>core-lib-gc</artifactId>
+			<version>0.21.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -132,6 +140,23 @@
 		    <artifactId>tomcat-embed-core</artifactId>
 		    <version>9.0.69</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.opengroup.osdu</groupId>
+			<artifactId>oqm</artifactId>
+			<version>0.21.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opengroup.osdu</groupId>
+			<artifactId>osm</artifactId>
+			<version>0.21.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opengroup.osdu</groupId>
+			<artifactId>obm</artifactId>
+			<version>0.21.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
