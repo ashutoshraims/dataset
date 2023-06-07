@@ -23,5 +23,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties
 @Data
 public class GcpConfigProperties {
+
+    /**
+     * Only for local usage. Allows to override DMS service base url value from Datastore.
+     */
     private String dmsApiBase;
 }

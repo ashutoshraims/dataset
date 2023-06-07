@@ -5,6 +5,7 @@
 * [Environment variables](#Environment-variables)
   * [Common properties for all environments](#Common-properties-for-all-environments)
 * [Datastore configuration](#Datastore-configuration)
+* [DMS providers](#DMS-providers)
 * [Google cloud service account configuration](#Google-cloud-service-account-configuration)
 * [Running E2E Tests](#running-e2e-tests)
 * [License](#license)
@@ -47,10 +48,45 @@ Usage of spring profiles is preferred.
 There must be a kind `DmsServiceProperties` in default namespace, with DMS configuration,
 Example:
 
-| name | apiKey | dmsServiceBaseUrl | isStagingLocationSupported | isStorageAllowed |
-| ---  | ---   | ---         | ---        | ---    |
-| `name=dataset--File.*` |   | `https://community.gc.gnrg-osdu.projects.epam.com/api/file/v2/files` | `true` | `true` |
-| `name=dataset--FileCollection.*` |   | `https://community.gc.gnrg-osdu.projects.epam.com/api/file/v2/file-collections` | `true` | `true` |
+| name                              | apiKey | dmsServiceBaseUrl                                                               | isStagingLocationSupported | isStorageAllowed |
+|-----------------------------------|--------|---------------------------------------------------------------------------------|----------------------------|------------------|
+| `name=dataset--File.*`            |        | `https://community.gc.gnrg-osdu.projects.epam.com/api/file/v2/files`            | `true`                     | `true`           |
+| `name=dataset--FileCollection.*`  |        | `https://community.gc.gnrg-osdu.projects.epam.com/api/file/v2/file-collections` | `true`                     | `true`           |
+| `name=dataset--ConnectedSource.*` |        | `https://community.gc.gnrg-osdu.projects.epam.com/api/eds/v1/`                  | `true`                     | `true`           |
+
+## DMS providers
+
+- File service is responsible for handling FILE and FILE_COLLECTION dataset types
+- EDS service is responsible for redirecting handling CONNECTED_SOURCE dataset type 
+to external DMS providers
+
+### EDS retrieval instructions handling flow
+
+Prerequisites on "external" OSDU environment:
+1. Legal service | Create legaltag
+2. Dataset service | getStorageInstructions
+3. Signed url | Upload file
+4. Dataset service | registerDataset
+5. Dataset service | getRetrievalInstructions
+6. Signed url | Download file to check file was uploaded
+
+Summary: test file was uploaded on "external" OSDU environment 
+and dataset was registered with `external-dataset-registry-id`
+
+Main flow on "local" OSDU environment:
+7. Legal service | Create legaltag
+8. Secret service | Create Scopes secrets
+9. Secret service | Create Client secrets
+10. Storage service | Create ConnectedSourceRegistryEntry (contains SecuritySchemes)
+11. Storage service | Create ConnectedSourceDataJob (contains Registry ID, external url)
+12. Storage service | Create ConnectedSource.Generic (contains DatasetProperties mapping)
+13. Dataset service | getRetrievalInstructions
+14. Signed url | Download file on "local" OSDU environment
+
+Summary: test file created on "external" OSDU environment was downloaded on "local" OSDU environment
+using EDS service
+
+![Screenshot](../baremetal/pics/dataset.png)
 
 ## Google cloud service account configuration
 

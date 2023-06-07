@@ -6,6 +6,7 @@
   * [Common properties for all environments](#Common-properties-for-all-environments)
   * [Properties set in Partition service](#properties-set-in-partition-service)
   * [For OSM Postgres](#For-OSM-Postgres)
+* [DMS providers](#dms-providers)
 * [Keycloak configuration](#keycloak-configuration)
 * [Running E2E Tests](#running-e2e-tests)
 * [License](#license)
@@ -80,10 +81,11 @@ CREATE INDEX DmsServiceProperties_datagin ON public."DmsServiceProperties" USING
 
 There must be a table `DmsServiceProperties` in default schema, with DMS configuration, Example:
 
-| name | apiKey | dmsServiceBaseUrl | isStagingLocationSupported | isStorageAllowed |
-| ---  | ---   |---| ---        | ---    |
-| `name=dataset--File.*` |   | `https://osdu-anthos.osdu.club/api/file/v2/files` | `true` | `true` |
-| `name=dataset--FileCollection.*` |   | `https://osdu-anthos.osdu.club/api/file/v2/file-collections` | `true` | `true` |
+| name                              | apiKey | dmsServiceBaseUrl                                            | isStagingLocationSupported | isStorageAllowed |
+|-----------------------------------|--------|--------------------------------------------------------------|----------------------------|------------------|
+| `name=dataset--File.*`            |        | `https://osdu-anthos.osdu.club/api/file/v2/files`            | `true`                     | `true`           |
+| `name=dataset--FileCollection.*`  |        | `https://osdu-anthos.osdu.club/api/file/v2/file-collections` | `true`                     | `true`           |
+| `name=dataset--ConnectedSource.*` |        | `https://osdu-anthos.osdu.club/api/eds/v1/`                  | `true`                     | `true`           |
 
 You can use the `INSERT` script below to bootstrap the data with valid records:
 
@@ -96,6 +98,15 @@ INSERT INTO public."DmsServiceProperties"(id, data)
 	  "datasetKind": "dataset--File.*",
 	  "isStorageAllowed": true,
 	  "dmsServiceBaseUrl": "https://osdu-anthos.osdu.club/api/file/v2/files",
+	  "isStagingLocationSupported": true
+	}'),
+	
+	('dataset--File.*', 
+	'{
+	  "apiKey": "",
+	  "datasetKind": "ConnectedSource.*",
+	  "isStorageAllowed": true,
+	  "dmsServiceBaseUrl": "https://osdu-anthos.osdu.club/api/eds/v1/",
 	  "isStagingLocationSupported": true
 	}'),
 	
@@ -117,11 +128,11 @@ It can be overridden by:
 
 **Propertyset:**
 
-| Property | Description |
-| --- | --- |
-| osm.postgres.datasource.url | server URL |
-| osm.postgres.datasource.username | username |
-| osm.postgres.datasource.password | password |
+| Property                         | Description |
+|----------------------------------|-------------|
+| osm.postgres.datasource.url      | server URL  |
+| osm.postgres.datasource.username | username    |
+| osm.postgres.datasource.password | password    |
 
 <details><summary>Example of a definition for a single tenant</summary>
 
@@ -147,6 +158,41 @@ curl -L -X PATCH 'https://api/partition/v1/partitions/opendes' -H 'data-partitio
 ```
 
 </details>
+
+## DMS providers
+
+- File service is responsible for handling FILE and FILE_COLLECTION dataset types
+- EDS service is responsible for redirecting handling CONNECTED_SOURCE dataset type
+  to external DMS providers
+
+### EDS retrieval instructions handling flow
+
+Prerequisites on "external" OSDU environment:
+1. Legal service | Create legaltag
+2. Dataset service | getStorageInstructions
+3. Signed url | Upload file
+4. Dataset service | registerDataset
+5. Dataset service | getRetrievalInstructions
+6. Signed url | Download file to check file was uploaded
+
+Summary: test file was uploaded on "external" OSDU environment
+and dataset was registered with `external-dataset-registry-id`
+
+Main flow on "local" OSDU environment:
+7. Legal service | Create legaltag
+8. Secret service | Create Scopes secrets
+9. Secret service | Create Client secrets
+10. Storage service | Create ConnectedSourceRegistryEntry (contains SecuritySchemes)
+11. Storage service | Create ConnectedSourceDataJob (contains Registry ID, external url)
+12. Storage service | Create ConnectedSource.Generic (contains DatasetProperties mapping)
+13. Dataset service | getRetrievalInstructions
+14. Signed url | Download file on "local" OSDU environment
+
+Summary: test file created on "external" OSDU environment was downloaded on "local" OSDU environment
+using EDS service
+
+![Screenshot](./pics/dataset.png)
+
 
 ## Keycloak configuration
 

@@ -20,7 +20,8 @@ package org.opengroup.osdu.dataset.provider.gcp.model.dataset;
 public enum DataSetType {
 
 	FILE("FILE"),
-	FILE_COLLECTION("FILE_COLLECTION");
+	FILE_COLLECTION("FILE_COLLECTION"),
+	CONNECTED_SOURCE("CONNECTED_SOURCE");
 
 	private final String dataType;
 

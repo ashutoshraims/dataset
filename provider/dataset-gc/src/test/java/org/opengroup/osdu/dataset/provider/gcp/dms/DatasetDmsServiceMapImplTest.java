@@ -36,7 +36,7 @@ import org.opengroup.osdu.dataset.provider.gcp.mappers.osm.repository.DmsService
 @RunWith(MockitoJUnitRunner.class)
 public class DatasetDmsServiceMapImplTest {
 
-  private static final String DATASET_KIND = "example";
+  private static final String DATASET_KIND = "dataset--File.*";
 
   @Mock
   private DmsServicePropertiesRepository dmsServicePropertiesEntityRepository;
