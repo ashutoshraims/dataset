@@ -18,6 +18,7 @@ package org.opengroup.osdu.dataset.provider.azure.service;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpStatusCodes;
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,6 @@ import org.opengroup.osdu.core.common.http.IHttpClient;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
-import org.opengroup.osdu.dataset.model.response.GetDatasetRetrievalInstructionsResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AzureDmsServiceTest {
@@ -54,6 +54,7 @@ public class AzureDmsServiceTest {
     HttpResponse httpResponse = new HttpResponse();
     String body = "{\"datasets\" : []}";
     httpResponse.setBody(body);
+    httpResponse.setResponseCode(HttpStatusCodes.STATUS_CODE_OK);
     RetrievalInstructionsResponse retrievalInstructionsResponse = new RetrievalInstructionsResponse(new ArrayList<>());
 
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);

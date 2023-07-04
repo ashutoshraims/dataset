@@ -261,7 +261,7 @@ public class TestDataset extends Dataset {
 		StringSubstitutor stringSubstitutor = new StringSubstitutor(
 			ImmutableMap.of(
 				"tenant", TenantUtils.getTenantName(),
-				"domain", TestUtils.getDomain(),
+				"domain", GcpTestUtils.getDomain(),
 				"kind-subtype", GcpConfig.getDatasetKindSubType(),
 				"filepath", filepath,
 				"legal-tag", GcpConfig.getLegalTag())

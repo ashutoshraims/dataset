@@ -1,11 +1,9 @@
 package org.opengroup.osdu.dataset.util;
 
-import org.opengroup.osdu.dataset.HeaderUtils;
-import org.opengroup.osdu.dataset.TenantUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.opengroup.osdu.dataset.TenantUtils;
 
 public class GcHeaderUtils {
 
