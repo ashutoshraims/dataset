@@ -313,6 +313,6 @@ public class TestDatasetIT extends TestBase {
   }
 
   private static String getAclSuffix() {
-    return String.format("%s.%s", TestUtils.getTenantName(), TestUtils.getDomain());
+    return String.format("%s.%s", TestUtils.getTenantName(), GcpTestUtils.getDomain());
   }
 }

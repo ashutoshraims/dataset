@@ -29,6 +29,7 @@ import org.hamcrest.core.Is;
 import org.opengroup.osdu.dataset.HeaderUtils;
 import org.opengroup.osdu.dataset.TenantUtils;
 import org.opengroup.osdu.dataset.TestUtils;
+import org.opengroup.osdu.dataset.anthos.util.AnthosTestUtil;
 import org.opengroup.osdu.dataset.anthos.util.FileUtils;
 
 
@@ -74,7 +75,7 @@ public class DatasetConfiguration {
         StringSubstitutor stringSubstitutor = new StringSubstitutor(
             ImmutableMap.of(
                 "tenant", TenantUtils.getTenantName(),
-                "domain", TestUtils.getDomain(),
+                "domain", AnthosTestUtil.getDomain(),
                 "kind-subtype", AnthosConfig.getDatasetKindSubType()
             ));
         return stringSubstitutor.replace(datasetFileSchema);

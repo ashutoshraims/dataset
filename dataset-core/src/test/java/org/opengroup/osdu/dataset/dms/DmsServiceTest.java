@@ -25,6 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.api.client.http.HttpStatusCodes;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,11 +50,13 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class DmsServiceTest {
 
-    private final String URL = "https://contoso.com";
+    private final String URL = "https://contoso.com/";
     private final String INVALID_URL = "http://finance.yahoo.com/q/h?s=^IXIC";
     private final String StorageInstructionsResponse_body = "{\"storageLocation\":{\"key1\":{},\"key2\":{}}, \"providerKey\":\"dummy-key\"}";
     private final String RetrievalInstructionsResponse_body =  "{\"datasets\":[{\"datasetRegistryId\":\"dummyid\",\"retrievalProperties\":{\"key1\":{}}, \"providerKey\":\"dummy-key\"}]}";
     private final String CopyDmsResponse_body = "[{\"success\": true, \"datasetBlobStoragePath\": \"string\"}]";
+    private final String unauthorizedResponse = "{\"reason\":\"Access denied\",\"message\":\"The user is not authorized to perform this action. No token.\",\"status\":401}";
+
     @Mock
     private DmsServiceProperties dmsServiceProperties;
 
@@ -81,6 +84,7 @@ public class DmsServiceTest {
     @Test
     public void getStorageInstructions_success() {
         when(response.getBody()).thenReturn(StorageInstructionsResponse_body);
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         StorageInstructionsResponse body = dmsRestService.getStorageInstructions();
 
@@ -109,8 +113,8 @@ public class DmsServiceTest {
 
     @Test
     public void getStorageInstructions_JsonProcessingException() {
-
         when(response.getBody()).thenReturn("");
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
 
         try {
@@ -131,6 +135,7 @@ public class DmsServiceTest {
     @Test
     public void getRetrievalInstructions_success() {
         when(response.getBody()).thenReturn(RetrievalInstructionsResponse_body);
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
@@ -164,8 +169,8 @@ public class DmsServiceTest {
 
     @Test
     public void getRetrievalInstructions_JsonProcessingException() {
-
         when(response.getBody()).thenReturn("");
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
@@ -187,6 +192,7 @@ public class DmsServiceTest {
     @Test
     public void copyDmsToPersistentStorage_success() {
         when(response.getBody()).thenReturn(CopyDmsResponse_body);
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         List<CopyDmsResponse> data = dmsRestService.copyDmsToPersistentStorage(new CopyDmsRequest());
         assertNotNull(data);
@@ -214,8 +220,8 @@ public class DmsServiceTest {
 
     @Test
     public void copyDmsToPersistentStorage_JsonProcessingException() {
-
         when(response.getBody()).thenReturn("");
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         try {
             dmsRestService.copyDmsToPersistentStorage(new CopyDmsRequest());
@@ -229,5 +235,38 @@ public class DmsServiceTest {
         verify(dmsServiceProperties, times(1)).getDmsServiceBaseUrl();
         verify(httpClient, times(1)).send(any(HttpRequest.class));
         verify(headers, times(1)).getHeaders();
+    }
+
+    @Test
+    public void getRetrievalInstructionWith401ResponseFromDMS() {
+        when(response.getBody()).thenReturn(unauthorizedResponse);
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_UNAUTHORIZED);
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
+        getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
+        try {
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+        } catch (AppException e) {
+            assertEquals(HttpStatusCodes.STATUS_CODE_UNAUTHORIZED, e.getError().getCode());
+            String expectedReason = String.format(DmsService.NON_OK_RESPONSE_FROM_DMS_SERVICE,
+                URL + "retrievalInstructions");
+            assertEquals(expectedReason, e.getError().getReason());
+            assertEquals(unauthorizedResponse, e.getMessage());
+        }
+    }
+
+    @Test
+    public void getStorageInstructionsWith500ResponseWithoutBodyFromDMS() {
+        when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_SERVER_ERROR);
+        when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
+        try {
+            dmsRestService.getStorageInstructions();
+        } catch (AppException e) {
+            assertEquals(HttpStatusCodes.STATUS_CODE_SERVER_ERROR, e.getError().getCode());
+            String expectedReason = String.format(DmsService.NON_OK_RESPONSE_FROM_DMS_SERVICE,
+                URL + "storageInstructions");
+            assertEquals(expectedReason, e.getError().getReason());
+            assertEquals(DmsService.NO_RESPONSE_BODY_FROM_DMS_SERVICE, e.getMessage());
+        }
     }
 }

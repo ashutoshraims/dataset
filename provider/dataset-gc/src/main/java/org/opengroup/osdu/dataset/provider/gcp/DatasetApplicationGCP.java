@@ -18,7 +18,6 @@
 package org.opengroup.osdu.dataset.provider.gcp;
 
 import org.opengroup.osdu.dataset.DatasetApplication;
-import org.opengroup.osdu.dataset.di.DmsClientFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -30,8 +29,7 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationPropertiesScan(basePackages = "org.opengroup")
 @PropertySource("classpath:swagger.properties")
 @ComponentScan(value = {"org.opengroup.osdu"}, excludeFilters = {
-	@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {DmsClientFactory.class,
-		DatasetApplication.class})})
+	@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {DatasetApplication.class})})
 public class DatasetApplicationGCP {
 
 	public static void main(String[] args) {

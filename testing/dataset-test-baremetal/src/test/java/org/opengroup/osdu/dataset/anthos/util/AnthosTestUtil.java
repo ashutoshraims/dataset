@@ -18,9 +18,8 @@
 package org.opengroup.osdu.dataset.anthos.util;
 
 import com.sun.jersey.api.client.Client;
-import org.opengroup.osdu.dataset.TestUtils;
-
 import java.util.Optional;
+import org.opengroup.osdu.dataset.TestUtils;
 
 public class AnthosTestUtil extends TestUtils {
 
@@ -28,9 +27,9 @@ public class AnthosTestUtil extends TestUtils {
     private static String token;
     private static String noDataAccesstoken;
 
-    public AnthosTestUtil() {
+    static {
         domain = Optional.ofNullable(System.getProperty("GROUP_ID", System.getenv("GROUP_ID")))
-                .orElse("group");
+            .orElse("group");
     }
 
     public String getToken() {
