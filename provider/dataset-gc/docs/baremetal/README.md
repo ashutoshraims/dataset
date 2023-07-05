@@ -1,4 +1,4 @@
-# Service Configuration for Anthos
+# Service Configuration for Baremetal
 
 ## Table of Contents <a name="TOC"></a>
 
@@ -6,6 +6,7 @@
   * [Common properties for all environments](#Common-properties-for-all-environments)
   * [Properties set in Partition service](#properties-set-in-partition-service)
   * [For OSM Postgres](#For-OSM-Postgres)
+* [DMS providers](#dms-providers)
 * [Keycloak configuration](#keycloak-configuration)
 * [Running E2E Tests](#running-e2e-tests)
 * [License](#license)
@@ -33,7 +34,7 @@ Must have:
 | `SCHEMA_API` | ex `http://schema/api/legal/v1` | Schema API endpoint | no | output of infrastructure deployment |
 | `DMS_API_BASE` | ex `http://localhost:8081/api/file/v2/files` | *Only for local usage.* Allows to override DMS service base url value from Datastore.  | no | - |
 
-These variables define service behavior, and are used to switch between `anthos` or `gcp` environments, their overriding
+These variables define service behavior, and are used to switch between `baremetal` or `gcp` environments, their overriding
 and usage in mixed mode was not tested. Usage of spring profiles is preferred.
 
 | name | value | description | sensitive? | source |
@@ -80,10 +81,11 @@ CREATE INDEX DmsServiceProperties_datagin ON public."DmsServiceProperties" USING
 
 There must be a table `DmsServiceProperties` in default schema, with DMS configuration, Example:
 
-| name | apiKey | dmsServiceBaseUrl | isStagingLocationSupported | isStorageAllowed |
-| ---  | ---   |---| ---        | ---    |
-| `name=dataset--File.*` |   | `https://osdu-anthos.osdu.club/api/file/v2/files` | `true` | `true` |
-| `name=dataset--FileCollection.*` |   | `https://osdu-anthos.osdu.club/api/file/v2/file-collections` | `true` | `true` |
+| name                              | apiKey | dmsServiceBaseUrl                                            | isStagingLocationSupported | isStorageAllowed |
+|-----------------------------------|--------|--------------------------------------------------------------|----------------------------|------------------|
+| `name=dataset--File.*`            |        | `https://osdu-anthos.osdu.club/api/file/v2/files`            | `true`                     | `true`           |
+| `name=dataset--FileCollection.*`  |        | `https://osdu-anthos.osdu.club/api/file/v2/file-collections` | `true`                     | `true`           |
+| `name=dataset--ConnectedSource.*` |        | `https://osdu-anthos.osdu.club/api/eds/v1/`                  | `true`                     | `true`           |
 
 You can use the `INSERT` script below to bootstrap the data with valid records:
 
@@ -96,6 +98,15 @@ INSERT INTO public."DmsServiceProperties"(id, data)
 	  "datasetKind": "dataset--File.*",
 	  "isStorageAllowed": true,
 	  "dmsServiceBaseUrl": "https://osdu-anthos.osdu.club/api/file/v2/files",
+	  "isStagingLocationSupported": true
+	}'),
+	
+	('dataset--File.*', 
+	'{
+	  "apiKey": "",
+	  "datasetKind": "ConnectedSource.*",
+	  "isStorageAllowed": true,
+	  "dmsServiceBaseUrl": "https://osdu-anthos.osdu.club/api/eds/v1/",
 	  "isStagingLocationSupported": true
 	}'),
 	
@@ -117,11 +128,11 @@ It can be overridden by:
 
 **Propertyset:**
 
-| Property | Description |
-| --- | --- |
-| osm.postgres.datasource.url | server URL |
-| osm.postgres.datasource.username | username |
-| osm.postgres.datasource.password | password |
+| Property                         | Description |
+|----------------------------------|-------------|
+| osm.postgres.datasource.url      | server URL  |
+| osm.postgres.datasource.username | username    |
+| osm.postgres.datasource.password | password    |
 
 <details><summary>Example of a definition for a single tenant</summary>
 
@@ -148,6 +159,41 @@ curl -L -X PATCH 'https://api/partition/v1/partitions/opendes' -H 'data-partitio
 
 </details>
 
+## DMS providers
+
+- File service is responsible for handling FILE and FILE_COLLECTION dataset types
+- EDS service is responsible for redirecting handling CONNECTED_SOURCE dataset type
+  to external DMS providers
+
+### EDS retrieval instructions handling flow
+
+Prerequisites on "external" OSDU environment:
+1. Legal service | Create legaltag
+2. Dataset service | getStorageInstructions
+3. Signed url | Upload file
+4. Dataset service | registerDataset
+5. Dataset service | getRetrievalInstructions
+6. Signed url | Download file to check file was uploaded
+
+Summary: test file was uploaded on "external" OSDU environment
+and dataset was registered with `external-dataset-registry-id`
+
+Main flow on "local" OSDU environment:
+7. Legal service | Create legaltag
+8. Secret service | Create Scopes secrets
+9. Secret service | Create Client secrets
+10. Storage service | Create ConnectedSourceRegistryEntry (contains SecuritySchemes)
+11. Storage service | Create ConnectedSourceDataJob (contains Registry ID, external url)
+12. Storage service | Create ConnectedSource.Generic (contains DatasetProperties mapping)
+13. Dataset service | getRetrievalInstructions
+14. Signed url | Download file on "local" OSDU environment
+
+Summary: test file created on "external" OSDU environment was downloaded on "local" OSDU environment
+using EDS service
+
+![Screenshot](./pics/dataset.png)
+
+
 ## Keycloak configuration
 
 [Keycloak service accounts setup](https://www.keycloak.org/docs/latest/server_admin/#_service_accounts)
@@ -166,31 +212,31 @@ Give `client-id` and `client-secret` to services, which should be authorized wit
 
 ## Running E2E Tests
 
-This section describes how to run cloud OSDU E2E tests (testing/dataset-test-anthos).
+This section describes how to run cloud OSDU E2E tests (testing/dataset-test-baremetal).
 
 You will need to have the following environment variables defined.
 
-| name | value | description | sensitive? | source |
-| ---  | ---   | ---         | ---        | ---    |
-| `DOMAIN` | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
-| `STORAGE_BASE_URL` | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
-| `LEGAL_BASE_URL` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
-| `LEGAL_HOST` | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
-| `DATASET_BASE_URL` | ex `http://localhost:8080/api/dataset/v1/` | Dataset API endpoint | no | output of infrastructure deployment |
-| `SCHEMA_API` | ex `https://os-schema-jvmvia5dea-uc.a.run.app/api/schema-service/v1` | Schema API endpoint | no | output of infrastructure deployment |
-| `PROVIDER_KEY` | `ANTHOS` | required for response verification | no | - |
-| `TENANT_NAME` | `opendes` | Tenant name | no | - |
-| `KIND_SUBTYPE` | `DatasetTest` | Kind subtype that will be used in int tests, schema creation automated , result kind will be `TENANT_NAME::wks-test:dataset--FileCollection.KIND_SUBTYPE:1.0.0`| no | - |
-| `LEGAL_TAG` | `public-usa-dataset-1` | Legal tag name, if tag with that name doesn't exist then it will be created during preparing step | no | - |
-| `ANTHOS_STORAGE_PERSISTENT_AREA` | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
-| `TEST_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$INTEGRATION_TESTER` | yes | -- |
-| `TEST_OPENID_PROVIDER_CLIENT_SECRET` | `********` |  | Client secret for `$INTEGRATION_TESTER` | -- |
-| `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_ID` | `********` | Client Id for `$NO_ACCESS_INTEGRATION_TESTER` | yes | -- |
+| name                                           | value | description | sensitive? | source |
+|------------------------------------------------| ---   | ---         | ---        | ---    |
+| `GROUP_ID`                                     | ex `osdu-gc.go3-nrg.projects.epam.com` | - | no | - |
+| `STORAGE_BASE_URL`                             | ex `https://os-storage-jvmvia5dea-uc.a.run.app/api/storage/v2/` | Storage API endpoint | no | output of infrastructure deployment |
+| `LEGAL_BASE_URL`                               | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
+| `LEGAL_HOST`                                   | ex `https://os-legal-jvmvia5dea-uc.a.run.app/api/legal/v1/` | Legal API endpoint | no | output of infrastructure deployment |
+| `DATASET_BASE_URL`                             | ex `http://localhost:8080/api/dataset/v1/` | Dataset API endpoint | no | output of infrastructure deployment |
+| `SCHEMA_API`                                   | ex `https://os-schema-jvmvia5dea-uc.a.run.app/api/schema-service/v1` | Schema API endpoint | no | output of infrastructure deployment |
+| `PROVIDER_KEY`                                 | `ANTHOS` | required for response verification | no | - |
+| `TENANT_NAME`                                  | `opendes` | Tenant name | no | - |
+| `KIND_SUBTYPE`                                 | `DatasetTest` | Kind subtype that will be used in int tests, schema creation automated , result kind will be `TENANT_NAME::wks-test:dataset--FileCollection.KIND_SUBTYPE:1.0.0`| no | - |
+| `LEGAL_TAG`                                    | `public-usa-dataset-1` | Legal tag name, if tag with that name doesn't exist then it will be created during preparing step | no | - |
+| `BAREMETAL_STORAGE_PERSISTENT_AREA`            | ex `osdu-anthos-osdu-persistent-area` | persistent area bucket | no | output of infrastructure deployment |
+| `TEST_OPENID_PROVIDER_CLIENT_ID`               | `********` | Client Id for `$INTEGRATION_TESTER` | yes | -- |
+| `TEST_OPENID_PROVIDER_CLIENT_SECRET`           | `********` |  | Client secret for `$INTEGRATION_TESTER` | -- |
+| `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_ID`     | `********` | Client Id for `$NO_ACCESS_INTEGRATION_TESTER` | yes | -- |
 | `TEST_NO_ACCESS_OPENID_PROVIDER_CLIENT_SECRET` | `********` |  | Client secret for `$NO_ACCESS_INTEGRATION_TESTER` | -- |
-| `TEST_OPENID_PROVIDER_URL` | `https://keycloak.com/auth/realms/osdu` | OpenID provider url | yes | -- |
-| `TEST_MINIO_SECRET_KEY` | `********` | MinIO secret key | yes | -- |
-| `TEST_MINIO_ACCESS_KEY` | `********` | MinIO access key | yes | -- |
-| `TEST_MINIO_URL` | `https://minio.com` | Endpoint of MinIO used by File service | no | -- |
+| `TEST_OPENID_PROVIDER_URL`                     | `https://keycloak.com/auth/realms/osdu` | OpenID provider url | yes | -- |
+| `TEST_MINIO_SECRET_KEY`                        | `********` | MinIO secret key | yes | -- |
+| `TEST_MINIO_ACCESS_KEY`                        | `********` | MinIO access key | yes | -- |
+| `TEST_MINIO_URL`                               | `https://minio.com` | Endpoint of MinIO used by File service | no | -- |
 
 **Entitlements configuration for integration accounts**
 
@@ -215,7 +261,7 @@ Execute following command to build code and run all the integration tests:
 
  ```bash
  # build + run Google Cloud integration tests.
- $ (cd testing/dataset-test-anthos/ && mvn clean test)
+ $ (cd testing/dataset-test-baremetal/ && mvn clean test)
  ```
 
 ## License

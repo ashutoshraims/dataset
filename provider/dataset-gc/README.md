@@ -58,8 +58,8 @@ in the corresponding Google Cloud project.
 Define the following environment variables.
 Most of them are common to all hosting environments, but there are properties that are only necessary when running in Google Cloud.
 
-### Anthos Service Configuration:
-[Anthos service configuration ](docs/anthos/README.md)
+### Baremetal Service Configuration:
+[Baremetal service configuration ](docs/baremetal/README.md)
 ##***REMOVED*** Service Configuration:
 [Google Cloud service configuration ](docs/gc/README.md)
 
@@ -138,8 +138,8 @@ cd provider/dataset-gc && mvn spring-boot:run
  ### Running E2E Tests
  This section describes how to run cloud OSDU E2E tests.
  
- ### Anthos test configuration:
- [Anthos service configuration ](docs/anthos/README.md)
+ ### Baremetal test configuration:
+ [Baremetal service configuration ](docs/baremetal/README.md)
  ##***REMOVED*** test configuration:
  [Google Cloud service configuration ](docs/gc/README.md)
 

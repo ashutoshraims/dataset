@@ -44,7 +44,7 @@ public abstract class TestUtils {
     protected static String token = null;
     protected static String noDataAccesstoken = null;
 
-    protected static final String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
+    protected static String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
 
     public static final String storageBaseUrl = System.getenv("STORAGE_BASE_URL");
     public static final String legalBaseUrl = System.getenv("LEGAL_BASE_URL");
