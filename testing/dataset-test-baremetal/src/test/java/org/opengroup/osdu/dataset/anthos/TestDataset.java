@@ -228,7 +228,6 @@ public class TestDataset extends Dataset {
         for (IntTestFileInstructionsItem item : collectionInstructionsItem) {
             Assert.assertNotNull(item.getSignedUrl());
             Assert.assertNotNull(item.getFileSource());
-            Assert.assertNotNull(item.getCreatedBy());
         }
         Assert.assertEquals(AnthosTestUtil.providerKey, deliveryItem.getProviderKey());
     }

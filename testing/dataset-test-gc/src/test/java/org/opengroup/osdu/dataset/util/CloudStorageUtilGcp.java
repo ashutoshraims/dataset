@@ -38,13 +38,16 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
+import org.jetbrains.annotations.NotNull;
 import org.opengroup.osdu.dataset.CloudStorageUtil;
 import org.opengroup.osdu.dataset.configuration.GcpConfig;
 import org.opengroup.osdu.dataset.configuration.MapperConfig;
@@ -65,15 +68,15 @@ public class CloudStorageUtilGcp extends CloudStorageUtil {
 	public CloudStorageUtilGcp() {
 		objectMapper = MapperConfig.getObjectMapper();
 		storage = StorageOptions.newBuilder()
-			.setCredentials(StorageServiceAccountCredentialsProvider.getCredentials())
-			.setProjectId(GcpConfig.getProjectID()).build()
-			.getService();
+				.setCredentials(StorageServiceAccountCredentialsProvider.getCredentials())
+				.setProjectId(GcpConfig.getProjectID()).build()
+				.getService();
 	}
 
 	public String uploadCloudFileUsingProvidedCredentials(String fileName, Object storageLocationProperties,
-		String fileContents) {
+			String fileContents) {
 		IntTestFileInstructionsItem fileInstructionsItem = objectMapper
-			.convertValue(storageLocationProperties, IntTestFileInstructionsItem.class);
+				.convertValue(storageLocationProperties, IntTestFileInstructionsItem.class);
 
 		Client client = GcpTestUtils.getClient();
 
@@ -88,9 +91,9 @@ public class CloudStorageUtilGcp extends CloudStorageUtil {
 	}
 
 	public String uploadCollectionUsingProvidedCredentials(String fileName, Object storageLocationProperties,
-		String fileContents) {
+			String fileContents) {
 		IntTestFileCollectionInstructionsItem instructionsItem = objectMapper
-			.convertValue(storageLocationProperties, IntTestFileCollectionInstructionsItem.class);
+				.convertValue(storageLocationProperties, IntTestFileCollectionInstructionsItem.class);
 
 		Storage instructionsBasedService = getStorageServiceFromInstruction(instructionsItem);
 
@@ -111,7 +114,7 @@ public class CloudStorageUtilGcp extends CloudStorageUtil {
 
 	public String downloadCloudFileUsingDeliveryItem(Object deliveryItem) {
 		IntTestFileInstructionsItem fileInstructionsItem = objectMapper
-			.convertValue(deliveryItem, IntTestFileInstructionsItem.class);
+				.convertValue(deliveryItem, IntTestFileInstructionsItem.class);
 		try {
 			return FileUtils.readFileFromUrl(fileInstructionsItem.getSignedUrl());
 		} catch (IOException e) {
@@ -124,17 +127,19 @@ public class CloudStorageUtilGcp extends CloudStorageUtil {
 		Map<String, Object> retrievalProperties = objectMapper.convertValue(deliveryItem,
 				new TypeReference<Map<String, Object>>() {});
 
-		List<IntTestFileInstructionsItem> collectionInstructionsItem = objectMapper
-				.convertValue(retrievalProperties.get("retrievalPropertiesList"), new TypeReference<List<IntTestFileInstructionsItem>>() {});
+		Map<String, Object> tokenItem = objectMapper
+				.convertValue(retrievalProperties.get("token"), new TypeReference<Map<String, Object>>() {});
 
-		IntTestFileInstructionsItem instructionsItem = collectionInstructionsItem.get(0);
+		String connectionString = tokenItem.get("connectionString").toString();
+		Credentials credentials = GoogleCredentials.create(new AccessToken(connectionString, null));
+		Storage instructionsBasedService = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
 
-		try {
-			return FileUtils.readFileFromUrl(instructionsItem.getSignedUrl());
-		} catch (IOException e) {
-			log.log(Level.SEVERE, "Download file by signed URL FAIL", e);
-		}
-		return null;
+		String bucket = tokenItem.get("bucket").toString();
+		String filepath = tokenItem.get("filepath").toString();
+		BlobId blobId = BlobId.of(bucket, filepath + "/" + fileName);
+		Blob blob = instructionsBasedService.get(blobId);
+		byte[] content = blob.getContent();
+		return new String(content, UTF_8);
 	}
 
 	private Storage getStorageServiceFromInstruction(IntTestFileCollectionInstructionsItem instructionsItem) {
