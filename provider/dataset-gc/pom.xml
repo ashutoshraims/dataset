@@ -77,6 +77,7 @@
 		<dependency>
 			<artifactId>spring-security-web</artifactId>
 			<groupId>org.springframework.security</groupId>
+			<version>5.7.8</version>
 		</dependency>
 		<dependency>
 			<artifactId>spring-security-core</artifactId>
@@ -138,7 +139,7 @@
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-core</artifactId>
-		    <version>9.0.69</version>
+		    <version>9.0.76</version>
 		</dependency>
 
 		<dependency>
