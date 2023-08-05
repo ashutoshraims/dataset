@@ -34,11 +34,11 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<tomcat_embed_core_version>9.0.69</tomcat_embed_core_version>
+		<tomcat_embed_core_version>9.0.76</tomcat_embed_core_version>
 		<log4j2.version>2.17.1</log4j2.version>
 		<jackson-databind.version>2.13.4.2</jackson-databind.version>
 		<jackson.version>2.13.4</jackson.version>
-		<spring-webmvc.version>5.3.22</spring-webmvc.version>
+		<spring-webmvc.version>5.3.28</spring-webmvc.version>
 	</properties>
 
 	<dependencyManagement>
@@ -76,10 +76,6 @@
 					<artifactId>elasticsearch-rest-high-level-client</artifactId>
 					<groupId>org.elasticsearch.client</groupId>
 				</exclusion>
-				<exclusion>
-					<artifactId>snakeyaml</artifactId>
-					<groupId>org.yaml</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -110,10 +106,6 @@
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-api</artifactId>
 				</exclusion>
-				<exclusion>
-					<artifactId>snakeyaml</artifactId>
-					<groupId>org.yaml</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -141,10 +133,6 @@
 			<exclusions>
 				<exclusion>
 					<artifactId>spring-security-core</artifactId>
-					<groupId>org.springframework.security</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-security-web</artifactId>
 					<groupId>org.springframework.security</groupId>
 				</exclusion>
 			</exclusions>
@@ -238,20 +226,22 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
-
+		<dependency>
+			<groupId>net.minidev</groupId>
+			<artifactId>json-smart</artifactId>
+		 	<version>2.4.9</version>
+		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>3.0.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
 		<dependency>
-		    <groupId>org.yaml</groupId>
-		    <artifactId>snakeyaml</artifactId>
-		    <version>2.0</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.3.27</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

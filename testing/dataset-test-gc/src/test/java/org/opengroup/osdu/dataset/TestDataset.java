@@ -217,14 +217,19 @@ public class TestDataset extends Dataset {
 		Map<String, Object> retrievalProperties = objectMapper.convertValue(deliveryItem.getRetrievalProperties(),
 				new TypeReference<Map<String, Object>>() {});
 
-		List<IntTestFileInstructionsItem> collectionInstructionsItem = objectMapper
-			.convertValue(retrievalProperties.get("retrievalPropertiesList"), new TypeReference<List<IntTestFileInstructionsItem>>() {});
+		String fileSource = retrievalProperties.get("fileSource").toString();
+		Assert.assertNotNull(fileSource);
 
-		for (IntTestFileInstructionsItem item : collectionInstructionsItem){
-			Assert.assertNotNull(item.getSignedUrl());
-			Assert.assertNotNull(item.getFileSource());
-			Assert.assertNotNull(item.getCreatedBy());
-		}
+		Map<String, Object> tokenItem = objectMapper.convertValue(retrievalProperties.get("token"),
+				new TypeReference<Map<String, Object>>() {});
+
+		String bucket = tokenItem.get("bucket").toString();
+		String connectionString = tokenItem.get("connectionString").toString();
+		String filepath = tokenItem.get("filepath").toString();
+		Assert.assertNotNull(bucket);
+		Assert.assertNotNull(connectionString);
+		Assert.assertNotNull(filepath);
+
 		Assert.assertEquals(deliveryItem.getProviderKey(), GcpTestUtils.providerKey);
 	}
 
