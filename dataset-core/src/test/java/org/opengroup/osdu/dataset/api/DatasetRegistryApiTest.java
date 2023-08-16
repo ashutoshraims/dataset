@@ -18,6 +18,7 @@ package org.opengroup.osdu.dataset.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -27,12 +28,14 @@ import java.util.List;
 
 
 import org.apache.http.HttpStatus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.model.storage.Record;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
@@ -43,7 +46,6 @@ import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.ResponseEntity;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -159,5 +161,10 @@ public class DatasetRegistryApiTest {
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
         assertEquals(expectedResponse, response.getBody());
+    }
+
+    @After
+    public void tearDown(){
+        reset(httpHeaders);
     }
 }

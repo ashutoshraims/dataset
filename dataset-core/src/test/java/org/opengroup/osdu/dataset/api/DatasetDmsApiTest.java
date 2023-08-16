@@ -16,6 +16,7 @@ package org.opengroup.osdu.dataset.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -23,12 +24,13 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import org.apache.http.HttpStatus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
@@ -86,5 +88,10 @@ public class DatasetDmsApiTest {
         Method method = this.datasetDmsApi.getClass().getMethod("storageInstructions", String.class);
         PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
         assertTrue(annotation.value().contains(DatasetConstants.DATASET_EDITOR_ROLE));
+    }
+
+    @After
+    public void tearDown(){
+        reset(httpHeaders);
     }
 }
