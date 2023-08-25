@@ -21,9 +21,9 @@ import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 
 public interface DatasetDmsService {
 
-    StorageInstructionsResponse getStorageInstructions(String resourceType);
+    StorageInstructionsResponse getStorageInstructions(String resourceType, String expiryTime);
 
-    default RetrievalInstructionsResponse getRetrievalInstructions(List<String> datasetRegistryIds) {
+    default RetrievalInstructionsResponse getRetrievalInstructions(List<String> datasetRegistryIds, String expiryTime) {
         return null;
     }
 }

@@ -60,7 +60,7 @@ public class AzureDmsServiceTest {
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
     Mockito.when(this.httpClient.send(Mockito.any())).thenReturn(httpResponse);
 
-    assertEquals(retrievalInstructionsResponse, this.restService.getRetrievalInstructions(null));
+    assertEquals(retrievalInstructionsResponse, this.restService.getRetrievalInstructions(null, null));
   }
 
   @Test(expected = AppException.class)
@@ -74,7 +74,7 @@ public class AzureDmsServiceTest {
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
     Mockito.when(this.httpClient.send(Mockito.any())).thenReturn(httpResponse);
 
-    this.restService.getRetrievalInstructions(null);
+    this.restService.getRetrievalInstructions(null, null);
   }
 
   @Test(expected = AppException.class)
@@ -82,6 +82,6 @@ public class AzureDmsServiceTest {
     String url = "#:/$&#";
     Mockito.when(this.dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(url);
 
-    this.restService.getRetrievalInstructions(null);
+    this.restService.getRetrievalInstructions(null, null);
   }
 }

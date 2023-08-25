@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.opengroup.osdu.core.common.dms.IDmsService;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
@@ -63,7 +64,6 @@ public class DatasetDmsApi {
 	
 	@Inject
 	private DatasetDmsService datasetDmsService;
-
 	@Inject
 	private AuditLogger auditLogger;
 
@@ -83,8 +83,10 @@ public class DatasetDmsApi {
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_EDITOR_ROLE + "')")
 	public ResponseEntity<StorageInstructionsResponse> storageInstructions(
 			@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
-			@RequestParam(value = "kindSubType") String kindSubType) {
-		StorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType);
+			@RequestParam(value = "kindSubType") String kindSubType,
+			@Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
+					example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
+		StorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType, expiryTime);
 		this.auditLogger.readStorageInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -105,12 +107,13 @@ public class DatasetDmsApi {
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry id",
 			example = "opendes:dataset--File.Generic:8118591ee2")
-			@RequestParam(value = "id") String datasetRegistryId) {
+			@RequestParam(value = "id") String datasetRegistryId, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
+			example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
 
 		List<String> datasetRegistryIds = new ArrayList<>();
 		datasetRegistryIds.add(datasetRegistryId);
 
-		return getRetrievalInstructions(datasetRegistryIds);
+		return getRetrievalInstructions(datasetRegistryIds, expiryTime);
 	}
 
 	@Operation(summary = "${datasetDmsApi.retrievalInstructionsWithPost.summary}", description = "${datasetDmsApi.retrievalInstructionsWithPost.description}",
@@ -128,13 +131,14 @@ public class DatasetDmsApi {
 	@PostMapping("/retrievalInstructions")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry ids")
-			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
+			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
+			example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
 
-		return getRetrievalInstructions(request.datasetRegistryIds);
+		return getRetrievalInstructions(request.datasetRegistryIds, expiryTime);
 	}
 
-	private ResponseEntity<Object> getRetrievalInstructions(List<String> datasetRegistryIds) {
-		Object response = this.datasetDmsService.getRetrievalInstructions(datasetRegistryIds);
+	private ResponseEntity<Object> getRetrievalInstructions(List<String> datasetRegistryIds, String expiryTime) {
+		Object response = this.datasetDmsService.getRetrievalInstructions(datasetRegistryIds, expiryTime);
 		this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

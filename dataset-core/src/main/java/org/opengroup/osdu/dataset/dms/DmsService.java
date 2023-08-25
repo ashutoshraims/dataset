@@ -20,7 +20,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -49,9 +52,9 @@ public class DmsService implements IDmsProvider {
     private final DpsHeaders headers;
 
     @Override
-    public StorageInstructionsResponse getStorageInstructions() {
+    public StorageInstructionsResponse getStorageInstructions(String expiryTime) {
         String url = this.createUrl("/storageInstructions");
-        HttpResponse result = getHttpResponse(null, url);
+        HttpResponse result = getHttpResponse(expiryTime, url);
         try {
             return OBJECT_MAPPER.readValue(result.getBody(), StorageInstructionsResponse.class);
         } catch (JsonProcessingException e) {
@@ -60,9 +63,11 @@ public class DmsService implements IDmsProvider {
     }
 
     @Override
-    public RetrievalInstructionsResponse getRetrievalInstructions(GetDatasetRegistryRequest request) {
+    public RetrievalInstructionsResponse getRetrievalInstructions(GetDatasetRegistryRequest request, String expiryTime) {
         String url = this.createUrl("/retrievalInstructions");
-        HttpResponse result = getHttpResponse(request, url);
+        Map<String, String> params = new HashMap<>();
+        params.put("expiryTime", expiryTime);
+        HttpResponse result = getHttpResponse(request, url, params);
         try {
             return OBJECT_MAPPER.readValue(result.getBody(), RetrievalInstructionsResponse.class);
         } catch (JsonProcessingException e) {
@@ -106,5 +111,22 @@ public class DmsService implements IDmsProvider {
         } catch (URISyntaxException e) {
             throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Invalid URL", e.getMessage(), e);
         }
+    }
+    private HttpResponse getHttpResponse(Object request, String url, java.util.Map<String, String> params) {
+        HttpResponse result = this.httpClient.send(HttpRequest.post(request)
+                .url(url)
+                .headers(this.headers.getHeaders())
+                .queryParams(params)
+                .build());
+
+        int responseCode = result.getResponseCode();
+
+        if ((responseCode < 200 || responseCode > 299)) {
+            String reason = String.format(NON_OK_RESPONSE_FROM_DMS_SERVICE, url);
+            String body = result.getBody();
+            String message = StringUtils.isBlank(body) ? NO_RESPONSE_BODY_FROM_DMS_SERVICE : body;
+            throw new AppException(responseCode, reason, message);
+        }
+        return result;
     }
 }
