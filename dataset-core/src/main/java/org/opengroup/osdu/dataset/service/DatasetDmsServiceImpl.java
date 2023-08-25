@@ -54,7 +54,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
     private final HttpResponseBodyMapper bodyMapper;
 
     @Override
-    public StorageInstructionsResponse getStorageInstructions(String kindSubType) {
+    public StorageInstructionsResponse getStorageInstructions(String kindSubType, String expiryTime) {
 
         Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap = dmsServiceMap.getResourceTypeToDmsServiceMap();
 
@@ -88,7 +88,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
         try {
 
             IDmsProvider dmsProvider = dmsFactory.create(headers, dmsServiceProperties);
-            response = dmsProvider.getStorageInstructions();
+            response = dmsProvider.getStorageInstructions(expiryTime);
 
         } catch (DmsException e) {
             handleDmsException(e);
@@ -98,7 +98,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
     }
 
     @Override
-    public RetrievalInstructionsResponse getRetrievalInstructions(List<String> datasetRegistryIds) {
+    public RetrievalInstructionsResponse getRetrievalInstructions(List<String> datasetRegistryIds, String expiryTime) {
         Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap = dmsServiceMap.getResourceTypeToDmsServiceMap();
         HashMap<String, GetDatasetRegistryRequest> datasetRegistryRequestMap =
                 segregateDatasetIdsToDms(datasetRegistryIds, kindSubTypeToDmsServiceMap);
@@ -108,7 +108,7 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
         for (Map.Entry<String,GetDatasetRegistryRequest> datasetRegistryRequestEntry : datasetRegistryRequestMap.entrySet()) {
             try {
                 IDmsProvider dmsProvider = dmsFactory.create(headers, kindSubTypeToDmsServiceMap.get(datasetRegistryRequestEntry.getKey()));
-                RetrievalInstructionsResponse entryResponse = dmsProvider.getRetrievalInstructions(datasetRegistryRequestEntry.getValue());
+                RetrievalInstructionsResponse entryResponse = dmsProvider.getRetrievalInstructions(datasetRegistryRequestEntry.getValue(), expiryTime);
                 response.getDatasets().addAll(entryResponse.getDatasets());
             }
             catch(DmsException e) {

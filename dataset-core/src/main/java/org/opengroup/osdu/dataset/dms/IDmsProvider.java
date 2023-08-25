@@ -26,9 +26,9 @@ import java.util.List;
 
 public interface IDmsProvider {
 
-    StorageInstructionsResponse getStorageInstructions() throws DmsException;
+    StorageInstructionsResponse getStorageInstructions(String expiryTime) throws DmsException;
 
-    default RetrievalInstructionsResponse getRetrievalInstructions(GetDatasetRegistryRequest request)
+    default RetrievalInstructionsResponse getRetrievalInstructions(GetDatasetRegistryRequest request, String expiryTime)
             throws DmsException {
         return null;
     }
