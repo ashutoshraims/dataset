@@ -23,6 +23,7 @@ import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IDmsProvider {
 
@@ -37,4 +38,6 @@ public interface IDmsProvider {
     default List<CopyDmsResponse> copyDmsToPersistentStorage(CopyDmsRequest copyDmsRequest) throws DmsException {
         return null;
     }
+
+    void revokeUrl(Map<String, String> revokeURLRequest) throws DmsException;
 }

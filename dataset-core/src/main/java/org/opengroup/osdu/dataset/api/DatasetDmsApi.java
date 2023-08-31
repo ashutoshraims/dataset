@@ -17,6 +17,7 @@ package org.opengroup.osdu.dataset.api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -142,5 +143,23 @@ public class DatasetDmsApi {
 		this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	@Operation(summary = "${datasetDmsAdminApi.revokeURL.summary}", description = "${datasetDmsAdminApi.revokeURL.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "datasetDms-admin-api" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Revoked URLs successfully."),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class))})
+	})
 
+	@PostMapping("/revokeURL")
+	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
+	public ResponseEntity<Void> revokeURL(@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
+										  @RequestParam(value = "kindSubType") String kindSubType,@RequestBody Map<String, String> revokeURLRequest) {
+		datasetDmsService.revokeUrl(kindSubType, revokeURLRequest);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 }
