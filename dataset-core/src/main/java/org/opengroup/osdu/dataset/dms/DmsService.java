@@ -36,8 +36,9 @@ import org.opengroup.osdu.core.common.http.HttpRequest;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
 import org.opengroup.osdu.core.common.model.http.AppException;
-import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
+import org.opengroup.osdu.core.common.model.http.DpsHeaders;
+
 
 @RequiredArgsConstructor
 public class DmsService implements IDmsProvider {
@@ -84,6 +85,11 @@ public class DmsService implements IDmsProvider {
         } catch (JsonProcessingException e) {
             throw new AppException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", e.getMessage(), e);
         }
+    }
+    @Override
+    public void revokeUrl(Map<String, String> revokeURLRequest) throws DmsException {
+        String url = this.createUrl("/revokeURL");
+        this.getHttpResponse(revokeURLRequest, url);
     }
 
     private HttpResponse getHttpResponse(Object request, String url) {

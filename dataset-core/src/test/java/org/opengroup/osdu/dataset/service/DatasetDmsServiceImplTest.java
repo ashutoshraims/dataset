@@ -134,6 +134,15 @@ public class DatasetDmsServiceImplTest {
         testRetrievalInstructions();
     }
 
+    @Test
+    public void testRevokeApi() throws Exception{
+        Map<String, String> revokeRequest = new HashMap<>();
+        revokeRequest.put("key", "value");
+        injectWhenClauseForDmsServiceMapAndDmsFactory();
+        datasetDmsService.revokeUrl(KIND, revokeRequest);
+        verify(dmsProvider, times(1)).revokeUrl(revokeRequest);
+    }
+
     private void addKindType2InMap() {
         kindSubTypeToDmsServiceMap.remove(KIND);
         kindSubTypeToDmsServiceMap.put(KIND_TYPE_2, dmsServiceProperties);

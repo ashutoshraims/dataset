@@ -15,6 +15,7 @@
 package org.opengroup.osdu.dataset.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
@@ -26,4 +27,6 @@ public interface DatasetDmsService {
     default RetrievalInstructionsResponse getRetrievalInstructions(List<String> datasetRegistryIds, String expiryTime) {
         return null;
     }
+
+    void revokeUrl(String kindSubType, Map<String, String> revokeURLRequest);
 }

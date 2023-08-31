@@ -118,6 +118,38 @@ public class DatasetDmsServiceImpl implements DatasetDmsService {
         return response;
     }
 
+    @Override
+    public void revokeUrl(String kindSubType, Map<String, String> revokeURLRequest) {
+        Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap = dmsServiceMap.getResourceTypeToDmsServiceMap();
+
+        DmsServiceProperties dmsServiceProperties = null;
+
+        String kindSubTypeCatchAll = getKindSubTypeCatchAll(kindSubType);
+        String dmsMapId = null;
+
+        if (kindSubTypeToDmsServiceMap.containsKey(kindSubType)) {
+            dmsMapId = kindSubType;
+        }
+        else if (kindSubTypeToDmsServiceMap.containsKey(kindSubTypeCatchAll)) {
+            dmsMapId = kindSubTypeCatchAll;
+        }
+
+        dmsServiceProperties = kindSubTypeToDmsServiceMap.get(dmsMapId);
+
+        if (dmsServiceProperties == null) {
+            throw new AppException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                    String.format(DmsValidationDoc.RESOURCE_TYPE_NOT_REGISTERED_ERROR, kindSubType));
+        }
+        try {
+
+            IDmsProvider dmsProvider = dmsFactory.create(headers, dmsServiceProperties);
+            dmsProvider.revokeUrl(revokeURLRequest);
+
+        } catch (DmsException e) {
+            handleDmsException(e);
+        }
+
+    }
 
 
     private HashMap<String, GetDatasetRegistryRequest> segregateDatasetIdsToDms(List<String> datasetRegistryIds, Map<String, DmsServiceProperties> kindSubTypeToDmsServiceMap) {
