@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
@@ -59,9 +59,6 @@ public class DatasetDmsApiTest {
     @Before
     public void setup() {
         initMocks(this);
-
-        when(this.httpHeaders.getUserEmail()).thenReturn(this.USER);
-        when(this.httpHeaders.getPartitionIdWithFallbackToAccountId()).thenReturn(this.TENANT);
 
         TenantInfo tenant = new TenantInfo();
         tenant.setName(this.TENANT);

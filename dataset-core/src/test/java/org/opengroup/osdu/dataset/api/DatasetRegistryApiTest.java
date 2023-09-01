@@ -43,7 +43,7 @@ import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.ResponseEntity;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -67,9 +67,6 @@ public class DatasetRegistryApiTest {
     @Before
     public void setup() {
         initMocks(this);
-
-        when(this.httpHeaders.getUserEmail()).thenReturn(this.USER);
-        when(this.httpHeaders.getPartitionIdWithFallbackToAccountId()).thenReturn(this.TENANT);
 
         TenantInfo tenant = new TenantInfo();
         tenant.setName(this.TENANT);

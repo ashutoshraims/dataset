@@ -20,8 +20,8 @@ package org.opengroup.osdu.dataset.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.dms.model.CopyDmsResponse;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.json.HttpResponseBodyMapper;
@@ -224,11 +224,8 @@ public class DatasetRegistryServiceImplTest {
     @Test
     public void createOrUpdateDatasetRegistryAppExceptionInUpsertRecord() throws DpsException, HttpResponseBodyParsingException {
         when(schemaService.getSchema(KIND)).thenReturn(schemaObject);
-        when(multiRecordInfo.getRecords()).thenReturn(Collections.singletonList(getRecord(RECORD_ID, KIND)));
-        when(storageService.getRecords(any())).thenReturn(multiRecordInfo);
         when(storageExceptionResponse.getMessage()).thenReturn(exceptionMessage);
         when(storageExceptionResponse.getReason()).thenReturn(exceptionReason);
-        when(upsertRecords.getRecordIds()).thenReturn((Collections.singletonList(RECORD_ID)));
         when(storageException.getHttpResponse()).thenReturn(httpResponse);
         when(storageService.upsertRecord(any(Record[].class))).thenThrow(storageException);
         when(bodyMapper.parseBody(httpResponse, StorageExceptionResponse.class)).thenReturn(storageExceptionResponse);
@@ -261,9 +258,6 @@ public class DatasetRegistryServiceImplTest {
     @Test
     public void createOrUpdateDatasetRegistryHttpResponseBodyParsingExceptionInUpsertRecord() throws DpsException, HttpResponseBodyParsingException {
         when(schemaService.getSchema(KIND)).thenReturn(schemaObject);
-        when(multiRecordInfo.getRecords()).thenReturn(Collections.singletonList(getRecord(RECORD_ID, KIND)));
-        when(storageService.getRecords(any())).thenReturn(multiRecordInfo);
-        when(upsertRecords.getRecordIds()).thenReturn((Collections.singletonList(RECORD_ID)));
         when(storageException.getHttpResponse()).thenReturn(httpResponse);
         when(storageService.upsertRecord(any(Record[].class))).thenThrow(storageException);
         when(bodyMapper.parseBody(httpResponse, StorageExceptionResponse.class)).thenThrow(httpResponseBodyParsingException);
@@ -294,7 +288,6 @@ public class DatasetRegistryServiceImplTest {
     @Test
     public void createOrUpdateDatasetRegistryAppExceptionInGetRecords() throws DpsException, HttpResponseBodyParsingException {
         when(schemaService.getSchema(KIND)).thenReturn(schemaObject);
-        when(multiRecordInfo.getRecords()).thenReturn(Collections.singletonList(getRecord(RECORD_ID, KIND)));
         when(storageService.getRecords(any())).thenReturn(multiRecordInfo);
         when(upsertRecords.getRecordIds()).thenReturn((Collections.singletonList(RECORD_ID)));
         when(storageService.upsertRecord(any(Record[].class))).thenReturn(upsertRecords);
@@ -332,7 +325,6 @@ public class DatasetRegistryServiceImplTest {
     @Test
     public void createOrUpdateDatasetRegistryHttpResponseBodyParsingExceptionInGetRecord() throws DpsException, HttpResponseBodyParsingException {
         when(schemaService.getSchema(KIND)).thenReturn(schemaObject);
-        when(multiRecordInfo.getRecords()).thenReturn(Collections.singletonList(getRecord(RECORD_ID, KIND)));
         when(storageService.getRecords(any())).thenReturn(multiRecordInfo);
         when(upsertRecords.getRecordIds()).thenReturn((Collections.singletonList(RECORD_ID)));
         when(storageException.getHttpResponse()).thenReturn(httpResponse);

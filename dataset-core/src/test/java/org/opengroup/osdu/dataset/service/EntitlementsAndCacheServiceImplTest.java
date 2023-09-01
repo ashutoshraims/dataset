@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.core.common.entitlements.IEntitlementsFactory;
 import org.opengroup.osdu.core.common.entitlements.IEntitlementsService;
@@ -97,8 +97,6 @@ public class EntitlementsAndCacheServiceImplTest {
     @Before
     public void init() {
         when(factory.create(headers)).thenReturn(entitlementsService);
-        when(headers.getPartitionId()).thenReturn(dataPartitionId);
-        when(headers.getAccountId()).thenReturn(accountId);
         when(headers.getAuthorization()).thenReturn(authorization);
     }
 
