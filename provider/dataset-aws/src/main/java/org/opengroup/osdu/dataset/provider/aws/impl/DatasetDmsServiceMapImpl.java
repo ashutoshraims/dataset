@@ -89,7 +89,7 @@ public class DatasetDmsServiceMapImpl implements IDatasetDmsServiceMap {
 
                 this.logger.info("DMS Registration cache miss");
             } catch (Exception e) {
-                log.error("Error occurred.", e);
+                this.logger.error("Error occurred.", e);
                 throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                                        HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                                        "Failed to get DMS Service Registrations");
