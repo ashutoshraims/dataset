@@ -15,12 +15,9 @@
 
 package org.opengroup.osdu.dataset.util;
 
-import javax.inject.Inject;
-import javax.validation.ValidationException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-
+import javassist.NotFoundException;
 import org.opengroup.osdu.core.common.logging.JaxRsDpsLog;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.springframework.core.Ordered;
@@ -28,15 +25,20 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javassist.NotFoundException;
+import javax.inject.Inject;
+import javax.validation.ValidationException;
+import java.util.stream.Collectors;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -89,6 +91,26 @@ public class GlobalExceptionMapper extends ResponseEntityExceptionHandler {
         return this.getErrorResponse(
                 new AppException(org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED, "Method not found.",
                         "Method not found.", e));
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toSet())
+                .toString()
+                .replaceAll("\\[*]*", "");
+        return this.getErrorResponse(
+                new AppException(HttpStatus.BAD_REQUEST.value(), "Validation Errors: ", errors, ex));
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return this.getErrorResponse(
+                new AppException(
+                        HttpStatus.BAD_REQUEST.value(), "Request is not valid.", "Required request body is missing.", ex));
     }
 
     public ResponseEntity<Object> getErrorResponse(AppException e) {
