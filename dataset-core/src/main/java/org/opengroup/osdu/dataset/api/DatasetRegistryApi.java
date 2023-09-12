@@ -14,14 +14,6 @@
 
 package org.opengroup.osdu.dataset.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,20 +29,20 @@ import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.CreateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
-import org.opengroup.osdu.dataset.model.response.GetDatasetStorageInstructionsResponse;
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -90,7 +82,7 @@ public class DatasetRegistryApi {
 
 			GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.createOrUpdateDatasetRegistry(request.datasetRegistries);
 			this.auditLogger.registerDatasetSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.CREATED);
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@Operation(summary = "${datasetRegistryApi.getDatasetRegistry.summary}", description = "${datasetRegistryApi.getDatasetRegistry.description}",
@@ -116,7 +108,7 @@ public class DatasetRegistryApi {
 
 			GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.getDatasetRegistries(datasetRegistryIds);
 			this.auditLogger.readDatasetRegistriesSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@Operation(summary = "${datasetRegistryApi.getDatasetRegistryUsingPOST.summary}", description = "${datasetRegistryApi.getDatasetRegistryUsingPOST.description}",
@@ -137,6 +129,6 @@ public class DatasetRegistryApi {
 			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request) {
 			GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.getDatasetRegistries(request.datasetRegistryIds);
 			this.auditLogger.readDatasetRegistriesSuccess(Collections.singletonList(response.toString()));
-			return new ResponseEntity<GetCreateUpdateDatasetRegistryResponse>(response, HttpStatus.OK);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
