@@ -2,13 +2,14 @@
 /* (c) Copyright IBM Corp. 2020. All Rights Reserved.*/
 
 package org.opengroup.osdu.dataset.ibm.util;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.opengroup.osdu.dataset.CloudStorageUtil;
 import org.opengroup.osdu.dataset.TestUtils;
 
-import com.sun.jersey.api.client.ClientResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CloudStorageUtilIbm extends CloudStorageUtil {
 
@@ -20,7 +21,7 @@ public class CloudStorageUtilIbm extends CloudStorageUtil {
         fileUploadHeaders.put("x-ms-blob-type", "BlockBlob");
 
         Map<String, Object> storageLocation = (Map<String, Object>) storageLocationProperties;
-        ClientResponse fileUploadResponse = TestUtils.send(
+        CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 storageLocation.get("signedUrl").toString(), "",
                 "PUT", fileUploadHeaders, fileContents, null);
 
@@ -31,11 +32,11 @@ public class CloudStorageUtilIbm extends CloudStorageUtil {
     public String downloadCloudFileUsingDeliveryItem(Object retrievalLocationProperties) throws Exception {
 
         Map<String, Object> retrievalProperties = (Map<String, Object>) retrievalLocationProperties;
-        ClientResponse fileUploadResponse = TestUtils.send(
+        CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 retrievalProperties.get("signedUrl").toString(), "",
                 "GET", new HashMap<>(), "", null);
         String downloadedFileResp = null;
-        downloadedFileResp = fileUploadResponse.getEntity(String.class);
+        downloadedFileResp = EntityUtils.toString(fileUploadResponse.getEntity());
         return downloadedFileResp;
     }
 

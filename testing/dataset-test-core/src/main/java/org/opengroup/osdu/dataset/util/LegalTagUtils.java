@@ -18,7 +18,7 @@ package org.opengroup.osdu.dataset.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.jersey.api.client.ClientResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.opengroup.osdu.dataset.TestUtils;
 
 import java.util.Map;
@@ -30,14 +30,14 @@ public class LegalTagUtils {
         return getTenantName() + "-dataset-" + System.currentTimeMillis();
     }
 
-    public static ClientResponse create(Map<String, String> headers,
-                                        String legalTagName) throws Exception {
+    public static CloseableHttpResponse create(Map<String, String> headers,
+                                               String legalTagName) throws Exception {
         String body = getBody("US", legalTagName, "2099-01-25", "Public Domain Data");
         return TestUtils.send(getLegalUrl(), "legaltags", "POST", headers, body, "");
     }
 
-    public static ClientResponse delete(Map<String, String> headers,
-                                        String legalTagName) throws Exception {
+    public static CloseableHttpResponse delete(Map<String, String> headers,
+                                               String legalTagName) throws Exception {
         return TestUtils.send(getLegalUrl(), "legaltags", "DELETE", headers, null, "");
     }
 

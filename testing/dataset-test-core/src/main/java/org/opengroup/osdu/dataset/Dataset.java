@@ -15,12 +15,10 @@
 
 package org.opengroup.osdu.dataset;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.client.ClientResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,6 +36,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public abstract class Dataset extends TestBase {
 
@@ -86,11 +87,11 @@ public abstract class Dataset extends TestBase {
 				"}\n" +
 				"\n";
 
-		ClientResponse legalResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
+		CloseableHttpResponse legalResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
 				legalBody, "");
 
-		Assert.assertTrue(legalResponse.getStatus() == 201 || legalResponse.getStatus() == 409);		
+		Assert.assertTrue(legalResponse.getCode() == 201 || legalResponse.getCode() == 409);
 	}
 
 	public static void classTearDown(String token) throws Exception {
@@ -103,26 +104,26 @@ public abstract class Dataset extends TestBase {
 
 			System.out.println(String.format("Deleting Dataset Registry: %s", datasetRegistryId));
 			
-			ClientResponse storageResponse = TestUtils.send(TestUtils.storageBaseUrl, 
+			CloseableHttpResponse storageResponse = TestUtils.send(TestUtils.storageBaseUrl,
 			String.format("records/%s", datasetRegistryId), 
 			"DELETE",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
 			"", "");
 
-			System.out.println(String.format("Deleting Dataset Registry Response Code: %s", storageResponse.getStatus()));
+			System.out.println(String.format("Deleting Dataset Registry Response Code: %s", storageResponse.getCode()));
 			
 		}
 	}
 
 	@Test
 	public void should_getUploadLocation() throws Exception {
-		ClientResponse response = TestUtils.send("storageInstructions", "POST",
+		CloseableHttpResponse response = TestUtils.send("storageInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), "", "?kindSubType=dataset--File.Generic");
-		Assert.assertEquals(200, response.getStatus());
+		Assert.assertEquals(200, response.getCode());
 		
 		// JsonObject json = new JsonParser().parse(response.getEntity(String.class)).getAsJsonObject();
 
-		String respStr = response.getEntity(String.class);		
+		String respStr = EntityUtils.toString(response.getEntity());
 
 		IntTestGetDatasetStorageInstructionsResponse<Object> resp = jsonMapper.readValue(respStr, IntTestGetDatasetStorageInstructionsResponse.class);
 
@@ -138,12 +139,12 @@ public abstract class Dataset extends TestBase {
 		String kindSubType = "dataset--File.Generic";
 		
 		//Step 1: Get Storage Instructions for File
-		ClientResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
+		CloseableHttpResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), "", String.format("?kindSubType=%s", kindSubType));
 		
-		Assert.assertEquals(200, getStorageInstClientResp.getStatus());
+		Assert.assertEquals(200, getStorageInstClientResp.getCode());
 
-		String getStorageRespStr = getStorageInstClientResp.getEntity(String.class);		
+		String getStorageRespStr = EntityUtils.toString(getStorageInstClientResp.getEntity());
 
 		IntTestGetDatasetStorageInstructionsResponse<Object> getStorageInstResponse = jsonMapper.readValue(getStorageRespStr, IntTestGetDatasetStorageInstructionsResponse.class);
 
@@ -163,11 +164,11 @@ public abstract class Dataset extends TestBase {
 		TestGetCreateUpdateDatasetRegistryRequest datasetRegistryRequest = new TestGetCreateUpdateDatasetRegistryRequest(new ArrayList<>());
 		datasetRegistryRequest.getDatasetRegistries().add(datasetRegistry);
 
-		ClientResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
 				jsonMapper.writeValueAsString(datasetRegistryRequest), "");
 
-		Assert.assertTrue(datasetRegistryResponse.getStatus() == 201);
+		Assert.assertTrue(datasetRegistryResponse.getCode() == 201);
 
 		registeredDatasetRegistryIds.add(datasetRegistryId);
 
@@ -176,14 +177,14 @@ public abstract class Dataset extends TestBase {
 		IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
 		getDatasetRequest.getDatasetRegistryIds().add(datasetRegistryId);
 
-		ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
+		CloseableHttpResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()), 
 				jsonMapper.writeValueAsString(getDatasetRequest),
 				 "");
 		
-		Assert.assertEquals(200, retrievalClientResponse.getStatus());
+		Assert.assertEquals(200, retrievalClientResponse.getCode());
 
-		String getRetrievalRespStr = retrievalClientResponse.getEntity(String.class);	
+		String getRetrievalRespStr = EntityUtils.toString(retrievalClientResponse.getEntity());
 
 		IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper.readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
 		
@@ -249,11 +250,11 @@ public abstract class Dataset extends TestBase {
 
 	@Test
 	public void should_returnInfo() throws Exception {
-		ClientResponse response = TestUtils
+		CloseableHttpResponse response = TestUtils
 				.send("info", "GET", HeaderUtils.getHeaders(TenantUtils.getTenantName(),
 						testUtils.getToken()), "", "");
 
-		assertEquals(HttpStatus.SC_OK, response.getStatus());
+		assertEquals(HttpStatus.SC_OK, response.getCode());
 
 		VersionInfoUtils.VersionInfo responseObject = VERSION_INFO_UTILS
 				.getVersionInfoFromResponse(response);

@@ -17,20 +17,21 @@
 
 package org.opengroup.osdu.dataset.anthos.configuration;
 
-import static org.hamcrest.core.AnyOf.anyOf;
-import static org.junit.Assert.assertThat;
-
 import com.google.common.collect.ImmutableMap;
-import com.sun.jersey.api.client.ClientResponse;
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringSubstitutor;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.hamcrest.core.Is;
 import org.opengroup.osdu.dataset.HeaderUtils;
 import org.opengroup.osdu.dataset.TenantUtils;
 import org.opengroup.osdu.dataset.TestUtils;
 import org.opengroup.osdu.dataset.anthos.util.AnthosTestUtil;
 import org.opengroup.osdu.dataset.anthos.util.FileUtils;
+
+import java.io.IOException;
+
+import static org.hamcrest.core.AnyOf.anyOf;
+import static org.junit.Assert.assertThat;
 
 
 @Slf4j
@@ -43,31 +44,31 @@ public class DatasetConfiguration {
     public static void datasetSetup(String token) throws Exception {
         String datasetFileSchema = getDatasetSchema(INPUT_DATASET_FILE_SCHEMA_JSON);
 
-        ClientResponse createFileSchemaResponse = TestUtils.send(AnthosConfig.getSchemaServiceHost(), "/schema", "POST",
+        CloseableHttpResponse createFileSchemaResponse = TestUtils.send(AnthosConfig.getSchemaServiceHost(), "/schema", "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
             datasetFileSchema, "");
 
-        assertThat(createFileSchemaResponse.getStatus(), anyOf(Is.is(201), Is.is(400)));
-        log.info("create dataset file schema response status:" + createFileSchemaResponse.getStatus());
+        assertThat(createFileSchemaResponse.getCode(), anyOf(Is.is(201), Is.is(400)));
+        log.info("create dataset file schema response status:" + createFileSchemaResponse.getCode());
 
         String datasetCollectionSchema = getDatasetSchema(INPUT_DATASET_FILE_COLLECTION_SCHEMA_JSON);
 
-        ClientResponse createCollectionSchemaResponse = TestUtils
+        CloseableHttpResponse createCollectionSchemaResponse = TestUtils
             .send(AnthosConfig.getSchemaServiceHost(), "/schema", "POST",
                 HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
                 datasetCollectionSchema, "");
 
-        assertThat(createCollectionSchemaResponse.getStatus(), anyOf(Is.is(201), Is.is(400)));
-        log.info("create dataset collection schema response status:" + createCollectionSchemaResponse.getStatus());
+        assertThat(createCollectionSchemaResponse.getCode(), anyOf(Is.is(201), Is.is(400)));
+        log.info("create dataset collection schema response status:" + createCollectionSchemaResponse.getCode());
 
         String legalTag = getLegalTag(INPUT_LEGALTAG_JSON);
 
-        ClientResponse createLegalTagResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
+        CloseableHttpResponse createLegalTagResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
             legalTag, "");
 
-        assertThat(createLegalTagResponse.getStatus(), anyOf(Is.is(201), Is.is(409)));
-        log.info("create legal tag response status: " + createLegalTagResponse.getStatus());
+        assertThat(createLegalTagResponse.getCode(), anyOf(Is.is(201), Is.is(409)));
+        log.info("create legal tag response status: " + createLegalTagResponse.getCode());
     }
 
     private static String getDatasetSchema(String schemaFile) throws IOException {

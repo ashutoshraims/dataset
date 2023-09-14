@@ -17,8 +17,6 @@
 
 package org.opengroup.osdu.dataset.util;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.gax.paging.Page;
@@ -37,17 +35,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
-import org.jetbrains.annotations.NotNull;
 import org.opengroup.osdu.dataset.CloudStorageUtil;
 import org.opengroup.osdu.dataset.configuration.GcpConfig;
 import org.opengroup.osdu.dataset.configuration.MapperConfig;
@@ -55,6 +43,15 @@ import org.opengroup.osdu.dataset.credentials.StorageServiceAccountCredentialsPr
 import org.opengroup.osdu.dataset.model.IntTestFileCollectionInstructionsItem;
 import org.opengroup.osdu.dataset.model.IntTestFileCollectionSigningOptionsItem;
 import org.opengroup.osdu.dataset.model.IntTestFileInstructionsItem;
+
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.logging.Level;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 
 @Log

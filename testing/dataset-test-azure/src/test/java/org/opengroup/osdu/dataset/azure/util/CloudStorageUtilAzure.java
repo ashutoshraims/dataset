@@ -1,9 +1,9 @@
 package org.opengroup.osdu.dataset.azure.util;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.opengroup.osdu.dataset.CloudStorageUtil;
 import org.opengroup.osdu.dataset.TestUtils;
-
-import com.sun.jersey.api.client.ClientResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class CloudStorageUtilAzure extends CloudStorageUtil {
 
         Map<String, Object> storageLocation = (Map<String, Object>) storageLocationProperties;
 
-        ClientResponse fileUploadResponse = TestUtils.send(
+        CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 storageLocation.get("signedUrl").toString(), "",
                 "PUT", fileUploadHeaders, fileContents, null);
 
@@ -31,11 +31,11 @@ public class CloudStorageUtilAzure extends CloudStorageUtil {
 
         Map<String, Object> retrievalProperties = (Map<String, Object>) retrievalLocationProperties;
 
-        ClientResponse fileUploadResponse = TestUtils.send(
+        CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 retrievalProperties.get("signedUrl").toString(), "",
                 "GET", new HashMap<>(), "", null);
 
-        String downloadedFileResp = fileUploadResponse.getEntity(String.class);
+        String downloadedFileResp = EntityUtils.toString(fileUploadResponse.getEntity());
         return downloadedFileResp;
     }
 
