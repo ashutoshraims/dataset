@@ -22,13 +22,13 @@
     <parent>
         <artifactId>os-dataset</artifactId>
         <groupId>org.opengroup.osdu</groupId>
-        <version>0.23.0-SNAPSHOT</version>
+        <version>0.24.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>dataset-azure</artifactId>
     <description>Azure implementation of Dataset service APIs</description>
-    <version>0.23.0-SNAPSHOT</version>
+    <version>0.24.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>dataset-azure</name>
@@ -42,10 +42,22 @@
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
+        <netty.version>4.1.96.Final</netty.version>
+        <reactor-netty.version>1.1.10</reactor-netty.version>
+        <reactor-core.version>3.4.19</reactor-core.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- netty-bom dependency to be declared before spring-boot-dependencies,
+            to pull all netty-transitive dependencies with same version -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-bom</artifactId>
+                <version>${netty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Inherit managed dependencies from core-lib-azure -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -98,6 +110,10 @@
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-webflux</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.projectreactor.netty</groupId>
+                    <artifactId>reactor-netty</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -228,6 +244,29 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20230227</version>
+        </dependency>
+
+        <!-- reactor-netty related dependencies -->
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-http</artifactId>
+            <version>${reactor-netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-core</artifactId>
+            <version>${reactor-netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-http-brave</artifactId>
+            <version>${reactor-netty.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>${reactor-core.version}</version>
         </dependency>
     </dependencies>
     <build>

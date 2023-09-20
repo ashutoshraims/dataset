@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -89,14 +89,14 @@ public class DatasetDmsServiceImplTest {
     @Test(expected = AppException.class)
     public void testGetStorageInstructionsIfDmsServiceIsNull() {
         when(dmsServiceMap.getResourceTypeToDmsServiceMap()).thenReturn(kindSubTypeToDmsServiceMap);
-        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(INVALID_KIND);
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(INVALID_KIND, null);
     }
 
     @Test(expected = AppException.class)
     public void testGetStorageInstructionsIfAllowStorageIsNull() {
         when(dmsServiceMap.getResourceTypeToDmsServiceMap()).thenReturn(kindSubTypeToDmsServiceMap);
         when(dmsServiceProperties.isAllowStorage()).thenReturn(false);
-        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND, null);
     }
 
     @Test
@@ -106,8 +106,8 @@ public class DatasetDmsServiceImplTest {
         GetDatasetRegistryRequest request = mock(GetDatasetRegistryRequest.class);
         RetrievalInstructionsResponse entryResponse = new RetrievalInstructionsResponse(new ArrayList<>());
         injectWhenClauseForDmsServiceMapAndDmsFactory();
-        when(dmsProvider.getRetrievalInstructions(any())).thenReturn(entryResponse);
-        RetrievalInstructionsResponse actualResponse = datasetDmsService.getRetrievalInstructions(datasetRegistryIds);
+        when(dmsProvider.getRetrievalInstructions(any(), any())).thenReturn(entryResponse);
+        RetrievalInstructionsResponse actualResponse = datasetDmsService.getRetrievalInstructions(datasetRegistryIds, null);
         verifydmsServiceMapAndDmsFactory();
     }
 
@@ -134,6 +134,15 @@ public class DatasetDmsServiceImplTest {
         testRetrievalInstructions();
     }
 
+    @Test
+    public void testRevokeApi() throws Exception{
+        Map<String, String> revokeRequest = new HashMap<>();
+        revokeRequest.put("key", "value");
+        injectWhenClauseForDmsServiceMapAndDmsFactory();
+        datasetDmsService.revokeUrl(KIND, revokeRequest);
+        verify(dmsProvider, times(1)).revokeUrl(revokeRequest);
+    }
+
     private void addKindType2InMap() {
         kindSubTypeToDmsServiceMap.remove(KIND);
         kindSubTypeToDmsServiceMap.put(KIND_TYPE_2, dmsServiceProperties);
@@ -146,19 +155,19 @@ public class DatasetDmsServiceImplTest {
     private void testGetStorageInstructions() throws DmsException {
         injectWhenClauseForDmsServiceMapAndDmsFactory();
         when(dmsServiceProperties.isAllowStorage()).thenReturn(true);
-        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND);
+        StorageInstructionsResponse actualResponse = datasetDmsService.getStorageInstructions(KIND, null);
         StorageInstructionsResponse expectedResponse = new StorageInstructionsResponse();
         verifydmsServiceMapAndDmsFactory();
-        verify(dmsProvider, times(1)).getStorageInstructions();
+        verify(dmsProvider, times(1)).getStorageInstructions(null);
     }
 
     private void testRetrievalInstructions() throws Exception {
         RetrievalInstructionsResponse entryResponse = new RetrievalInstructionsResponse();
         injectWhenClauseForDmsServiceMapAndDmsFactory();
-        when(dmsProvider.getRetrievalInstructions(any())).thenReturn(entryResponse);
-        RetrievalInstructionsResponse actualResponse = datasetDmsService.getRetrievalInstructions(datasetRegistryIds);
+        when(dmsProvider.getRetrievalInstructions(any(), any())).thenReturn(entryResponse);
+        RetrievalInstructionsResponse actualResponse = datasetDmsService.getRetrievalInstructions(datasetRegistryIds, null);
         verifydmsServiceMapAndDmsFactory();
-        verify(dmsProvider, times(1)).getRetrievalInstructions(any());
+        verify(dmsProvider, times(1)).getRetrievalInstructions(any(), any());
     }
 
     private void verifydmsServiceMapAndDmsFactory() {

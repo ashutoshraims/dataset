@@ -34,7 +34,6 @@ public class AuthorizationFilterTest {
 
     @Before
     public void setup() {
-        when(headers.getUserEmail()).thenReturn(EMAIL);
     }
 
     @Test

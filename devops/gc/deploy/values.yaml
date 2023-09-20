@@ -35,3 +35,4 @@ istio:
   proxyCPULimit: "200m"
   proxyMemory: "50Mi"
   proxyMemoryLimit: "256Mi"
+  sidecarInject: true

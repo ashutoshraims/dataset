@@ -19,14 +19,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opengroup.osdu</groupId>
 	<artifactId>dataset-core</artifactId>
-	<version>0.23.0-SNAPSHOT</version>
+	<version>0.24.0-SNAPSHOT</version>
 	<description>Core project for the Dataset Registry service</description>
 	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.opengroup.osdu</groupId>
 		<artifactId>os-dataset</artifactId>
-		<version>0.23.0-SNAPSHOT</version>
+		<version>0.24.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -46,7 +46,7 @@
 			<dependency>
 				<groupId>org.opengroup.osdu</groupId>
 				<artifactId>os-core-common</artifactId>
-				<version>0.19.0</version>
+				<version>0.24.0-rc2</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>os-core-common</artifactId>
-			<version>0.19.0</version>
+			<version>0.24.0-rc2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>elasticsearch</artifactId>
@@ -195,6 +195,7 @@
 			<scope>test</scope>
 			<version>2.1.6.RELEASE</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-common</artifactId>
@@ -224,7 +225,17 @@
 			<artifactId>spring-core</artifactId>
 			<version>5.3.27</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

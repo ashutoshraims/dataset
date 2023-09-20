@@ -62,9 +62,6 @@ public class DatasetDmsApiTest {
     public void setup() {
         initMocks(this);
 
-        when(this.httpHeaders.getUserEmail()).thenReturn(this.USER);
-        when(this.httpHeaders.getPartitionIdWithFallbackToAccountId()).thenReturn(this.TENANT);
-
         TenantInfo tenant = new TenantInfo();
         tenant.setName(this.TENANT);
     }
@@ -75,9 +72,9 @@ public class DatasetDmsApiTest {
         String resourceType = "srn:type:file";
       
         StorageInstructionsResponse expectedResponse = new StorageInstructionsResponse("DUMMY", new HashMap<String, Object>());
-        when(this.datasetDmsService.getStorageInstructions(resourceType)).thenReturn(expectedResponse);
+        when(this.datasetDmsService.getStorageInstructions(resourceType, "5D")).thenReturn(expectedResponse);
 
-        ResponseEntity response = this.datasetDmsApi.storageInstructions(resourceType);
+        ResponseEntity response = this.datasetDmsApi.storageInstructions(resourceType, "5D");
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCodeValue());
         assertEquals(expectedResponse, response.getBody());
@@ -85,7 +82,7 @@ public class DatasetDmsApiTest {
 
     @Test
     public void should_allowAccessToGetStorageInstructions_when_userBelongsToEditorGroup() throws Exception {
-        Method method = this.datasetDmsApi.getClass().getMethod("storageInstructions", String.class);
+        Method method = this.datasetDmsApi.getClass().getMethod("storageInstructions", String.class, String.class);
         PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
         assertTrue(annotation.value().contains(DatasetConstants.DATASET_EDITOR_ROLE));
     }

@@ -33,23 +33,24 @@ import java.util.Map;
 @Component("DmsRegistrationCache")
 public class DmsRegistrationCache implements ICache<String, DmsRegistrations> {
 
-    private ICache cache;
+    private final ICache<String, DmsRegistrations> cache;
 
     @Autowired
     public DmsRegistrationCache(ProviderConfigurationBag providerConfigurationBag) throws K8sParameterNotFoundException, JsonProcessingException {
         K8sLocalParameterProvider provider = new K8sLocalParameterProvider();
         if (provider.getLocalMode()) {
             if (Boolean.parseBoolean(System.getenv("DISABLE_CACHE"))) {
-                this.cache = new DummyCache();
+                this.cache = new DummyCache<>();
+            } else {
+                this.cache = new VmCache<>(60, 10);
             }
-            this.cache = new VmCache<>(60, 10);
         } else {
             String host = provider.getParameterAsStringOrDefault("CACHE_CLUSTER_ENDPOINT", providerConfigurationBag.redisSearchHost);
             int port = Integer.parseInt(provider.getParameterAsStringOrDefault("CACHE_CLUSTER_PORT", providerConfigurationBag.redisSearchPort));
             Map<String, String> credential = provider.getCredentialsAsMap("CACHE_CLUSTER_KEY");
 
             String password = credential != null ? credential.get("token") : providerConfigurationBag.redisSearchKey;
-            this.cache = new RedisCache(host, port, password, 60, String.class, DmsRegistrations.class);
+            this.cache = new RedisCache<>(host, port, password, 60, String.class, DmsRegistrations.class);
         }
     }
 
@@ -66,7 +67,7 @@ public class DmsRegistrationCache implements ICache<String, DmsRegistrations> {
 
     @Override
     public DmsRegistrations get(String k) {
-        return (DmsRegistrations) this.cache.get(k);
+        return this.cache.get(k);
     }
 
     @Override

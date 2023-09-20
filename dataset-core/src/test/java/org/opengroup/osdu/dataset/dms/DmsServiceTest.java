@@ -20,7 +20,7 @@ package org.opengroup.osdu.dataset.dms;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -86,7 +86,7 @@ public class DmsServiceTest {
         when(response.getBody()).thenReturn(StorageInstructionsResponse_body);
         when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_OK);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
-        StorageInstructionsResponse body = dmsRestService.getStorageInstructions();
+        StorageInstructionsResponse body = dmsRestService.getStorageInstructions(null);
 
         assertNotNull(body);
         verify(headers, times(1)).getHeaders();
@@ -98,7 +98,7 @@ public class DmsServiceTest {
     public void getStorageInstructions_URISyntaxException() {
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(INVALID_URL);
         try {
-            dmsRestService.getStorageInstructions();
+            dmsRestService.getStorageInstructions(null);
         }
         catch (Exception e) {
             assertNotNull(e);
@@ -118,7 +118,7 @@ public class DmsServiceTest {
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
 
         try {
-            dmsRestService.getStorageInstructions();
+            dmsRestService.getStorageInstructions(null);
         }
         catch (Exception e) {
             assertNotNull(e);
@@ -140,7 +140,7 @@ public class DmsServiceTest {
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
 
-        RetrievalInstructionsResponse body = dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+        RetrievalInstructionsResponse body = dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest, null);
 
         assertNotNull(body);
         verify(headers, times(1)).getHeaders();
@@ -154,7 +154,7 @@ public class DmsServiceTest {
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
         try {
-            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest, null);
         }
         catch (Exception e) {
             assertNotNull(e);
@@ -175,7 +175,7 @@ public class DmsServiceTest {
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
         try {
-            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest, null);
         }
         catch (Exception e) {
             assertNotNull(e);
@@ -245,7 +245,7 @@ public class DmsServiceTest {
         GetDatasetRegistryRequest getDatasetRegistryRequest = new GetDatasetRegistryRequest();
         getDatasetRegistryRequest.datasetRegistryIds = Arrays.asList("sup1", "sup2", "sup3");
         try {
-            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest);
+            dmsRestService.getRetrievalInstructions(getDatasetRegistryRequest, null);
         } catch (AppException e) {
             assertEquals(HttpStatusCodes.STATUS_CODE_UNAUTHORIZED, e.getError().getCode());
             String expectedReason = String.format(DmsService.NON_OK_RESPONSE_FROM_DMS_SERVICE,
@@ -260,7 +260,7 @@ public class DmsServiceTest {
         when(response.getResponseCode()).thenReturn(HttpStatusCodes.STATUS_CODE_SERVER_ERROR);
         when(dmsServiceProperties.getDmsServiceBaseUrl()).thenReturn(URL);
         try {
-            dmsRestService.getStorageInstructions();
+            dmsRestService.getStorageInstructions(null);
         } catch (AppException e) {
             assertEquals(HttpStatusCodes.STATUS_CODE_SERVER_ERROR, e.getError().getCode());
             String expectedReason = String.format(DmsService.NON_OK_RESPONSE_FROM_DMS_SERVICE,
