@@ -152,11 +152,7 @@
 			<artifactId>osm</artifactId>
 			<version>0.23.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>obm</artifactId>
-			<version>0.23.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>ch.qos.logback.contrib</groupId>
 			<artifactId>logback-json-classic</artifactId>
