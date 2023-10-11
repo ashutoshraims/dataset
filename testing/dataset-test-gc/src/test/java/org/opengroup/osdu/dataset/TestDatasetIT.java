@@ -251,9 +251,9 @@ public class TestDatasetIT extends TestBase {
         new ArrayList<>());
     datasetRegistryRequest.getDatasetRegistries().addAll(datasetRegistries);
 
-    return TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+    return TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
         HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
-        jsonMapper.writeValueAsString(datasetRegistryRequest), "");
+        jsonMapper.writeValueAsString(datasetRegistryRequest));
   }
 
   private StorageInstructionsResponse getTestStorageInstructions(String kindSubType,

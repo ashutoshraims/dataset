@@ -43,12 +43,11 @@ public abstract class TestUtils {
 
     protected static String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
 
-    public static final String storageBaseUrl = System.getenv("STORAGE_BASE_URL");
-    public static final String legalBaseUrl = System.getenv("LEGAL_BASE_URL");
-    public static final String datasetBaseUrl = System.getProperty("DATASET_BASE_URL",System.getenv("DATASET_BASE_URL"));
-    public static final String entitlementsBaseUrl = System.getenv("ENTITLEMENTS_BASE_URL");
-    public static final String providerKey = System.getenv("PROVIDER_KEY");
-    private static final String schemaAuthority = System.getenv("SCHEMA_AUTHORITY");
+    public static final String STORAGE_BASE_URL = System.getenv("STORAGE_BASE_URL");
+    public static final String LEGAL_BASE_URL = System.getenv("LEGAL_BASE_URL");
+    public static final String DATASET_BASE_URL = System.getProperty("DATASET_BASE_URL",System.getenv("DATASET_BASE_URL"));
+    public static final String PROVIDER_KEY = System.getenv("PROVIDER_KEY");
+    private static final String SCHEMA_AUTHORITY = System.getenv("SCHEMA_AUTHORITY");
 
     private static final String DEFAULT_SCHEMA_AUTHORITY = "osdu";
 
@@ -57,7 +56,7 @@ public abstract class TestUtils {
     }
 
     public static final String getProviderKey() {
-        return providerKey;
+        return PROVIDER_KEY;
     }
 
     public static String getEnvironment() {
@@ -68,15 +67,15 @@ public abstract class TestUtils {
         return System.getProperty("TENANT_NAME", System.getenv("TENANT_NAME"));
     }
     public static final String getSchemaAuthority() {
-        if (schemaAuthority == null) {
+        if (SCHEMA_AUTHORITY == null) {
             return DEFAULT_SCHEMA_AUTHORITY;
         }
 
-        return schemaAuthority;
+        return SCHEMA_AUTHORITY;
     }
 
     public static String getApiPath(String api) throws Exception {
-        URL mergedURL = new URL(datasetBaseUrl + api);
+        URL mergedURL = new URL(DATASET_BASE_URL + api);
         log.info(mergedURL.toString());
         return mergedURL.toString();
     }
@@ -85,14 +84,14 @@ public abstract class TestUtils {
 
     public abstract String getNoDataAccessToken() throws Exception;
 
-    private static void log(String method, String url, Map<String, String> headers, String body) {
+    private static void log(String method, String url, String body) {
         log.info(String.format("%s: %s", method, url));
         log.info(body);
     }
 
     private static ClassicHttpRequest createHttpRequest(String path, String httpMethod, String requestBody,
-                                                        Map<String, String> headers) throws Exception {
-        String url = getApiPath(path);
+                                                        Map<String, String> headers) {
+        String url = path;
         ClassicRequestBuilder classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
                 .setUri(url)
                 .setEntity(requestBody, ContentType.APPLICATION_JSON);
@@ -114,7 +113,7 @@ public abstract class TestUtils {
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
             @Override
             public X509Certificate[] getAcceptedIssuers() {
-                return null;
+                return new X509Certificate[0];
             }
 
             @Override
@@ -131,6 +130,7 @@ public abstract class TestUtils {
             sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {
+            log.error("Exception occurred while creating Client"+e.getMessage());
         }
         return Client.create();
     }
@@ -138,8 +138,8 @@ public abstract class TestUtils {
     public static CloseableHttpResponse send(String path, String httpMethod, Map<String, String> headers,
                                              String requestBody, String query) throws Exception {
 
-        String apiPath = path + query;
-        log(httpMethod, TestUtils.getApiPath(apiPath), headers, requestBody);
+        String apiPath = getApiPath(path + query);
+        log(httpMethod, TestUtils.getApiPath(apiPath), requestBody);
 
         BasicHttpClientConnectionManager cm = createBasicHttpClientConnectionManager();
         ClassicHttpRequest httpRequest = createHttpRequest(apiPath, httpMethod, requestBody, headers);
@@ -150,10 +150,10 @@ public abstract class TestUtils {
     }
 
     public static CloseableHttpResponse send(String url, String path, String httpMethod, Map<String, String> headers,
-                                             String requestBody, String query) throws Exception {
+                                             String requestBody) throws Exception {
 
         String apiPath = url + path;
-        log(httpMethod, apiPath, headers, requestBody);
+        log(httpMethod, apiPath, requestBody);
 
         BasicHttpClientConnectionManager cm = createBasicHttpClientConnectionManager();
         ClassicHttpRequest httpRequest = createHttpRequest(apiPath, httpMethod, requestBody, headers);

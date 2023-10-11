@@ -196,9 +196,9 @@ public class TestDataset extends Dataset {
 
 
     private String registerDataset(String datasetRegistry) throws Exception {
-        CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+        CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
-            datasetRegistry, "");
+            datasetRegistry);
 
         Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
@@ -231,7 +231,7 @@ public class TestDataset extends Dataset {
             Assert.assertNotNull(item.getSignedUrl());
             Assert.assertNotNull(item.getFileSource());
         }
-        Assert.assertEquals(AnthosTestUtil.providerKey, deliveryItem.getProviderKey());
+        Assert.assertEquals(AnthosTestUtil.PROVIDER_KEY, deliveryItem.getProviderKey());
     }
 
     public void validate_storageLocation(Object storageLocation) {

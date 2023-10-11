@@ -192,9 +192,9 @@ public class TestDataset extends Dataset {
 
 
 	private String registerDataset(String datasetRegistry) throws Exception {
-		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
-			datasetRegistry, "");
+			datasetRegistry);
 
 		Assert.assertTrue(datasetRegistryResponse.getCode() == 201);
 
@@ -231,7 +231,7 @@ public class TestDataset extends Dataset {
 		Assert.assertNotNull(connectionString);
 		Assert.assertNotNull(filepath);
 
-		Assert.assertEquals(deliveryItem.getProviderKey(), GcpTestUtils.providerKey);
+		Assert.assertEquals(deliveryItem.getProviderKey(), GcpTestUtils.PROVIDER_KEY);
 	}
 
 	public void validate_storageLocation(Object storageLocation) {

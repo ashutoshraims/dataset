@@ -23,7 +23,7 @@ public class CloudStorageUtilIbm extends CloudStorageUtil {
         Map<String, Object> storageLocation = (Map<String, Object>) storageLocationProperties;
         CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 storageLocation.get("signedUrl").toString(), "",
-                "PUT", fileUploadHeaders, fileContents, null);
+                "PUT", fileUploadHeaders, fileContents);
 
         return storageLocation.get("fileSource").toString();
     }
@@ -34,7 +34,7 @@ public class CloudStorageUtilIbm extends CloudStorageUtil {
         Map<String, Object> retrievalProperties = (Map<String, Object>) retrievalLocationProperties;
         CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 retrievalProperties.get("signedUrl").toString(), "",
-                "GET", new HashMap<>(), "", null);
+                "GET", new HashMap<>(), "");
         String downloadedFileResp = null;
         downloadedFileResp = EntityUtils.toString(fileUploadResponse.getEntity());
         return downloadedFileResp;

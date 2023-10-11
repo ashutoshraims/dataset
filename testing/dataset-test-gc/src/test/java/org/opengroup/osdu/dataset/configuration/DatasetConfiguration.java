@@ -44,7 +44,7 @@ public class DatasetConfiguration {
 
 		CloseableHttpResponse createFileSchemaResponse = TestUtils.send(GcpConfig.getSchemaServiceHost(), "/schema", "POST",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
-			datasetFileSchema, "");
+			datasetFileSchema);
 
 		assertThat(createFileSchemaResponse.getCode(), anyOf(Is.is(201), Is.is(400)));
 		log.info("create dataset file schema response status:" + createFileSchemaResponse.getCode());
@@ -54,16 +54,16 @@ public class DatasetConfiguration {
 		CloseableHttpResponse createCollectionSchemaResponse = TestUtils
 			.send(GcpConfig.getSchemaServiceHost(), "/schema", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
-				datasetCollectionSchema, "");
+				datasetCollectionSchema);
 
 		assertThat(createCollectionSchemaResponse.getCode(), anyOf(Is.is(201), Is.is(400)));
 		log.info("create dataset collection schema response status:" + createCollectionSchemaResponse.getCode());
 
 		String legalTag = getLegalTag(INPUT_LEGALTAG_JSON);
 
-		CloseableHttpResponse createLegalTagResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
+		CloseableHttpResponse createLegalTagResponse = TestUtils.send(TestUtils.LEGAL_BASE_URL, "legaltags", "POST",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
-			legalTag, "");
+			legalTag);
 
 		assertThat(createLegalTagResponse.getCode(), anyOf(Is.is(201), Is.is(409)));
 		log.info("create legal tag response status: " + createLegalTagResponse.getCode());

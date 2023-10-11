@@ -87,9 +87,9 @@ public abstract class Dataset extends TestBase {
 				"}\n" +
 				"\n";
 
-		CloseableHttpResponse legalResponse = TestUtils.send(TestUtils.legalBaseUrl, "legaltags", "POST",
+		CloseableHttpResponse legalResponse = TestUtils.send(TestUtils.LEGAL_BASE_URL, "legaltags", "POST",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
-				legalBody, "");
+				legalBody);
 
 		Assert.assertTrue(legalResponse.getCode() == 201 || legalResponse.getCode() == 409);
 	}
@@ -104,11 +104,11 @@ public abstract class Dataset extends TestBase {
 
 			System.out.println(String.format("Deleting Dataset Registry: %s", datasetRegistryId));
 			
-			CloseableHttpResponse storageResponse = TestUtils.send(TestUtils.storageBaseUrl,
+			CloseableHttpResponse storageResponse = TestUtils.send(TestUtils.STORAGE_BASE_URL,
 			String.format("records/%s", datasetRegistryId), 
 			"DELETE",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
-			"", "");
+			"");
 
 			System.out.println(String.format("Deleting Dataset Registry Response Code: %s", storageResponse.getCode()));
 			
@@ -164,9 +164,9 @@ public abstract class Dataset extends TestBase {
 		TestGetCreateUpdateDatasetRegistryRequest datasetRegistryRequest = new TestGetCreateUpdateDatasetRegistryRequest(new ArrayList<>());
 		datasetRegistryRequest.getDatasetRegistries().add(datasetRegistry);
 
-		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
 				HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
-				jsonMapper.writeValueAsString(datasetRegistryRequest), "");
+				jsonMapper.writeValueAsString(datasetRegistryRequest));
 
 		Assert.assertTrue(datasetRegistryResponse.getCode() == 201);
 

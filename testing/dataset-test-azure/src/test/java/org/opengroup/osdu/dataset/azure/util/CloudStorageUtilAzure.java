@@ -21,7 +21,7 @@ public class CloudStorageUtilAzure extends CloudStorageUtil {
 
         CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 storageLocation.get("signedUrl").toString(), "",
-                "PUT", fileUploadHeaders, fileContents, null);
+                "PUT", fileUploadHeaders, fileContents);
 
         return storageLocation.get("fileSource").toString();
     }
@@ -33,7 +33,7 @@ public class CloudStorageUtilAzure extends CloudStorageUtil {
 
         CloseableHttpResponse fileUploadResponse = TestUtils.send(
                 retrievalProperties.get("signedUrl").toString(), "",
-                "GET", new HashMap<>(), "", null);
+                "GET", new HashMap<>(), "");
 
         String downloadedFileResp = EntityUtils.toString(fileUploadResponse.getEntity());
         return downloadedFileResp;

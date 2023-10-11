@@ -33,12 +33,12 @@ public class LegalTagUtils {
     public static CloseableHttpResponse create(Map<String, String> headers,
                                                String legalTagName) throws Exception {
         String body = getBody("US", legalTagName, "2099-01-25", "Public Domain Data");
-        return TestUtils.send(getLegalUrl(), "legaltags", "POST", headers, body, "");
+        return TestUtils.send(getLegalUrl(), "legaltags", "POST", headers, body);
     }
 
     public static CloseableHttpResponse delete(Map<String, String> headers,
                                                String legalTagName) throws Exception {
-        return TestUtils.send(getLegalUrl(), "legaltags", "DELETE", headers, null, "");
+        return TestUtils.send(getLegalUrl(), "legaltags", "DELETE", headers, null);
     }
 
     protected static String getLegalUrl() {
