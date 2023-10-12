@@ -84,8 +84,8 @@ public abstract class TestUtils {
 
     public abstract String getNoDataAccessToken() throws Exception;
 
-    private static void log(String method, String url, String body) {
-        log.info(String.format("%s: %s", method, url));
+    private static void log(String httpMethod, String url, String body) {
+        log.info(String.format("%s: %s", httpMethod, url));
         log.info(body);
     }
 
@@ -101,7 +101,7 @@ public abstract class TestUtils {
             classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
                     .setUri(url);
         }
-        headers.forEach(classicRequestBuilder::addHeader);
+        headers.forEach(classicRequestBuilder::setHeader);
         return classicRequestBuilder.build();
     }
 
@@ -145,7 +145,7 @@ public abstract class TestUtils {
                                              String requestBody, String query) throws Exception {
 
         String apiPath = getApiPath(path + query);
-        log(httpMethod, TestUtils.getApiPath(apiPath), requestBody);
+        log(httpMethod, apiPath, requestBody);
 
         BasicHttpClientConnectionManager cm = createBasicHttpClientConnectionManager();
         ClassicHttpRequest httpRequest = createHttpRequest(apiPath, httpMethod, requestBody, headers);
