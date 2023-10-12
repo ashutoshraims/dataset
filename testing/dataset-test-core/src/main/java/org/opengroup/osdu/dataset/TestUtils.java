@@ -92,9 +92,15 @@ public abstract class TestUtils {
     private static ClassicHttpRequest createHttpRequest(String path, String httpMethod, String requestBody,
                                                         Map<String, String> headers) {
         String url = path;
-        ClassicRequestBuilder classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
-                .setUri(url)
-                .setEntity(requestBody, ContentType.APPLICATION_JSON);
+        ClassicRequestBuilder classicRequestBuilder;
+        if(requestBody != null) {
+            classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
+                    .setUri(url)
+                    .setEntity(requestBody, ContentType.APPLICATION_JSON);
+        } else {
+            classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
+                    .setUri(url);
+        }
         headers.forEach(classicRequestBuilder::addHeader);
         return classicRequestBuilder.build();
     }
