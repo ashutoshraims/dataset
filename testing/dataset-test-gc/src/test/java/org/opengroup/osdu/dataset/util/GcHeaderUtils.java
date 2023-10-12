@@ -18,7 +18,6 @@ public class GcHeaderUtils {
         final String correlationId = UUID.randomUUID().toString();
         System.out.printf("Using correlation-id for the request: %s \n", correlationId);
         headers.put("correlation-id", correlationId);
-        headers.put("Content-Length","0");
         return headers;
     }
 }
