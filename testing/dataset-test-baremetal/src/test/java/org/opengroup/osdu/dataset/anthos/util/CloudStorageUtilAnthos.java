@@ -1,6 +1,6 @@
 /*
- * Copyright 2020-2022 Google LLC
- * Copyright 2020-2022 EPAM Systems, Inc
+ * Copyright 2020-2023 Google LLC
+ * Copyright 2020-2023 EPAM Systems, Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 
 package org.opengroup.osdu.dataset.anthos.util;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
@@ -30,23 +28,22 @@ import io.minio.MinioClient;
 import io.minio.RemoveObjectArgs;
 import io.minio.Result;
 import io.minio.messages.Item;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.MediaType;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import org.opengroup.osdu.dataset.CloudStorageUtil;
 import org.opengroup.osdu.dataset.anthos.configuration.MapperConfig;
 import org.opengroup.osdu.dataset.anthos.configuration.MinioConfig;
 import org.opengroup.osdu.dataset.anthos.model.IntTestFileCollectionInstructionsItem;
 import org.opengroup.osdu.dataset.anthos.model.IntTestFileInstructionsItem;
+
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @Slf4j

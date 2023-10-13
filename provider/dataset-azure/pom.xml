@@ -37,12 +37,12 @@
         <java.version>1.8</java.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <osdu.corelibazure.version>0.14.0</osdu.corelibazure.version>
-        <osdu.oscorecommon-version>0.19.0</osdu.oscorecommon-version>
+        <osdu.corelibazure.version>0.23.2</osdu.corelibazure.version>
+        <osdu.oscorecommon-version>0.23.3</osdu.oscorecommon-version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
-        <netty.version>4.1.96.Final</netty.version>
+        <netty.version>4.1.98.Final</netty.version>
         <reactor-netty.version>1.1.10</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
     </properties>
@@ -198,6 +198,10 @@
                 <exclusion>
                     <artifactId>woodstox-core</artifactId>
                     <groupId>com.fasterxml.woodstox</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.microsoft.azure</groupId>
+                    <artifactId>documentdb-bulkexecutor</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
