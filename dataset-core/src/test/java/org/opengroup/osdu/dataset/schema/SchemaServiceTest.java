@@ -20,17 +20,20 @@ package org.opengroup.osdu.dataset.schema;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+
 import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.http.HttpResponse;
 import org.opengroup.osdu.core.common.http.IHttpClient;
@@ -74,6 +77,7 @@ public class SchemaServiceTest {
     public void init() {
         schemaAPIConfig.apiKey = API_KEY;
         when(schemaAPIConfig.getRootUrl()).thenReturn(URL);
+        when(schemaAPIConfig.getApiKey()).thenReturn(API_KEY);
         when(headers.getHeaders()).thenReturn(headersMap);
     }
 
@@ -125,5 +129,10 @@ public class SchemaServiceTest {
         }
         verify(response, times(1)).isSuccessCode();
         verify(headers, times(1)).getHeaders();
+    }
+
+    @After
+    public void tearDown(){
+        reset(schemaAPIConfig);
     }
 }

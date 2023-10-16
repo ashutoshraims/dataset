@@ -20,12 +20,9 @@ package org.opengroup.osdu.dataset.anthos;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import com.sun.jersey.api.client.ClientResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.text.StringSubstitutor;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -50,6 +47,11 @@ import org.opengroup.osdu.dataset.model.request.IntTestGetDatasetRegistryRequest
 import org.opengroup.osdu.dataset.model.response.IntTestDatasetRetrievalDeliveryItem;
 import org.opengroup.osdu.dataset.model.response.IntTestGetDatasetRetrievalInstructionsResponse;
 import org.opengroup.osdu.dataset.model.response.IntTestGetDatasetStorageInstructionsResponse;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TestDataset extends Dataset {
 
@@ -157,14 +159,14 @@ public class TestDataset extends Dataset {
         IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
         getDatasetRequest.getDatasetRegistryIds().add(recordId);
 
-        ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
+        CloseableHttpResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
             jsonMapper.writeValueAsString(getDatasetRequest),
             "");
 
-        Assert.assertEquals(200, retrievalClientResponse.getStatus());
+        Assert.assertEquals(200, retrievalClientResponse.getCode());
 
-        String getRetrievalRespStr = retrievalClientResponse.getEntity(String.class);
+        String getRetrievalRespStr = EntityUtils.toString(retrievalClientResponse.getEntity());
 
         IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper
             .readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
@@ -173,15 +175,15 @@ public class TestDataset extends Dataset {
     }
 
     private IntTestGetDatasetStorageInstructionsResponse getDatasetInstructions(String dataset) throws Exception {
-        ClientResponse response = TestUtils.send(
+        CloseableHttpResponse response = TestUtils.send(
             "storageInstructions",
             "POST",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
             "",
             dataset);
-        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getCode());
 
-        String respStr = response.getEntity(String.class);
+        String respStr = EntityUtils.toString(response.getEntity());
 
         IntTestGetDatasetStorageInstructionsResponse<IntTestFileInstructionsItem> resp = jsonMapper
             .readValue(respStr, IntTestGetDatasetStorageInstructionsResponse.class);
@@ -194,14 +196,14 @@ public class TestDataset extends Dataset {
 
 
     private String registerDataset(String datasetRegistry) throws Exception {
-        ClientResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+        CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
             HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
-            datasetRegistry, "");
+            datasetRegistry);
 
-        Assert.assertEquals(201, datasetRegistryResponse.getStatus());
+        Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
         IntTestGetCreateUpdateDatasetRegistryResponse registryResponse = objectMapper
-            .readValue(datasetRegistryResponse.getEntity(String.class),
+            .readValue(EntityUtils.toString(datasetRegistryResponse.getEntity()),
                 IntTestGetCreateUpdateDatasetRegistryResponse.class);
         String recordId = registryResponse.getDatasetRegistries().get(0).getId();
 
@@ -229,7 +231,7 @@ public class TestDataset extends Dataset {
             Assert.assertNotNull(item.getSignedUrl());
             Assert.assertNotNull(item.getFileSource());
         }
-        Assert.assertEquals(AnthosTestUtil.providerKey, deliveryItem.getProviderKey());
+        Assert.assertEquals(AnthosTestUtil.PROVIDER_KEY, deliveryItem.getProviderKey());
     }
 
     public void validate_storageLocation(Object storageLocation) {

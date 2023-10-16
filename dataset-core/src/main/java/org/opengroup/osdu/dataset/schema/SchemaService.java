@@ -17,8 +17,6 @@
 
 package org.opengroup.osdu.dataset.schema;
 
-import com.google.gson.JsonSyntaxException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.opengroup.osdu.core.common.http.HttpRequest;
 import org.opengroup.osdu.core.common.http.HttpResponse;

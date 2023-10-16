@@ -17,18 +17,10 @@
 
 package org.opengroup.osdu.dataset;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.client.ClientResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -47,6 +39,16 @@ import org.opengroup.osdu.dataset.model.shared.TestGetCreateUpdateDatasetRegistr
 import org.opengroup.osdu.dataset.util.CloudStorageUtilGcp;
 import org.opengroup.osdu.dataset.util.GcpTestUtils;
 import org.opengroup.osdu.dataset.util.LegalTagUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDatasetIT extends TestBase {
 
@@ -72,7 +74,7 @@ public class TestDatasetIT extends TestBase {
   }
 
   private static void classSetup(String token) throws Exception {
-    ClientResponse legalTagCreateResponse = LegalTagUtils.create(
+    CloseableHttpResponse legalTagCreateResponse = LegalTagUtils.create(
         HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
         LEGAL_TAG);
   }
@@ -112,18 +114,18 @@ public class TestDatasetIT extends TestBase {
 
     Record datasetRegistry = createDatasetRegistry(datasetRegistryId, fileName, fileSource);
 
-    ClientResponse datasetRegistryResponse = testRegisterDatasetRequest(
+    CloseableHttpResponse datasetRegistryResponse = testRegisterDatasetRequest(
         Collections.singletonList(datasetRegistry));
-    Assert.assertEquals(201, datasetRegistryResponse.getStatus());
+    Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
     registeredDatasetRegistryIds.add(datasetRegistryId);
 
     //Step 4: Retrieve File and validate contents
-    ClientResponse retrievalClientResponse = getTestRetrievalInstructions(
+    CloseableHttpResponse retrievalClientResponse = getTestRetrievalInstructions(
         Collections.singletonList(datasetRegistryId));
-    Assert.assertEquals(200, retrievalClientResponse.getStatus());
+    Assert.assertEquals(200, retrievalClientResponse.getCode());
 
-    String getRetrievalRespStr = retrievalClientResponse.getEntity(String.class);
+    String getRetrievalRespStr = EntityUtils.toString(retrievalClientResponse.getEntity());
     RetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper.readValue(
         getRetrievalRespStr,
         RetrievalInstructionsResponse.class);
@@ -170,8 +172,8 @@ public class TestDatasetIT extends TestBase {
     datasetsToRegister.add(datasetRegistry1);
     datasetsToRegister.add(datasetRegistry2);
 
-    ClientResponse datasetRegistryResponse = testRegisterDatasetRequest(datasetsToRegister);
-    Assert.assertEquals(201, datasetRegistryResponse.getStatus());
+    CloseableHttpResponse datasetRegistryResponse = testRegisterDatasetRequest(datasetsToRegister);
+    Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
     registeredDatasetRegistryIds.add(datasetRegistryId1);
     registeredDatasetRegistryIds.add(datasetRegistryId2);
@@ -181,10 +183,10 @@ public class TestDatasetIT extends TestBase {
     datasetsToRetrieve.add(datasetRegistryId1);
     datasetsToRetrieve.add(datasetRegistryId2);
 
-    ClientResponse retrievalClientResponse = getTestRetrievalInstructions(datasetsToRetrieve);
-    Assert.assertEquals(200, retrievalClientResponse.getStatus());
+    CloseableHttpResponse retrievalClientResponse = getTestRetrievalInstructions(datasetsToRetrieve);
+    Assert.assertEquals(200, retrievalClientResponse.getCode());
 
-    String getRetrievalRespStr = retrievalClientResponse.getEntity(String.class);
+    String getRetrievalRespStr = EntityUtils.toString(retrievalClientResponse.getEntity());
     RetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper.readValue(
         getRetrievalRespStr,
         RetrievalInstructionsResponse.class);
@@ -232,7 +234,7 @@ public class TestDatasetIT extends TestBase {
     return fileSource;
   }
 
-  private ClientResponse getTestRetrievalInstructions(List<String> datasetRegistryIds)
+  private CloseableHttpResponse getTestRetrievalInstructions(List<String> datasetRegistryIds)
       throws Exception {
     RetrievalInstructionsRequest getDatasetRequest = new RetrievalInstructionsRequest();
     getDatasetRequest.setDatasetRegistryIds(datasetRegistryIds);
@@ -243,31 +245,31 @@ public class TestDatasetIT extends TestBase {
         "");
   }
 
-  private ClientResponse testRegisterDatasetRequest(List<Record> datasetRegistries)
+  private CloseableHttpResponse testRegisterDatasetRequest(List<Record> datasetRegistries)
       throws Exception {
     TestGetCreateUpdateDatasetRegistryRequest datasetRegistryRequest = new TestGetCreateUpdateDatasetRegistryRequest(
         new ArrayList<>());
     datasetRegistryRequest.getDatasetRegistries().addAll(datasetRegistries);
 
-    return TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+    return TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
         HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
-        jsonMapper.writeValueAsString(datasetRegistryRequest), "");
+        jsonMapper.writeValueAsString(datasetRegistryRequest));
   }
 
   private StorageInstructionsResponse getTestStorageInstructions(String kindSubType,
       int expectedStatusCode) throws Exception {
-    ClientResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
+    CloseableHttpResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
         HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
         "body", String.format("?kindSubType=%s", kindSubType));
 
-    int actualStatusCode = getStorageInstClientResp.getStatus();
+    int actualStatusCode = getStorageInstClientResp.getCode();
     Assert.assertEquals(expectedStatusCode, actualStatusCode);
 
     if (actualStatusCode != 200) {
       return null;
     }
 
-    String getStorageRespStr = getStorageInstClientResp.getEntity(String.class);
+    String getStorageRespStr = EntityUtils.toString(getStorageInstClientResp.getEntity());
     return jsonMapper.readValue(getStorageRespStr, StorageInstructionsResponse.class);
   }
 

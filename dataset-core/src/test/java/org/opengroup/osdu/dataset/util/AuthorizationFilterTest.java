@@ -1,5 +1,6 @@
 package org.opengroup.osdu.dataset.util;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.opengroup.osdu.core.common.entitlements.IEntitlementsAndCacheService;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,5 +41,10 @@ public class AuthorizationFilterTest {
         boolean hasRole = authorizationFilter.hasRole(requiredRoles);
         assertEquals(hasRole, true);
         verify(entitlementsAndCacheService, times(1)).authorize(headers,requiredRoles);
+    }
+
+    @After
+    public void tearDown(){
+        reset(headers);
     }
 }

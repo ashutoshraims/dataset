@@ -14,9 +14,9 @@ import org.opengroup.osdu.core.common.model.info.VersionInfo;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfoApiTest {

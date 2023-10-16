@@ -16,8 +16,9 @@ package org.opengroup.osdu.dataset.provider.azure.config;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import static org.junit.Assert.assertEquals;
-import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OsduApiConfigTest {

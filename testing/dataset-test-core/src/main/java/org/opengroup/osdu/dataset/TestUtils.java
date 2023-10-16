@@ -15,43 +15,39 @@
 
 package org.opengroup.osdu.dataset;
 
-import static org.junit.Assert.assertEquals;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import com.sun.jersey.api.client.Client;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.ws.rs.core.MediaType;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Strings;
-import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
+@Slf4j
 public abstract class TestUtils {
     protected static String token = null;
     protected static String noDataAccesstoken = null;
 
     protected static String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
 
-    public static final String storageBaseUrl = System.getenv("STORAGE_BASE_URL");
-    public static final String legalBaseUrl = System.getenv("LEGAL_BASE_URL");
-    public static final String datasetBaseUrl = System.getProperty("DATASET_BASE_URL",System.getenv("DATASET_BASE_URL"));
-    public static final String entitlementsBaseUrl = System.getenv("ENTITLEMENTS_BASE_URL");
-    public static final String providerKey = System.getenv("PROVIDER_KEY");
-    private static final String schemaAuthority = System.getenv("SCHEMA_AUTHORITY");
+    public static final String STORAGE_BASE_URL = System.getenv("STORAGE_BASE_URL");
+    public static final String LEGAL_BASE_URL = System.getenv("LEGAL_BASE_URL");
+    public static final String DATASET_BASE_URL = System.getProperty("DATASET_BASE_URL",System.getenv("DATASET_BASE_URL"));
+    public static final String PROVIDER_KEY = System.getenv("PROVIDER_KEY");
+    private static final String SCHEMA_AUTHORITY = System.getenv("SCHEMA_AUTHORITY");
 
     private static final String DEFAULT_SCHEMA_AUTHORITY = "osdu";
 
@@ -60,7 +56,7 @@ public abstract class TestUtils {
     }
 
     public static final String getProviderKey() {
-        return providerKey;
+        return PROVIDER_KEY;
     }
 
     public static String getEnvironment() {
@@ -71,16 +67,16 @@ public abstract class TestUtils {
         return System.getProperty("TENANT_NAME", System.getenv("TENANT_NAME"));
     }
     public static final String getSchemaAuthority() {
-        if (schemaAuthority == null) {
+        if (SCHEMA_AUTHORITY == null) {
             return DEFAULT_SCHEMA_AUTHORITY;
         }
 
-        return schemaAuthority;
+        return SCHEMA_AUTHORITY;
     }
 
     public static String getApiPath(String api) throws Exception {
-        URL mergedURL = new URL(datasetBaseUrl + api);
-        System.out.println(mergedURL.toString());
+        URL mergedURL = new URL(DATASET_BASE_URL + api);
+        log.info(mergedURL.toString());
         return mergedURL.toString();
     }
 
@@ -88,60 +84,42 @@ public abstract class TestUtils {
 
     public abstract String getNoDataAccessToken() throws Exception;
 
-    public static ClientResponse send(String path, String httpMethod, Map<String, String> headers, String requestBody,
-                                      String query) throws Exception {
-
-        log(httpMethod, TestUtils.getApiPath(path + query), headers, requestBody);
-        Client client = TestUtils.getClient();
-
-        WebResource webResource = client.resource(TestUtils.getApiPath(path + query));
-
-        WebResource.Builder builder = webResource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
-        headers.forEach(builder::header);
-
-        return builder.method(httpMethod, ClientResponse.class, requestBody);
+    private static void log(String httpMethod, String url, String body) {
+        log.info(String.format("%s: %s", httpMethod, url));
+        log.info(body);
     }
 
-    public static ClientResponse send(String url, String path, String httpMethod, Map<String, String> headers,
-                                      String requestBody, String query) throws Exception {
-
-        log(httpMethod, url + path, headers, requestBody);
-        Client client = TestUtils.getClient();
-
-        WebResource webResource = client.resource(url + path);
-        WebResource.Builder builder = webResource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
-        headers.forEach(builder::header);
-
-        return builder.method(httpMethod, ClientResponse.class, requestBody);
-    }
-
-    private static void log(String method, String url, Map<String, String> headers, String body) {
-        System.out.println(String.format("%s: %s", method, url));
-        System.out.println(body);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T getResult(ClientResponse response, int exepectedStatus, Class<T> classOfT) {
-        assertEquals(exepectedStatus, response.getStatus());
-        if (exepectedStatus == 204) {
-            return null;
+    private static ClassicHttpRequest createHttpRequest(String path, String httpMethod, String requestBody,
+                                                        Map<String, String> headers) {
+        String url = path;
+        ClassicRequestBuilder classicRequestBuilder;
+        if(requestBody != null) {
+            classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
+                    .setUri(url)
+                    .setEntity(requestBody, ContentType.APPLICATION_JSON);
+        } else {
+            classicRequestBuilder = ClassicRequestBuilder.create(httpMethod)
+                    .setUri(url);
         }
+        headers.forEach(classicRequestBuilder::setHeader);
+        return classicRequestBuilder.build();
+    }
 
-        assertEquals("application/json; charset=UTF-8", response.getType().toString());
-        String json = response.getEntity(String.class);
-        if (classOfT == String.class) {
-            return (T) json;
-        }
-
-        Gson gson = new Gson();
-        return gson.fromJson(json, classOfT);
+    private static BasicHttpClientConnectionManager createBasicHttpClientConnectionManager() {
+        ConnectionConfig connConfig = ConnectionConfig.custom()
+                .setConnectTimeout(1500000, TimeUnit.MILLISECONDS)
+                .setSocketTimeout(1500000, TimeUnit.MILLISECONDS)
+                .build();
+        BasicHttpClientConnectionManager cm = new BasicHttpClientConnectionManager();
+        cm.setConnectionConfig(connConfig);
+        return cm;
     }
 
     protected static Client getClient() {
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
             @Override
             public X509Certificate[] getAcceptedIssuers() {
-                return null;
+                return new X509Certificate[0];
             }
 
             @Override
@@ -158,29 +136,36 @@ public abstract class TestUtils {
             sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {
+            log.error("Exception occurred while creating Client"+e.getMessage());
         }
-        allowMethods("PATCH");
         return Client.create();
     }
 
-    private static void allowMethods(String... methods) {
-        try {
-            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+    public static CloseableHttpResponse send(String path, String httpMethod, Map<String, String> headers,
+                                             String requestBody, String query) throws Exception {
 
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+        String apiPath = getApiPath(path + query);
+        log(httpMethod, apiPath, requestBody);
 
-            methodsField.setAccessible(true);
+        BasicHttpClientConnectionManager cm = createBasicHttpClientConnectionManager();
+        ClassicHttpRequest httpRequest = createHttpRequest(apiPath, httpMethod, requestBody, headers);
 
-            String[] oldMethods = (String[]) methodsField.get(null);
-            Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
-            methodsSet.addAll(Arrays.asList(methods));
-            String[] newMethods = methodsSet.toArray(new String[0]);
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().setConnectionManager(cm).build()) {
+            return httpClient.execute(httpRequest, new CustomHttpClientResponseHandler());
+        }
+    }
 
-            methodsField.set(null/*static field*/, newMethods);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
+    public static CloseableHttpResponse send(String url, String path, String httpMethod, Map<String, String> headers,
+                                             String requestBody) throws Exception {
+
+        String apiPath = url + path;
+        log(httpMethod, apiPath, requestBody);
+
+        BasicHttpClientConnectionManager cm = createBasicHttpClientConnectionManager();
+        ClassicHttpRequest httpRequest = createHttpRequest(apiPath, httpMethod, requestBody, headers);
+
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().setConnectionManager(cm).build()) {
+            return httpClient.execute(httpRequest, new CustomHttpClientResponseHandler());
         }
     }
 }

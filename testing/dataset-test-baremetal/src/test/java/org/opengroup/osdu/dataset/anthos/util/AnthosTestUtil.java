@@ -18,8 +18,9 @@
 package org.opengroup.osdu.dataset.anthos.util;
 
 import com.sun.jersey.api.client.Client;
-import java.util.Optional;
 import org.opengroup.osdu.dataset.TestUtils;
+
+import java.util.Optional;
 
 public class AnthosTestUtil extends TestUtils {
 

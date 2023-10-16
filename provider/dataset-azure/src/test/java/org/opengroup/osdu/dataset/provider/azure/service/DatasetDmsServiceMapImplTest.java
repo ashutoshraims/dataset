@@ -14,24 +14,23 @@
 
 package org.opengroup.osdu.dataset.provider.azure.service;
 
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.provider.azure.config.OsduApiConfig;
 import org.opengroup.osdu.dataset.provider.azure.config.OsduDatasetKindConfig;
-import org.opengroup.osdu.dataset.provider.azure.service.DatasetDmsServiceMapImpl;
 
 import java.util.Map;
+
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatasetDmsServiceMapImplTest {
