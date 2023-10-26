@@ -155,10 +155,12 @@
             <artifactId>spring-security-oauth2-core</artifactId>
             <version>5.7.2</version>
         </dependency>
+
+        <!-- Override subdependency. Force update to '5.7.8' to mitigate CVE-2023-20862 -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.7.5</version>
+            <version>5.7.8</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
