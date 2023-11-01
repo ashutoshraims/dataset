@@ -22,27 +22,27 @@
     <parent>
         <artifactId>os-dataset</artifactId>
         <groupId>org.opengroup.osdu</groupId>
-        <version>0.24.0-SNAPSHOT</version>
+        <version>0.25.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>dataset-azure</artifactId>
     <description>Azure implementation of Dataset service APIs</description>
-    <version>0.24.0-SNAPSHOT</version>
+    <version>0.25.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>dataset-azure</name>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <osdu.corelibazure.version>0.14.0</osdu.corelibazure.version>
-        <osdu.oscorecommon-version>0.19.0</osdu.oscorecommon-version>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <osdu.corelibazure.version>0.24.0</osdu.corelibazure.version>
+        <osdu.oscorecommon-version>0.24.0</osdu.oscorecommon-version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
-        <netty.version>4.1.96.Final</netty.version>
+        <netty.version>4.1.98.Final</netty.version>
         <reactor-netty.version>1.1.10</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
     </properties>
@@ -199,6 +199,10 @@
                     <artifactId>woodstox-core</artifactId>
                     <groupId>com.fasterxml.woodstox</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.microsoft.azure</groupId>
+                    <artifactId>documentdb-bulkexecutor</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
@@ -222,7 +226,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito2 -->
@@ -237,7 +241,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.0.0</version>
+            <version>3.12.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -290,7 +294,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>0.8.8</version>
                 <configuration>
                     <excludes>
                         <exclude>**/*org/opengroup/osdu/dataset/provider/azure/cache/**</exclude>
@@ -308,7 +312,7 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>prepare-package</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>

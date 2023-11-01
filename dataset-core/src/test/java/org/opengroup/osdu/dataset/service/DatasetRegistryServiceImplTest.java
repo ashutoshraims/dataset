@@ -23,11 +23,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -491,6 +493,10 @@ public class DatasetRegistryServiceImplTest {
         verify(storageService, times(1)).getRecords(eq(Collections.singletonList(RECORD_ID)));
     }
 
+    @After
+    public void tearDown(){
+        reset(multiRecordInfo, storageService, upsertRecords);
+    }
 
     private Record getRecord(String recordId, String kind) {
         Record record = new Record();

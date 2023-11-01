@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.model.validation.DmsValidationDoc;
@@ -34,6 +33,8 @@ import org.opengroup.osdu.dataset.provider.gcp.mappers.osm.repository.DmsService
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor

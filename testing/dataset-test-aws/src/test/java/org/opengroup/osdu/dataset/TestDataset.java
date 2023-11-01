@@ -17,8 +17,6 @@
 
 package org.opengroup.osdu.dataset;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -75,7 +73,7 @@ public class TestDataset extends Dataset {
     @Override
     public void validate_dataset_retrieval_delivery_item(IntTestDatasetRetrievalDeliveryItem deliveryItem) {
         
-        Assert.assertEquals(deliveryItem.getProviderKey(), TestUtils.providerKey);  
+        Assert.assertEquals(deliveryItem.getProviderKey(), TestUtils.PROVIDER_KEY);
         
         IntTestFileDeliveryItemAWSImpl awsDeliveryItem = jsonMapper.convertValue(deliveryItem.getRetrievalProperties(),
         IntTestFileDeliveryItemAWSImpl.class);

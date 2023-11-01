@@ -46,6 +46,7 @@ export AWS_COGNITO_AUTH_PARAMS_PASSWORD=$ADMIN_PASSWORD
 export AWS_COGNITO_AUTH_PARAMS_USER=$ADMIN_USER
 export PROVIDER_KEY=AWS_S3 
 export AWS_S3_REGION=$AWS_REGION
+export JAVA_HOME='/usr/lib/jvm/java-17-openjdk-amd64'
 
 #### RUN INTEGRATION TEST #########################################################################
 

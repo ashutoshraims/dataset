@@ -17,17 +17,12 @@
 
 package org.opengroup.osdu.dataset;
 
-import static org.opengroup.osdu.dataset.util.CloudStorageUtilGcp.COLLECTION_FILE_URI_TEMPLATE;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import com.sun.jersey.api.client.ClientResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.text.StringSubstitutor;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -48,6 +43,12 @@ import org.opengroup.osdu.dataset.util.CloudStorageUtilGcp;
 import org.opengroup.osdu.dataset.util.FileUtils;
 import org.opengroup.osdu.dataset.util.GcHeaderUtils;
 import org.opengroup.osdu.dataset.util.GcpTestUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+
+import static org.opengroup.osdu.dataset.util.CloudStorageUtilGcp.COLLECTION_FILE_URI_TEMPLATE;
 
 public class TestDataset extends Dataset {
 
@@ -154,14 +155,14 @@ public class TestDataset extends Dataset {
 		IntTestGetDatasetRegistryRequest getDatasetRequest = new IntTestGetDatasetRegistryRequest(new ArrayList<>());
 		getDatasetRequest.getDatasetRegistryIds().add(recordId);
 
-		ClientResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
+		CloseableHttpResponse retrievalClientResponse = TestUtils.send("retrievalInstructions", "POST",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
 			jsonMapper.writeValueAsString(getDatasetRequest),
 			"");
 
-		Assert.assertEquals(200, retrievalClientResponse.getStatus());
+		Assert.assertEquals(200, retrievalClientResponse.getCode());
 
-		String getRetrievalRespStr = retrievalClientResponse.getEntity(String.class);
+		String getRetrievalRespStr = EntityUtils.toString(retrievalClientResponse.getEntity());
 
 		IntTestGetDatasetRetrievalInstructionsResponse getRetrievalInstResponse = jsonMapper
 			.readValue(getRetrievalRespStr, IntTestGetDatasetRetrievalInstructionsResponse.class);
@@ -170,15 +171,15 @@ public class TestDataset extends Dataset {
 	}
 
 	private IntTestGetDatasetStorageInstructionsResponse getDatasetInstructions(String dataset) throws Exception {
-		ClientResponse response = TestUtils.send(
+		CloseableHttpResponse response = TestUtils.send(
 			"storageInstructions",
 			"POST",
 			GcHeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
 			"{}",
 			dataset);
-		Assert.assertEquals(200, response.getStatus());
+		Assert.assertEquals(200, response.getCode());
 
-		String respStr = response.getEntity(String.class);
+		String respStr = EntityUtils.toString(response.getEntity());
 
 		IntTestGetDatasetStorageInstructionsResponse<IntTestFileInstructionsItem> resp = jsonMapper
 			.readValue(respStr, IntTestGetDatasetStorageInstructionsResponse.class);
@@ -191,14 +192,14 @@ public class TestDataset extends Dataset {
 
 
 	private String registerDataset(String datasetRegistry) throws Exception {
-		ClientResponse datasetRegistryResponse = TestUtils.send(TestUtils.datasetBaseUrl, "registerDataset", "PUT",
+		CloseableHttpResponse datasetRegistryResponse = TestUtils.send(TestUtils.DATASET_BASE_URL, "registerDataset", "PUT",
 			HeaderUtils.getHeaders(TenantUtils.getTenantName(), gcpTestUtils.getToken()),
-			datasetRegistry, "");
+			datasetRegistry);
 
-		Assert.assertTrue(datasetRegistryResponse.getStatus() == 201);
+		Assert.assertTrue(datasetRegistryResponse.getCode() == 201);
 
 		IntTestGetCreateUpdateDatasetRegistryResponse registryResponse = objectMapper
-			.readValue(datasetRegistryResponse.getEntity(String.class),
+			.readValue(EntityUtils.toString(datasetRegistryResponse.getEntity()),
 				IntTestGetCreateUpdateDatasetRegistryResponse.class);
 		String recordId = registryResponse.getDatasetRegistries().get(0).getId();
 
@@ -230,7 +231,7 @@ public class TestDataset extends Dataset {
 		Assert.assertNotNull(connectionString);
 		Assert.assertNotNull(filepath);
 
-		Assert.assertEquals(deliveryItem.getProviderKey(), GcpTestUtils.providerKey);
+		Assert.assertEquals(deliveryItem.getProviderKey(), GcpTestUtils.PROVIDER_KEY);
 	}
 
 	public void validate_storageLocation(Object storageLocation) {

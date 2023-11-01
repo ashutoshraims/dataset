@@ -17,16 +17,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opengroup.osdu</groupId>
 	<artifactId>os-dataset</artifactId>
-	<version>0.24.0-SNAPSHOT</version>
+	<version>0.25.0-SNAPSHOT</version>
 	<description>Root Dataset Registry Service project</description>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
+		<java.version>17</java.version>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<os-core-common.version>0.24.0-rc2</os-core-common.version>
+		<os-core-common.version>0.24.0</os-core-common.version>
 		<jackson.version>2.13.4.2</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.8</version>
+			<version>1.18.26</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- swagger dependency -->
@@ -263,7 +263,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
+				<version>0.8.8</version>
 				<executions>
 					<execution>
 						<goals>

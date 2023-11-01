@@ -4,23 +4,23 @@
     <parent>
         <artifactId>os-dataset</artifactId>
         <groupId>org.opengroup.osdu</groupId>
-        <version>0.24.0-SNAPSHOT</version>
+        <version>0.25.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dataset-ibm</artifactId>
     <description>Dataset Registry service on IBM</description>
-    <version>0.24.0-SNAPSHOT</version>
+    <version>0.25.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <version.number>0.24.0-SNAPSHOT</version.number>
-        <os-core-lib-ibm.version>0.17.0-rc4</os-core-lib-ibm.version>
+        <version.number>0.25.0-SNAPSHOT</version.number>
+        <os-core-lib-ibm.version>0.24.0</os-core-lib-ibm.version>
         <start-class>org.opengroup.osdu.dataset.provider.ibm.IBMDatasetRegistry</start-class>
         <log4j2.version>2.17.1</log4j2.version>
         <jackson-dataformat-cbor.version>2.13.0</jackson-dataformat-cbor.version>
-        <!--<os-core-common.version>0.3.28</os-core-common.version>-->
+        <!--<os-core-common.version>0.24.0</os-core-common.version>-->
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jackson.version>2.13.4</jackson.version>
         <spring.security.version>5.7.5</spring.security.version>
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>os-core-common</artifactId>
-            <version>0.19.0</version>
+            <version>0.24.0</version>
          </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
@@ -189,16 +189,12 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
         <!-- Testing packages -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
