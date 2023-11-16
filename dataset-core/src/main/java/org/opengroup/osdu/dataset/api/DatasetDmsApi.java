@@ -143,8 +143,8 @@ public class DatasetDmsApi {
 		this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	@Operation(summary = "${datasetDmsAdminApi.revokeURL.summary}", description = "${datasetDmsAdminApi.revokeURL.description}",
-			security = {@SecurityRequirement(name = "Authorization")}, tags = { "datasetDms-admin-api" })
+	@Operation(summary = "${datasetDmsApi.revokeURL.summary}", description = "${datasetDmsApi.revokeURL.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Revoked URLs successfully."),
 			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
