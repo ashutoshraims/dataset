@@ -17,9 +17,39 @@
 
 package org.opengroup.osdu.dataset;
 
+import static org.junit.Assert.assertEquals;
+
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.junit.Test;
+import org.springframework.http.HttpStatus;
+
 public class TestHealthCheck extends HealthCheckApiTest {
+
+  private final AWSTestUtils utils = new AWSTestUtils();
   @Override
   public void setup() throws Exception {}
+
+  private void verify_livenessCheckWorksWithToken(String token) throws Exception {
+    CloseableHttpResponse response =
+        TestUtils.send(
+            "liveness_check",
+            "GET",
+            HeaderUtils.getHeaders(TenantUtils.getTenantName(), token),
+            "",
+            "");
+    assertEquals(HttpStatus.OK.value(), response.getCode());
+  }
+
+  @Test
+  @Override
+  public void should_returnOk() throws Exception {
+    verify_livenessCheckWorksWithToken(utils.getToken());
+  }
+
+  @Test
+  public void should_allowNoAccessUserToCheckForLiveness() throws Exception {
+    verify_livenessCheckWorksWithToken(utils.getNoDataAccessToken());
+  }
 
   @Override
   public void tearDown() throws Exception {}
