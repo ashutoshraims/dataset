@@ -81,7 +81,7 @@ public class DatasetDmsApi {
 			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
 	})
 	@PostMapping("/storageInstructions")
-	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_EDITOR_ROLE + "')")
+	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_EDITOR_ROLE + "', '" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
 	public ResponseEntity<StorageInstructionsResponse> storageInstructions(
 			@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
 			@RequestParam(value = "kindSubType") String kindSubType,
@@ -105,7 +105,7 @@ public class DatasetDmsApi {
 			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
 	})
 	@GetMapping("/retrievalInstructions")
-	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
+	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "', '" + DatasetConstants.DATASET_EDITOR_ROLE + "', '" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry id",
 			example = "opendes:dataset--File.Generic:8118591ee2")
 			@RequestParam(value = "id") String datasetRegistryId, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
@@ -130,7 +130,7 @@ public class DatasetDmsApi {
 			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class ))})
 	})
 	@PostMapping("/retrievalInstructions")
-	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "')")
+	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "', '" + DatasetConstants.DATASET_EDITOR_ROLE + "', '" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry ids")
 			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
 			example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
@@ -143,8 +143,8 @@ public class DatasetDmsApi {
 		this.auditLogger.readRetrievalInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	@Operation(summary = "${datasetDmsAdminApi.revokeURL.summary}", description = "${datasetDmsAdminApi.revokeURL.description}",
-			security = {@SecurityRequirement(name = "Authorization")}, tags = { "datasetDms-admin-api" })
+	@Operation(summary = "${datasetDmsApi.revokeURL.summary}", description = "${datasetDmsApi.revokeURL.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Revoked URLs successfully."),
 			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
