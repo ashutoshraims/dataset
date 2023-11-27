@@ -46,6 +46,11 @@ export AWS_COGNITO_AUTH_PARAMS_PASSWORD=$ADMIN_PASSWORD
 export AWS_COGNITO_AUTH_PARAMS_USER=$ADMIN_USER
 export PROVIDER_KEY=AWS_S3 
 export AWS_S3_REGION=$AWS_REGION
+export AWS_COGNITO_AUTH_PARAMS_USER_NO_ACCESS=$USER_NO_ACCESS
+# NOTE: the following line is commented out because the Cognito Client assumes they are the same
+#  environment variable. In the future, this will not be the case, but for now, we must assume
+#  that the No-Access user and Admin user have the same password.
+#export AWS_COGNITO_AUTH_PARAMS_PASSWORD=$USER_NO_ACCESS_PASSWORD
 export JAVA_HOME='/usr/lib/jvm/java-17-openjdk-amd64'
 
 #### RUN INTEGRATION TEST #########################################################################

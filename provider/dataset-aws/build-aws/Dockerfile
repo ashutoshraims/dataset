@@ -14,7 +14,7 @@
 
 # https://docs.spring.io/spring-boot/docs/current/reference/html/deployment.html
 
-FROM amazoncorretto:17
+FROM public.ecr.aws/amazoncorretto/amazoncorretto:17
 
 ARG JAR_FILE=provider/dataset-aws/target/*spring-boot.jar
 WORKDIR /
