@@ -22,17 +22,16 @@
         <artifactId>os-dataset</artifactId>
         <groupId>org.opengroup.osdu</groupId>
         <version>0.25.0-SNAPSHOT</version>
-        <relativePath>../..</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dataset-aws</artifactId>
     <description>Dataset Registry service on AWS</description>
-    <version>0.25.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <aws.version>1.11.1018</aws.version>
+        <aws.version>1.12.261</aws.version>
         <deployment.environment>dev</deployment.environment>
         <version.number>0.25.0-SNAPSHOT</version.number>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
@@ -44,7 +43,7 @@
             <dependency>
                 <groupId>org.opengroup.osdu</groupId>
                 <artifactId>os-core-common</artifactId>
-                <version>0.24.0</version>
+                <version>${os-core-common.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -55,6 +54,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+	            <groupId>org.springframework.security</groupId>
+	            <artifactId>spring-security-core</artifactId>
+	            <version>5.8.2</version>
+	        </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -63,7 +67,6 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>os-core-common</artifactId>
-            <version>0.24.0</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu.core.aws</groupId>
@@ -106,20 +109,11 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            <version>5.7.8</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
-        </dependency>
-        
-        <!-- Override subdependency. Force update to '5.7.11' to mitigate CVE-2023-34034 -->
-        <dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>5.7.11</version>
-		</dependency>
-		
+        </dependency>	
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>

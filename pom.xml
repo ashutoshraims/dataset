@@ -26,7 +26,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<os-core-common.version>0.24.0</os-core-common.version>
+		<os-core-common.version>0.25.0-rc2</os-core-common.version>
 		<jackson.version>2.13.4.2</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
@@ -132,14 +132,10 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>5.7.8</version>
 		</dependency>
-		
-		<!-- Override subdependency of spring-security-web. Force update to '5.7.8' to mitigate CVE-2023-20862 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>5.7.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
