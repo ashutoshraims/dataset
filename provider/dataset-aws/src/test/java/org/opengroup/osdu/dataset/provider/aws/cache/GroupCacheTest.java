@@ -17,10 +17,8 @@
 package org.opengroup.osdu.dataset.provider.aws.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.aws.ssm.K8sParameterNotFoundException;
 import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.core.common.model.entitlements.Groups;
@@ -28,7 +26,7 @@ import org.opengroup.osdu.core.common.model.entitlements.Groups;
 import java.util.HashMap;
 import java.util.Map;
 
-@RunWith(MockitoJUnitRunner.class)
+
 public class GroupCacheTest extends CacheTest<String, Groups>{
 
 

@@ -30,13 +30,13 @@ import static org.mockito.Mockito.doNothing;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.junit.Test;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.aws.dynamodb.DynamoDBQueryHelperV2;
 import org.opengroup.osdu.core.aws.dynamodb.IDynamoDBQueryHelperFactory;
 import org.opengroup.osdu.core.common.logging.JaxRsDpsLog;
@@ -53,8 +53,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DatasetDmsServiceMapImplTest {
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
+class DatasetDmsServiceMapImplTest {
 
     private final ArrayList<DynamoDmsRegistration> registrations = new ArrayList<>();
 
@@ -87,6 +87,9 @@ public class DatasetDmsServiceMapImplTest {
 
     @Mock
     private DmsRegistrations registrationsMock;
+
+    public DatasetDmsServiceMapImplTest() {
+    }
 
     @Before
     public void setup() {
@@ -141,17 +144,17 @@ public class DatasetDmsServiceMapImplTest {
     }
 
     @Test
-    public void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithDefaultPath() {
+    void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithDefaultPath() {
         runWithCacheMissNoError("https://base-url");
     }
 
     @Test
-    public void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithNoDefaultPath() {
+    void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithNoDefaultPath() {
         runWithCacheMissNoError("");
     }
 
     @Test
-    public void should_throwAppException_when_getResourceTypeToDmsServiceMapCalledAndErrors() {
+    void should_throwAppException_when_getResourceTypeToDmsServiceMapCalledAndErrors() {
         DatasetDmsServiceMapImpl serviceMap = new DatasetDmsServiceMapImpl(headers, configBag, cache, queryHelperFactory, logger);
 
         when(cache.get(expectedKey)).thenReturn(null);
@@ -170,7 +173,7 @@ public class DatasetDmsServiceMapImplTest {
     }
 
     @Test
-    public void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithCacheHit() {
+    void should_returnDmsServicePropsMap_when_getResourceTypeToDmsServiceMapCalledWithCacheHit() {
         DatasetDmsServiceMapImpl serviceMap = new DatasetDmsServiceMapImpl(headers, configBag, cache, queryHelperFactory, logger);
 
         when(cache.get(expectedKey)).thenReturn(registrationsMock);
