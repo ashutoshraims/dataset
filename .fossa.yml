@@ -16,6 +16,10 @@ analyze:
       type: mvn
       target: dataset-core/pom.xml
       path: .
+    - name: dataset-core-plus
+      type: mvn
+      target: dataset-core-plus/pom.xml
+      path: .
     - name: dataset-aws
       type: mvn
       target: provider/dataset-aws/pom.xml
