@@ -18,6 +18,7 @@ package org.opengroup.osdu.dataset.provider.aws.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -27,13 +28,17 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.opengroup.osdu.dataset.provider.aws.api.WhoamiController;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 @RunWith(MockitoJUnitRunner.class)
-class WhoamiControllerTest {
+public class WhoamiControllerTest {
 
     private WhoamiController controller;
 
@@ -43,16 +48,13 @@ class WhoamiControllerTest {
     @Mock
     SecurityContext securityContext;
 
-    public WhoamiControllerTest() {
-    }
-
     @Before
     public void setup() {
         controller = new WhoamiController();
     }
 
     @Test
-    void when_WhoamiController_whoami_returnsValidResponse() throws Exception {
+    public void when_WhoamiController_whoami_returnsValidResponse() throws Exception {
         final String username = "username";
         final String details = "some details";
         try (MockedStatic<SecurityContextHolder> mockedSecurityCtxHolder = Mockito.mockStatic(SecurityContextHolder.class)) {

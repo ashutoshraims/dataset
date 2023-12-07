@@ -29,8 +29,6 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.opengroup.osdu.core.aws.cache.DummyCache;
 import org.opengroup.osdu.core.aws.ssm.K8sLocalParameterProvider;
 import org.opengroup.osdu.core.aws.ssm.K8sParameterNotFoundException;
@@ -69,6 +67,7 @@ public abstract class CacheTest<K, V> {
             assertTrue(ReflectionTestUtils.getField(cache, cacheInternalVar) instanceof DummyCache);
         }
     }
+
     public void testCreateWithVmCache(String cacheInternalVar) throws K8sParameterNotFoundException, JsonProcessingException {
         try (MockedConstruction<K8sLocalParameterProvider> k8sParameterProvider = Mockito.mockConstruction(K8sLocalParameterProvider.class,
                                                                                                            (mock, context) -> {
@@ -199,7 +198,7 @@ public abstract class CacheTest<K, V> {
             }
         }
     }
-    
+
     public void testClearAllCache() throws K8sParameterNotFoundException, JsonProcessingException {
         try (MockedConstruction<K8sLocalParameterProvider> k8sParameterProvider = Mockito.mockConstruction(K8sLocalParameterProvider.class,
                                                                                                            (mock, context) -> {

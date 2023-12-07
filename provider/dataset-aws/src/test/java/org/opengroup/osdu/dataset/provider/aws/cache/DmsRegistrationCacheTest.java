@@ -17,9 +17,11 @@
 package org.opengroup.osdu.dataset.provider.aws.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.aws.ssm.K8sParameterNotFoundException;
 import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.dataset.provider.aws.config.ProviderConfigurationBag;
@@ -28,6 +30,7 @@ import org.opengroup.osdu.dataset.provider.aws.model.DmsRegistrations;
 import java.util.HashMap;
 import java.util.Map;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DmsRegistrationCacheTest extends CacheTest<String, DmsRegistrations>{
     private final Map<String, String> REDIS_CREDENTIALS = new HashMap<>();
 
@@ -41,7 +44,7 @@ public class DmsRegistrationCacheTest extends CacheTest<String, DmsRegistrations
 
     private final ArgumentCaptor<DmsRegistrations> registrationCaptor = ArgumentCaptor.forClass(DmsRegistrations.class);
 
-    @BeforeEach
+    @Before
     public void setup() {
         providerConfig.redisSearchKey = REDIS_SEARCH_KEY;
     }
@@ -60,8 +63,6 @@ public class DmsRegistrationCacheTest extends CacheTest<String, DmsRegistrations
     public DmsRegistrations getValue() {
         return REGISTRATIONS;
     }
-
-
 
     @Test
     public void should_return_dummyCache_when_localSetWithDisableCache() throws Exception {
