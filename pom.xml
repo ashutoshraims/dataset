@@ -229,7 +229,9 @@
 		<module>provider/dataset-ibm</module>
 		<module>provider/dataset-gc</module>
 		<module>provider/dataset-azure</module>
-  </modules>
+		<module>dataset-core-plus</module>
+
+	</modules>
 
 	<build>
 		<pluginManagement>
