@@ -18,18 +18,15 @@ package org.opengroup.osdu.dataset.provider.aws.dms;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 
 
 
-@RunWith(MockitoJUnitRunner.class)
-public class DmsFactoryTest {
+class DmsFactoryTest {
 
     private DpsHeaders dpsHeaders;
 
@@ -37,15 +34,15 @@ public class DmsFactoryTest {
 
     private DmsFactory dmsFactory;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    public void setUp() {
         dpsHeaders = new DpsHeaders();
         dmsServiceProperties = new DmsServiceProperties("https://bogusurl");
         dmsFactory = new DmsFactory();
     }
 
     @Test
-    public void testCreateDmsService() {
+    void testCreateDmsService() {
         assertDoesNotThrow(() -> {dmsFactory.create(dpsHeaders, dmsServiceProperties);}, "DmsFactory.create(...) should not throw an exception!");
     }
 

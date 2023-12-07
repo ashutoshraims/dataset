@@ -30,9 +30,9 @@ import static org.mockito.Mockito.doNothing;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.junit.Test;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -87,6 +87,9 @@ public class DatasetDmsServiceMapImplTest {
 
     @Mock
     private DmsRegistrations registrationsMock;
+
+    public DatasetDmsServiceMapImplTest() {
+    }
 
     @Before
     public void setup() {
