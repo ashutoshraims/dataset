@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import javax.validation.constraints.Pattern;
 import org.opengroup.osdu.core.common.dms.IDmsService;
 import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
@@ -52,7 +53,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.RequestScope;
-	
+
 @RestController
 @RequestMapping("/")
 @Tag(name = "dataset", description = "dataset api operations")
@@ -60,9 +61,9 @@ import org.springframework.web.context.annotation.RequestScope;
 @Validated
 public class DatasetDmsApi {
 
-    @Inject
+	public static final String EXPIRY_TIME_PATTERN = "\\d+([mhd]|[MHD])$";
+	@Inject
 	private DpsHeaders headers;
-	
 	@Inject
 	private DatasetDmsService datasetDmsService;
 	@Inject
@@ -86,7 +87,7 @@ public class DatasetDmsApi {
 			@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
 			@RequestParam(value = "kindSubType") String kindSubType,
 			@Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
-					example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
+					example = "5M")  @Valid @Pattern(regexp = EXPIRY_TIME_PATTERN) @RequestParam(required = false, name = "expiryTime") String expiryTime) {
 		StorageInstructionsResponse response = this.datasetDmsService.getStorageInstructions(kindSubType, expiryTime);
 		this.auditLogger.readStorageInstructionsSuccess(Collections.singletonList(response.toString()));
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -109,7 +110,7 @@ public class DatasetDmsApi {
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry id",
 			example = "opendes:dataset--File.Generic:8118591ee2")
 			@RequestParam(value = "id") String datasetRegistryId, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
-			example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
+			example = "5M")  @Valid @Pattern(regexp = EXPIRY_TIME_PATTERN) @RequestParam(required = false, name = "expiryTime") String expiryTime) {
 
 		List<String> datasetRegistryIds = new ArrayList<>();
 		datasetRegistryIds.add(datasetRegistryId);
@@ -133,7 +134,7 @@ public class DatasetDmsApi {
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_VIEWER_ROLE + "', '" + DatasetConstants.DATASET_EDITOR_ROLE + "', '" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
 	public ResponseEntity<Object> retrievalInstructions(@Parameter(description = "Dataset registry ids")
 			@RequestBody @Valid @NotNull GetDatasetRegistryRequest request, @Parameter(description = "The Time for which Signed URL to be valid. Accepted Regex patterns are \"^[0-9]+M$\", \"^[0-9]+H$\", \"^[0-9]+D$\" denoting Integer values in Minutes, Hours, Days respectively. In absence of this parameter the URL would be valid for 1 Hour.",
-			example = "5M")  @RequestParam(required = false, name = "expiryTime") String expiryTime) {
+			example = "5M")  @Valid @Pattern(regexp = EXPIRY_TIME_PATTERN) @RequestParam(required = false, name = "expiryTime") String expiryTime) {
 
 		return getRetrievalInstructions(request.datasetRegistryIds, expiryTime);
 	}
@@ -154,7 +155,6 @@ public class DatasetDmsApi {
 			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
 			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class))})
 	})
-
 	@PostMapping("/revokeURL")
 	@PreAuthorize("@authorizationFilter.hasRole('" + DatasetConstants.DATASET_ADMIN_ROLE + "')")
 	public ResponseEntity<Void> revokeURL(@Parameter(description = "subType of the kind (partition:wks:kindSubType:version)", example = "dataset--File.Generic")
