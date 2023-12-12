@@ -76,7 +76,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>os-core-common</artifactId>
-            <version>0.24.0</version>
+            <version>0.25.0</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
@@ -127,7 +127,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>os-osm-core</artifactId>
-            <version>0.25.0-rc2</version>
+            <version>0.25.0</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback.contrib</groupId>
