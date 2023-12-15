@@ -45,12 +45,12 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>core-lib-gc</artifactId>
-            <version>0.24.0</version>
+            <version>0.25.0</version>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>os-core-common</artifactId>
-            <version>0.25.0-rc2</version>
+            <version>0.25.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.http-client</groupId>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>obm</artifactId>
-            <version>0.24.0</version>
+            <version>0.25.0</version>
         </dependency>
     </dependencies>
 </project>
