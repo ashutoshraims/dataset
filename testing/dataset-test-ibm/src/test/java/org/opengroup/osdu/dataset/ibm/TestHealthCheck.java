@@ -17,7 +17,19 @@
 
 package org.opengroup.osdu.dataset.ibm;
 
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.junit.Assert;
+import org.junit.Test;
+import org.opengroup.osdu.dataset.HeaderUtils;
 import org.opengroup.osdu.dataset.HealthCheckApiTest;
+import org.opengroup.osdu.dataset.TenantUtils;
+import org.opengroup.osdu.dataset.TestUtils;
+import org.opengroup.osdu.dataset.ibm.util.IBMTestUtils;
+import org.springframework.http.HttpStatus;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class TestHealthCheck extends HealthCheckApiTest {
   @Override
@@ -25,4 +37,24 @@ public class TestHealthCheck extends HealthCheckApiTest {
 
   @Override
   public void tearDown() throws Exception {}
+  private static final IBMTestUtils ibmTestUtils = new IBMTestUtils();
+  @Test
+  @Override
+  public void should_returnOk() throws Exception {
+    CloseableHttpResponse response = TestUtils.send("liveness_check", "GET", getHeaders(TenantUtils.getTenantName(), ibmTestUtils.getToken()), "", "");
+    Assert.assertEquals((long) HttpStatus.OK.value(), (long)response.getCode());
+  }
+  public static Map<String, String> getHeaders(String tenantName, String token) {
+    Map<String, String> headers = new HashMap();
+    if (tenantName == null || tenantName.isEmpty()) {
+      tenantName = TenantUtils.getTenantName();
+    }
+
+    headers.put("data-partition-id", tenantName);
+    headers.put("Authorization", token);
+    String correlationId = UUID.randomUUID().toString();
+    System.out.printf("Using correlation-id for the request: %s \n", correlationId);
+    headers.put("correlation-id", correlationId);
+    return headers;
+  }
 }
