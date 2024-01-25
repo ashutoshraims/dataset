@@ -57,7 +57,7 @@
             <dependency>
 	            <groupId>org.springframework.security</groupId>
 	            <artifactId>spring-security-core</artifactId>
-	            <version>5.8.2</version>
+	            <version>5.8.5</version>
 	        </dependency>
         </dependencies>
     </dependencyManagement>
@@ -77,12 +77,23 @@
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>dataset-core</artifactId>
             <version>${version.number}</version>
+            <exclusions>
+                 <exclusion>
+                     <groupId>net.minidev</groupId>
+                     <artifactId>json-smart</artifactId>
+                 </exclusion>
+             </exclusions>
         </dependency>
         <!-- Third party Apache 2.0 license packages -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+             <groupId>net.minidev</groupId>
+             <artifactId>json-smart</artifactId>
+             <version>2.4.10</version>
+         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
@@ -196,7 +207,7 @@
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-core</artifactId>
-		    <version>9.0.69</version>
+		    <version>9.0.85</version>
 		</dependency>
 
     </dependencies>

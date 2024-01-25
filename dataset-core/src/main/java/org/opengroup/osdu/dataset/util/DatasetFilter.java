@@ -18,6 +18,7 @@ package org.opengroup.osdu.dataset.util;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.servlet.Filter;
@@ -77,8 +78,16 @@ public class DatasetFilter implements Filter {
 		for(Map.Entry<String, String> header : responseHeaders.entrySet()){
 			httpResponse.setHeader(header.getKey(), header.getValue());
 		}
-		httpResponse.addHeader(DpsHeaders.CORRELATION_ID, this.dpsHeaders.getCorrelationId());
 
+		// This block is needed to handle CWE-601
+		String correlationId = this.dpsHeaders.getCorrelationId();
+		Pattern redirectPattern = Pattern.compile("redirect");
+		boolean findRedirect = redirectPattern.matcher(correlationId).find();
+		if (!findRedirect) {
+			httpResponse.addHeader(DpsHeaders.CORRELATION_ID, correlationId);
+		} else {
+			throw new ServletException("Correlation Id contains redirecting String");
+		}
 		// This block handles the OPTIONS preflight requests performed by Swagger. We
 		// are also enforcing requests coming from other origins to be rejected.
 		if (httpRequest.getMethod().equalsIgnoreCase(OPTIONS_STRING)) {

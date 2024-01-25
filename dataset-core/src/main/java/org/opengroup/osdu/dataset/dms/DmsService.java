@@ -46,6 +46,8 @@ public class DmsService implements IDmsProvider {
     public static final String NON_OK_RESPONSE_FROM_DMS_SERVICE = "Non-OK response received from DMS service: %s";
     public static final String NO_RESPONSE_BODY_FROM_DMS_SERVICE = "No response body from DMS service.";
 
+    public static final int CONNECTION_TIMEOUT = 60000;
+
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final DmsServiceProperties dmsServiceProperties;
@@ -123,6 +125,7 @@ public class DmsService implements IDmsProvider {
                 .url(url)
                 .headers(this.headers.getHeaders())
                 .queryParams(params)
+                .connectionTimeout(CONNECTION_TIMEOUT)
                 .build());
 
         int responseCode = result.getResponseCode();
