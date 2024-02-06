@@ -62,6 +62,12 @@ API information is available in the swagger doc located in the docs folder: [Dat
 
 All the Swagger and OpenAPI related common properties are managed here [swagger.properties](./dataset-core/src/main/resources/swagger.properties)
 
+#### Server Url(full path vs relative path) configuration
+- `api.server.fullUrl.enabled=true` It will generate full server url in the OpenAPI swagger
+- `api.server.fullUrl.enabled=false` It will generate only the contextPath only
+- default value is false (Currently only in Azure it is enabled)
+[Reference]:(https://springdoc.org/faq.html#_how_is_server_url_generated) 
+
 ## Service Provider Interfaces
 
 The Dataset service has a few Service Provider Interfaces that can be implemented.
