@@ -35,7 +35,7 @@
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <osdu.corelibazure.version>0.25.0</osdu.corelibazure.version>
+        <osdu.corelibazure.version>0.26.0-rc5</osdu.corelibazure.version>
         <osdu.oscorecommon-version>0.25.0</osdu.oscorecommon-version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
