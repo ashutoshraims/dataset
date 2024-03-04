@@ -91,7 +91,6 @@ public class CloudStorageUtilAnthos extends CloudStorageUtil {
 
         String fileFolderAndName = collectionInstructionsItem.getFileCollectionSource() + "/" + fileName;
         multipartBuilder.addFormDataPart("key", fileFolderAndName);
-        multipartBuilder.addFormDataPart("Content-Type", "text/txt");
 
         multipartBuilder.addFormDataPart("file", fileName, RequestBody.create(fileContents.getBytes(), null));
         Request request = new Request.Builder()
