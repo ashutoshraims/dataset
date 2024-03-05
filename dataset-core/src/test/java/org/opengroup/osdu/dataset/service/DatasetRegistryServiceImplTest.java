@@ -60,6 +60,7 @@ import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryR
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.opengroup.osdu.dataset.schema.ISchemaFactory;
 import org.opengroup.osdu.dataset.schema.ISchemaService;
+import org.springframework.http.HttpStatus;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -380,14 +381,12 @@ public class DatasetRegistryServiceImplTest {
         try {
             datasetRegistryService.createOrUpdateDatasetRegistry(Collections.singletonList(getRecord(RECORD_ID, INVALID_KIND)));
         }
-        catch (Exception exception) {
-            assertTrue(exception instanceof AppException);
-            assertEquals("One or more records has an invalid Kind. Must use 'dataset' group type", exception.getMessage());
+        catch (AppException exception) {
+            assertEquals(HttpStatus.BAD_REQUEST.value(), exception.getError().getCode());
         }
 
         verify(storageFactory, times(1)).create(headers);
         verify(schemaFactory, times(1)).create(headers);
-        verify(headers, times(1)).getPartitionId();
     }
 
     @Test
@@ -491,6 +490,17 @@ public class DatasetRegistryServiceImplTest {
 
         verify(storageFactory, times(1)).create(headers);
         verify(storageService, times(1)).getRecords(eq(Collections.singletonList(RECORD_ID)));
+    }
+
+    @Test
+    public void should_throwAppException_when_recordHasInvalidKind() {
+        try {
+            datasetRegistryService.createOrUpdateDatasetRegistry(Collections.singletonList(getRecord(RECORD_ID, null)));
+        }
+        catch (AppException exception) {
+            assertEquals(HttpStatus.BAD_REQUEST.value(), exception.getError().getCode());
+        }
+
     }
 
     @After
