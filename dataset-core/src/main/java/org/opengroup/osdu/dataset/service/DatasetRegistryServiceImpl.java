@@ -208,16 +208,16 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
 
         for (Record dataset : datasets) {
             String datasetKind = dataset.getKind();
+            if (!this.validateKindIsValidAndGroupTypeIsDataset(datasetKind)) {
+                String msg = String.format("The record '%s' does not have a valid kind", dataset.getId());
+                throw new AppException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                    msg);
+            }
 
             if (dataset.getId() != null && !isOsduRecordIdValid(dataset.getId(), headers.getPartitionId(), datasetKind)) {
                 String msg = String.format(
 							"The record '%s' does not have a valid ID",	dataset.getId());
 					throw new AppException(HttpStatus.BAD_REQUEST.value(), "Invalid record id", msg);
-            }
-
-            if (!this.validateKindIsValidAndGroupTypeIsDataset(datasetKind)) {
-                throw new AppException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                        "One or more records has an invalid Kind. Must use 'dataset' group type");
             }
 
             Object schema = schemaKindsCache.get(datasetKind);
@@ -258,9 +258,10 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
     }
 
     private boolean validateKindIsValidAndGroupTypeIsDataset(String kind) {
+        if (kind == null) return false;
+
         Matcher matcher = datasetKindPattern.matcher(kind);
-        boolean matchFound = matcher.find();
-        return matchFound;
+        return matcher.find();
     }
 
     private String getKindSubtype(String kind) {
