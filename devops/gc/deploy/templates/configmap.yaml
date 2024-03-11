@@ -13,4 +13,8 @@ data:
   REDIS_GROUP_HOST: {{ printf "redis-%s" .Values.conf.appName | quote }}
   {{- end }}
   REDIS_GROUP_PORT: {{ .Values.data.redisDatasetPort | quote }}
-  SPRING_PROFILES_ACTIVE: {{ .Values.data.springProfilesActive | quote }}
+  {{- if .Values.global.onPremEnabled }}
+  SPRING_PROFILES_ACTIVE: "anthos"
+  {{- else }}
+  SPRING_PROFILES_ACTIVE: "gcp"
+  {{- end }}
