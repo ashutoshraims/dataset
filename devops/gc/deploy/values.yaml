@@ -10,13 +10,12 @@ global:
 data:
   # Configmap
   logLevel: "ERROR"
-  springProfilesActive: "gcp"
   # Deployment
   requestsCpu: "5m"
   requestsMemory: "300Mi"
   limitsCpu: "1"
   limitsMemory: "1G"
-  serviceAccountName: ""
+  serviceAccountName: "dataset"
   imagePullPolicy: "IfNotPresent"
   image: ""
   # redis connection. Change it if you want to use external redis

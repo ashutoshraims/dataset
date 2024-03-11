@@ -39,7 +39,6 @@ First you need to set variables in **values.yaml** file using any code editor. S
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
 **data.logLevel** | logging level | string | "ERROR" | yes
-**data.springProfilesActive** | Spring profile that activate default configuration for Google Cloud environment | string | "gcp" | yes
 **data.redisDatasetHost** | The host for an external redis instance. If empty (by default), helm installs an internal redis instance | string | - | yes
 **data.redisDatasetPort** | The port for an external redis instance | digit | 6379 | yes
 
