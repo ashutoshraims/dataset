@@ -19,22 +19,22 @@ The File service defines the following workflows:
 
 The dataset storage instructions workflow is defined for the `/v1/getStorageInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getStorageInstructions](/img/getStorageInstructions.png)
+![OSDU Dataset Service getStorageInstructions](img/getStorageInstructions.png)
 
 ### Dataset Retrieval Instructions
 
 The dataset retrieval instructions workflow is defined for the `/v1/getRetrievalInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getRetrievalInstructions](/img/getRetrievalInstructions.png)
+![OSDU Dataset Service getRetrievalInstructions](img/getRetrievalInstructions.png)
 
 ### Dataset Registry Registration
 
 The dataset registry registration workflow is defined for the `/v1/registerDataset` API endpoint. The following diagram illustrates the workflow.
 
-![OSDU Dataset Service registerDatasetRegistry](/img/registerDatasetRegistry.png)
+![OSDU Dataset Service registerDatasetRegistry](img/registerDatasetRegistry.png)
 
 ### Dataset Registry Retrieval
 
 The dataset registry retrieval workflow is defined for the `/v1/getDatasetRegistry` API endpoints (GET/POST). The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getDatasetRegistry](/img/getDatasetRegistry.png)
+![OSDU Dataset Service getDatasetRegistry](img/getDatasetRegistry.png)
