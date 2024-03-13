@@ -4,6 +4,10 @@
 
 [[_TOC_]]
 
+## Documentation
+
+Official documentation home for [Dataset Service](https://osdu.pages.opengroup.org/platform/system/dataset/)
+
 ## Introduction
 
 The OSDU Dataset service provides internal and external API endpoints to allow and application or user fetch storage/retrieval instructions for various types of datasets.  (ex. File Datasets)
@@ -23,25 +27,25 @@ The File service defines the following workflows:
 
 The dataset storage instructions workflow is defined for the `/v1/getStorageInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getStorageInstructions](docs/img/getStorageInstructions.png)
+![OSDU Dataset Service getStorageInstructions](docs/docs/img/getStorageInstructions.png)
 
 ### Dataset Retrieval Instructions
 
 The dataset retrieval instructions workflow is defined for the `/v1/getRetrievalInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getRetrievalInstructions](docs/img/getRetrievalInstructions.png)
+![OSDU Dataset Service getRetrievalInstructions](docs/docs/img/getRetrievalInstructions.png)
 
 ### Dataset Registry Registration
 
 The dataset registry registration workflow is defined for the `/v1/registerDataset` API endpoint. The following diagram illustrates the workflow.
 
-![OSDU Dataset Service registerDatasetRegistry](docs/img/registerDatasetRegistry.png)
+![OSDU Dataset Service registerDatasetRegistry](docs/docs/img/registerDatasetRegistry.png)
 
 ### Dataset Registry Retrieval
 
 The dataset registry retrieval workflow is defined for the `/v1/getDatasetRegistry` API endpoints (GET/POST). The following diagram illustrates the workflow.
 
-![OSDU Dataset Service getDatasetRegistry](docs/img/getDatasetRegistry.png)
+![OSDU Dataset Service getDatasetRegistry](docs/docs/img/getDatasetRegistry.png)
 
 ## Validations
 
