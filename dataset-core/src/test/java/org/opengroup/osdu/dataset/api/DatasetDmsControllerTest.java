@@ -67,9 +67,11 @@ import org.springframework.web.context.WebApplicationContext;
 public class DatasetDmsControllerTest {
 
   public static final String EXPECTED_VALID_STORAGE = "{\"providerKey\":\"TEST\",\"storageLocation\":{}}";
-  public static final String EXPECTED_NOT_VALID_STORAGE = "{\"code\":400,\"reason\":\"Validation error.\",\"message\":\"storageInstructions.expiryTime: must match \\\"\\\\d+([mhd]|[MHD])$\\\"\"}";
+  //Need to update following from storageInstructions.expiryTime to storageInstructions.arg1 since jakarta no longer return parameter name.
+  public static final String EXPECTED_NOT_VALID_STORAGE = "{\"code\":400,\"reason\":\"Validation error.\",\"message\":\"storageInstructions.arg1: must match \\\"\\\\d+([mhd]|[MHD])$\\\"\"}";
   public static final String EXPECTED_VALID_RETRIEVAL = "{\"datasets\":[{\"datasetRegistryId\":\"id\",\"retrievalProperties\":{},\"providerKey\":\"TEST\"}]}";
-  public static final String EXPECTED_NOT_VALID_RETRIEVAL = "{\"code\":400,\"reason\":\"Validation error.\",\"message\":\"retrievalInstructions.expiryTime: must match \\\"\\\\d+([mhd]|[MHD])$\\\"\"}";
+  //Need to update following from storageInstructions.expiryTime to storageInstructions.arg1 since jakarta no longer return parameter name.
+  public static final String EXPECTED_NOT_VALID_RETRIEVAL = "{\"code\":400,\"reason\":\"Validation error.\",\"message\":\"retrievalInstructions.arg1: must match \\\"\\\\d+([mhd]|[MHD])$\\\"\"}";
   @ClassRule
   public static final SpringClassRule scr = new SpringClassRule();
   @Rule

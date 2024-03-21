@@ -16,8 +16,8 @@ package org.opengroup.osdu.dataset.model.request;
 
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import org.opengroup.osdu.dataset.model.validation.DatasetRegistryValidationDoc;
 import org.opengroup.osdu.core.common.model.storage.Record;

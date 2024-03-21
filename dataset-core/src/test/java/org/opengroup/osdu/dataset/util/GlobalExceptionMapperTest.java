@@ -16,12 +16,13 @@ import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.dataset.model.validation.DmsValidationDoc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
@@ -98,7 +99,7 @@ public class GlobalExceptionMapperTest {
     public void testHandleHttpRequestMethodNotSupported() throws Exception {
 
         Method m = c.getDeclaredMethod("handleHttpRequestMethodNotSupported",
-                HttpRequestMethodNotSupportedException.class,HttpHeaders.class,HttpStatus.class,WebRequest.class);
+                HttpRequestMethodNotSupportedException.class,HttpHeaders.class,HttpStatusCode.class,WebRequest.class);
         m.setAccessible(true);
         HttpRequestMethodNotSupportedException e = new HttpRequestMethodNotSupportedException("Method Not Supported");
         HttpHeaders headers = new HttpHeaders();

@@ -46,10 +46,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.14.1</version>
+      </dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.7.17</version>
+				<version>3.2.2</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -83,8 +88,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>os-core-common</artifactId>
-			<version>0.25.0</version>
+			<artifactId>os-core-common-spring6</artifactId>
+			<version>0.26.0-rc2</version>
 			<exclusions>
 				<!-- conflict with http client from core-lib-gc -->
 				<exclusion>
@@ -94,9 +99,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>core-lib-gc</artifactId>
-			<version>0.25.0</version>
+  			<groupId>org.opengroup.osdu</groupId>
+  			<artifactId>core-lib-gc-spring6</artifactId>
+  			<version>0.26.0-rc5</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -104,6 +109,12 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -132,12 +143,6 @@
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
 		    <version>2.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
-		<dependency>
-		    <groupId>org.apache.tomcat.embed</groupId>
-		    <artifactId>tomcat-embed-core</artifactId>
-		    <version>9.0.76</version>
 		</dependency>
 
 		<dependency>
@@ -169,7 +174,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.7.4</version>
+				<version>3.2.3</version>
 				<configuration>
 					<mainClass>org.opengroup.osdu.dataset.provider.gcp.DatasetApplicationGCP</mainClass>
 				</configuration>

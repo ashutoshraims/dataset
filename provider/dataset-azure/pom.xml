@@ -35,11 +35,11 @@
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <osdu.corelibazure.version>0.26.0-rc5</osdu.corelibazure.version>
-        <osdu.oscorecommon-version>0.25.0</osdu.oscorecommon-version>
+        <osdu.corelibazure.version>0.26.0-rc6</osdu.corelibazure.version>
+        <os-core-common.version>0.26.0-rc2</os-core-common.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
-        <jackson-databind.version>2.13.4.2</jackson-databind.version>
-        <jackson.version>2.13.4</jackson.version>
+        <jackson-databind.version>2.14.1</jackson-databind.version>
+        <jackson.version>2.16.1</jackson.version>
         <netty.version>4.1.101.Final</netty.version>
         <reactor-netty.version>1.1.14</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
@@ -58,21 +58,21 @@
                 <scope>import</scope>
             </dependency>
             <!-- Inherit managed dependencies from core-lib-azure -->
-            
+
             <dependency>
-			    <groupId>org.springframework.boot</groupId>
-			    <artifactId>spring-boot-dependencies</artifactId>
-			    <version>2.7.17</version>
-			    <type>pom</type>
-			    <scope>import</scope>
-			</dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.2.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
             </dependency>
             <dependency>
                 <groupId>org.opengroup.osdu</groupId>
-                <artifactId>core-lib-azure</artifactId>
+                <artifactId>core-lib-azure-spring6</artifactId>
                 <version>${osdu.corelibazure.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -108,7 +108,8 @@
     <dependencies>
         <dependency>
             <groupId>com.azure.spring</groupId>
-            <artifactId>azure-spring-boot-starter-active-directory</artifactId>
+            <artifactId>spring-cloud-azure-starter-active-directory</artifactId>
+            <version>5.10.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -124,19 +125,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <scope>compile</scope>
+            <version>1.11.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.logging.log4j</groupId>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -164,7 +163,8 @@
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
-            <artifactId>os-core-common</artifactId>
+            <artifactId>os-core-common-spring6</artifactId>
+            <version>${os-core-common.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
@@ -180,26 +180,15 @@
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>dataset-core</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.logging.log4j</groupId>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
-            <artifactId>core-lib-azure</artifactId>
-            <version>${osdu.corelibazure.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.woodstox</groupId>
-                    <artifactId>woodstox-core</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>core-lib-azure-spring6</artifactId>
+            <version>0.26.0-rc6</version>
         </dependency>
 
-         <!-- override jackson dependencies, can be removed after update os-core-common and azure-core-lib -->
+
+        <!-- override jackson dependencies, can be removed after update os-core-common and azure-core-lib -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -213,7 +202,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
@@ -235,6 +223,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>3.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -276,7 +270,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.4</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <goals>
