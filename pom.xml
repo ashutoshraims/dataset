@@ -26,14 +26,15 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<os-core-common.version>0.26.0-rc8</os-core-common.version>
-		<jackson.version>2.13.4.2</jackson.version>
+		<os-core-common.version>0.26.0-rc2</os-core-common.version>
+		<spring-security.version>6.2.2</spring-security.version>
+		<jackson.version>2.16.1</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
 		<log4j2.version>2.17.1</log4j2.version>
-		<openapi.version>1.6.14</openapi.version>
+		<openapi.version>2.3.0</openapi.version>
 		<json-smart.version>2.4.9</json-smart.version>
 	</properties>
 
@@ -68,13 +69,13 @@
 			</dependency>
 			<dependency>
 				<groupId>org.opengroup.osdu</groupId>
-				<artifactId>os-core-common</artifactId>
+				<artifactId>os-core-common-spring6</artifactId>
 				<version>${os-core-common.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.7.17</version>
+				<version>3.2.3</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -84,15 +85,15 @@
 				<version>${nimbusds.version}</version>
 			</dependency> -->
 			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>2.13.4</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
+ 				<groupId>com.fasterxml.jackson.core</groupId>
+ 				<artifactId>jackson-core</artifactId>
+ 				<version>2.16.1</version>
+ 			</dependency>
+ 			<dependency>
+ 				<groupId>com.fasterxml.jackson.core</groupId>
+ 				<artifactId>jackson-databind</artifactId>
+ 				<version>2.14.1</version>
+ 			</dependency>
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
@@ -116,7 +117,7 @@
 		<!-- swagger dependency -->
     	<dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${openapi.version}</version>
     	</dependency>
 		<dependency>
@@ -132,10 +133,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
+			<version>${spring-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
+			<version>${spring-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -239,6 +242,7 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>3.2.3</version>
 					<executions>
 						<execution>
 							<id>build-info</id>

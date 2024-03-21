@@ -20,6 +20,5 @@ CMD java -Djava.security.egd=file:/dev/./urandom \
          -Dserver.port=${PORT} \
          -Dlog4j.formatMsgNoLookups=true \
          -Dloader.path=plugins/ \
-         -Dloader.debug=true \
          -Dloader.main=org.opengroup.osdu.dataset.provider.gcp.DatasetCorePlusApplication \
          -jar /app/dataset-${PROVIDER_NAME}.jar

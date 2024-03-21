@@ -6,7 +6,7 @@ package org.opengroup.osdu.dataset.provider.ibm;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;

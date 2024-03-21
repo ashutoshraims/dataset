@@ -12,7 +12,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import java.util.UUID;
 
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
