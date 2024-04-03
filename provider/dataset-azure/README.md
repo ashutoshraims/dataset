@@ -185,6 +185,43 @@ export PUBSUB_TOKEN: "az"
 export DEPLOY_ENV: "empty"
 ```
 
+## Testing the deployed service
+
+Smoke Tests Postman Collection can be found here: https://community.opengroup.org/osdu/platform/pre-shipping/-/tree/main/R3-M22/Azure-M22/Services/Smoke-tests?ref_type=heads
+
+In there, we have Dataset tests that provides support for File.Generic and FileCollection.Generic kind types.
+
+### File.Generic
+
+The tests are provided for uploading a single file by a signed URL.
+For that, below steps are present:
+1. Create a legal tag: to be used in step 4 while registering the dataset
+2. Get the storage instructions with kind type as File.Generic: Creates a placeholder inside a staging location
+3. Upload the file at that Url retrieved in previous step
+4. Register the dataset: this step moves the placeholder created in step 2 to the persistent area
+5. Get retrieval instructions: Returns the URl by which the file can be downloaded
+6. Cleanup: Delete the legal tag and the record
+
+### FileCollection.Generic
+
+The tests provided are to support upload and download of multiple files using FileCollectionDms endpoints. Example shows two files, file1 and file2 with simple hardcoded contents for simpler context.
+
+1. Create a legal tag: to be used in step 4 while registering the dataset
+2. Get the storage instructions with kind type as FileCollection.Generic: Creates a placeholder inside a staging location, the tests script create further urls using 2 file names, eg: file1, file2:
+   1. create file url
+   2. upload file url
+   3. flush file url
+   4. read file url
+3. Use the create_file_url to create the placeholder
+4. Use the upload_file_url to append to the placeholder, using the file file1, adjust the content length in the request to match the actual file content size.
+5. Use the flush_file_url to flush the file
+6. Read the file using the read_file_url, confirms the file was uploaded fine
+7. Repeat the steps for next file
+8. Register the dataset: Moves the entire folder to a persistent area
+9. Get retrieval instructions: return the URL by which the files will be downloaded, creates the file download urls using the file names from step 2.
+10. Download both the files
+11. Cleanup of: record and legal tag.
+
 ## License
 Copyright © Microsoft Corporation
 

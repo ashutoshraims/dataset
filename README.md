@@ -87,13 +87,13 @@ The Dataset service has a few Service Provider Interfaces that can be implemente
 Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
 
-#***REMOVED*** Implementation
+## Implementation
 
 ### Running the Dataset Registry Service locally
 
 The Dataset Registry Service is a Maven multi-module project with each cloud implemention placed in its submodule.
 
-#### Other platforms
+###***REMOVED***
 
 1. Navigate to the module of the cloud of interest, for example, ```dataset-aws```. Configure ```application.properties``` and optionally ```logback-spring.xml```. Intead of changing these files in the source, you can also provide external files at run time.
 
@@ -165,6 +165,11 @@ This section describes the deployment process for each cloud provider.
 ##***REMOVED***
 
 All documentation for the Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gc/README.md)
+
+### Azure
+
+Documentation for the Azure Cloud implementation of `os-dataset` can be found [here](./provider/dataset-azure/README.md)
+
 
 ## Running integration tests
 
