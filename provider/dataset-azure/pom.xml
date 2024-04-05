@@ -35,7 +35,7 @@
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <osdu.corelibazure.version>0.26.0-rc6</osdu.corelibazure.version>
+        <osdu.corelibazure.version>0.26.0-rc7</osdu.corelibazure.version>
         <os-core-common.version>0.26.0-rc2</os-core-common.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <jackson-databind.version>2.14.1</jackson-databind.version>
@@ -62,7 +62,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -184,7 +184,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>core-lib-azure-spring6</artifactId>
-            <version>0.26.0-rc6</version>
+            <version>${osdu.corelibazure.version}</version>
         </dependency>
 
 
@@ -270,7 +270,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <goals>
