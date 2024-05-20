@@ -39,6 +39,10 @@
                   <groupId>org.springframework.security</groupId>
                   <artifactId>spring-security-core</artifactId>
               </exclusion>
+              <exclusion>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-core</artifactId>
+              </exclusion>
           </exclusions>
       </dependency>
 
@@ -101,6 +105,10 @@
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
             </exclusions>
          </dependency>
         <dependency>
@@ -124,6 +132,10 @@
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>    
 
@@ -135,6 +147,10 @@
                 <exclusion>
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -150,6 +166,10 @@
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -159,6 +179,10 @@
                 <exclusion>
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -174,6 +198,10 @@
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
                 </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
             </exclusions>
 		</dependency>
         <dependency>
@@ -181,6 +209,12 @@
             <artifactId>spring-data-commons</artifactId>
             <!-- <version>2.1.10.RELEASE</version> -->
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>jakarta.inject</groupId>
@@ -191,11 +225,28 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>6.1.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>6.1.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>6.2.4</version>
+           <version>6.2.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- Testing packages -->
         <dependency>
@@ -225,6 +276,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -234,6 +291,10 @@
                 <exclusion>
                     <groupId>org.springframework.security</groupId>
                     <artifactId>spring-security-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
