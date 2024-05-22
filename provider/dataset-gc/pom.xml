@@ -153,7 +153,7 @@
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
 			<artifactId>osm</artifactId>
-			<version>0.25.0</version>
+			<version>0.27.0-rc2</version>
 		</dependency>
 
 		<dependency>
