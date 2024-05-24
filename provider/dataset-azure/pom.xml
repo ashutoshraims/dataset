@@ -36,10 +36,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
         <osdu.corelibazure.version>0.26.0-rc7</osdu.corelibazure.version>
-        <os-core-common.version>0.26.0-rc2</os-core-common.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
-        <jackson-databind.version>2.14.1</jackson-databind.version>
-        <jackson.version>2.16.1</jackson.version>
         <netty.version>4.1.101.Final</netty.version>
         <reactor-netty.version>1.1.14</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
@@ -57,25 +54,9 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Inherit managed dependencies from core-lib-azure -->
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.2.4</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.opengroup.osdu</groupId>
-                <artifactId>core-lib-azure-spring6</artifactId>
-                <version>${osdu.corelibazure.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -192,12 +173,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

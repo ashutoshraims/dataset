@@ -37,6 +37,7 @@
         <jackson-databind.version>2.14.1</jackson-databind.version>
         <jackson.version>2.16.1</jackson.version>
         <os-core-common.version>0.26.0-rc2</os-core-common.version>
+        <spring-security.version>6.2.2</spring-security.version>
     </properties>
 
     <dependencyManagement>
@@ -128,7 +129,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
         <!-- Testing packages -->
         <dependency>
             <groupId>junit</groupId>
