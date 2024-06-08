@@ -13,7 +13,13 @@
 
 ## Environment variables
 
-Define the following environment variables.
+Defined in default application property file but possible to override:
+
+| name                              | value                                        | description                         | sensitive? | source        |
+|-----------------------------------|----------------------------------------------|-------------------------------------|------------|---------------|
+| `MANAGEMENT_ENDPOINTS_WEB_BASE`   | ex `/`                                       | Web base for Actuator               | no         | -             |
+| `MANAGEMENT_SERVER_PORT`          | ex `8081`                                    | Port for Actuator                   | no         | -             |
+
 
 ### Common properties for all environments
 
