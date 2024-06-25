@@ -26,6 +26,7 @@ import org.opengroup.osdu.core.common.cache.ICache;
 import org.opengroup.osdu.core.common.model.entitlements.Groups;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
+import org.opengroup.osdu.dataset.controller.DatasetRegistryController;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.CreateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
@@ -47,7 +48,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
-@WebMvcTest(controllers = DatasetRegistryApi.class)
+@WebMvcTest(controllers = DatasetRegistryController.class)
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 public class DatasetRegistryControllerTest {

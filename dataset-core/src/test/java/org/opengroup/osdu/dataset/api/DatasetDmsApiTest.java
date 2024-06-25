@@ -14,15 +14,6 @@
 
 package org.opengroup.osdu.dataset.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.lang.reflect.Method;
-import java.util.HashMap;
-
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -35,10 +26,21 @@ import org.opengroup.osdu.core.common.dms.constants.DatasetConstants;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.tenant.TenantInfo;
+import org.opengroup.osdu.dataset.controller.DatasetDmsController;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.service.DatasetDmsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatasetDmsApiTest {
@@ -56,7 +58,7 @@ public class DatasetDmsApiTest {
     private AuditLogger auditLogger;
 
     @InjectMocks
-    private DatasetDmsApi datasetDmsApi;
+    private DatasetDmsController datasetDmsApi;
 
     @Before
     public void setup() {
@@ -82,10 +84,11 @@ public class DatasetDmsApiTest {
 
     @Test
     public void should_allowAccessToGetStorageInstructions_when_userBelongsToEditorGroup() throws Exception {
-        Method method = this.datasetDmsApi.getClass().getMethod("storageInstructions", String.class, String.class);
+        Method method = this.datasetDmsApi.getClass().getInterfaces()[0].getMethod("storageInstructions", String.class, String.class);
         PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
         assertTrue(annotation.value().contains(DatasetConstants.DATASET_EDITOR_ROLE));
     }
+
     @After
     public void tearDown(){
         reset(httpHeaders);

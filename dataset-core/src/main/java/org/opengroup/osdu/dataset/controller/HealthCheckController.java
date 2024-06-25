@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HealthCheckController implements HealthCheckApi {
+
   @Override
   public ResponseEntity<String> livenessCheck() {
     return new ResponseEntity<>("Dataset service is alive.", HttpStatus.OK);
