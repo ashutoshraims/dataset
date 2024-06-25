@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.opengroup.osdu.core.common.info.VersionInfoBuilder;
 import org.opengroup.osdu.core.common.model.info.VersionInfo;
+import org.opengroup.osdu.dataset.controller.InfoController;
 
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class InfoApiTest {
     private VersionInfoBuilder versionInfoBuilder;
 
     @InjectMocks
-    InfoApi infoApi;
+    InfoController infoApi;
 
     @Before
     public void setup() {

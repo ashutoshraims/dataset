@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.annotation.security.PermitAll;
 
+
 @RequestMapping("/")
 @Tag(name = "health-check-api", description = "Health Check API")
 public interface HealthCheckApi {

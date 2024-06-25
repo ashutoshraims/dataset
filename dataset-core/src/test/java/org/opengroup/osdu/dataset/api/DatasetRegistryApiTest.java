@@ -15,18 +15,6 @@
 
 package org.opengroup.osdu.dataset.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -34,12 +22,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.mockito.junit.MockitoJUnitRunner;
+import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.Record;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
-import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.tenant.TenantInfo;
+import org.opengroup.osdu.dataset.controller.DatasetRegistryController;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.CreateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.model.request.GetDatasetRegistryRequest;
@@ -47,6 +35,18 @@ import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryR
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class DatasetRegistryApiTest {
@@ -64,7 +64,7 @@ public class DatasetRegistryApiTest {
     private AuditLogger auditLogger;
 
     @InjectMocks
-    private DatasetRegistryApi datasetRegistryApi;
+    private DatasetRegistryController datasetRegistryApi;
 
     @Before
     public void setup() {
@@ -105,7 +105,7 @@ public class DatasetRegistryApiTest {
     @Test
     public void should_allowAccessToCreateOrUpdateDatasetRegistries_when_userBelongsToCreatorOrAdminGroups() throws Exception {
 
-        Method method = this.datasetRegistryApi.getClass().getMethod("createOrUpdateDatasetRegistry", CreateDatasetRegistryRequest.class);
+        Method method = this.datasetRegistryApi.getClass().getInterfaces()[0].getMethod("createOrUpdateDatasetRegistry", CreateDatasetRegistryRequest.class);
         PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
 
         assertFalse(annotation.value().contains(StorageRole.VIEWER));

@@ -46,6 +46,7 @@ import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.core.common.model.entitlements.Groups;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
+import org.opengroup.osdu.dataset.controller.DatasetDmsController;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.opengroup.osdu.dataset.service.DatasetDmsService;
@@ -61,7 +62,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@WebMvcTest(controllers = DatasetDmsApi.class)
+@WebMvcTest(controllers = DatasetDmsController.class)
 @AutoConfigureMockMvc
 @RunWith(Theories.class)
 public class DatasetDmsControllerTest {
