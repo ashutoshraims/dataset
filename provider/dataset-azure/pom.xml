@@ -35,9 +35,8 @@
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <osdu.corelibazure.version>0.26.0-rc7</osdu.corelibazure.version>
+        <core-lib-azure-spring6.version>0.27.0-rc3</core-lib-azure-spring6.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
-        <netty.version>4.1.101.Final</netty.version>
         <reactor-netty.version>1.1.14</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
         <okhttp.version>4.12.0</okhttp.version>
@@ -45,15 +44,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- netty-bom dependency to be declared before spring-boot-dependencies,
-            to pull all netty-transitive dependencies with same version -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-bom</artifactId>
-                <version>${netty.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -90,7 +80,7 @@
         <dependency>
             <groupId>com.azure.spring</groupId>
             <artifactId>spring-cloud-azure-starter-active-directory</artifactId>
-            <version>5.10.0</version>
+            <version>5.13.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -165,7 +155,7 @@
         <dependency>
             <groupId>org.opengroup.osdu</groupId>
             <artifactId>core-lib-azure-spring6</artifactId>
-            <version>${osdu.corelibazure.version}</version>
+            <version>${core-lib-azure-spring6.version}</version>
         </dependency>
 
 
@@ -210,34 +200,6 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- reactor-netty related dependencies -->
-        <dependency>
-            <groupId>io.projectreactor.netty</groupId>
-            <artifactId>reactor-netty-http</artifactId>
-            <version>${reactor-netty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor.netty</groupId>
-            <artifactId>reactor-netty-core</artifactId>
-            <version>${reactor-netty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor.netty</groupId>
-            <artifactId>reactor-netty-http-brave</artifactId>
-            <version>${reactor-netty.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor.netty</groupId>
-            <artifactId>reactor-netty</artifactId>
-            <version>${reactor-netty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${reactor-core.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -249,7 +211,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
                         <goals>

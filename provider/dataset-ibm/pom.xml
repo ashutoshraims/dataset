@@ -68,7 +68,6 @@
       <dependency>
       	<groupId>io.netty</groupId>
         <artifactId>netty-codec</artifactId>
-        <version>4.1.86.Final</version>
       </dependency>
       	<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -218,7 +217,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>6.1.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -229,12 +227,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>6.1.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-           <version>6.2.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -321,5 +317,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
