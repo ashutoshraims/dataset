@@ -36,6 +36,9 @@
 		<log4j2.version>2.17.1</log4j2.version>
 		<openapi.version>2.3.0</openapi.version>
 		<json-smart.version>2.4.9</json-smart.version>
+		<spring-boot.version>3.3.1</spring-boot.version>
+		<spring-security.version>6.3.1</spring-security.version>
+		<spring-framework.version>6.1.10</spring-framework.version>
 	</properties>
 
 	<licenses>
@@ -50,6 +53,27 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring-framework.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-bom</artifactId>
+				<version>${spring-security.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- <dependency>
 				<groupId>io.netty</groupId>
 				<artifactId>netty-bom</artifactId>
