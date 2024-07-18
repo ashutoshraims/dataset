@@ -17,7 +17,6 @@ package org.opengroup.osdu.dataset.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.inject.Inject;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
-import org.opengroup.osdu.core.common.model.storage.StorageRole;
 import org.opengroup.osdu.dataset.api.DatasetRegistryApi;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
 import org.opengroup.osdu.dataset.model.request.CreateDatasetRegistryRequest;
@@ -26,7 +25,6 @@ import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryR
 import org.opengroup.osdu.dataset.service.DatasetRegistryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,5 +73,11 @@ public class DatasetRegistryController implements DatasetRegistryApi {
         GetCreateUpdateDatasetRegistryResponse response = this.dataRegistryService.getDatasetRegistries(request.datasetRegistryIds);
         this.auditLogger.readDatasetRegistriesSuccess(Collections.singletonList(response.toString()));
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteMetadataById(String id) {
+        dataRegistryService.deleteMetadataRecord(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

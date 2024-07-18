@@ -48,6 +48,7 @@ import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
 import org.opengroup.osdu.dataset.controller.DatasetDmsController;
 import org.opengroup.osdu.dataset.logging.AuditLogger;
+import org.opengroup.osdu.dataset.provider.interfaces.ICloudStorage;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.opengroup.osdu.dataset.service.DatasetDmsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,8 @@ public class DatasetDmsControllerTest {
   @Autowired
   private WebApplicationContext context;
 
+  @MockBean
+  private ICloudStorage cloudStorage;
   @Before
   public void setup() {
     mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();

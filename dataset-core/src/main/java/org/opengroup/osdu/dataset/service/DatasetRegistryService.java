@@ -14,15 +14,15 @@
 
 package org.opengroup.osdu.dataset.service;
 
-import java.util.List;
-
 import org.opengroup.osdu.core.common.model.storage.Record;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
+
+import java.util.List;
 
 public interface DatasetRegistryService {
 
 	GetCreateUpdateDatasetRegistryResponse createOrUpdateDatasetRegistry(List<Record> datasetRegistries);
 	GetCreateUpdateDatasetRegistryResponse getDatasetRegistries(List<String> datasetRegistryIds);
 	void deleteDatasetRegistry(String datasetRegistryId);
-
+	void deleteMetadataRecord(String recordId);
 }

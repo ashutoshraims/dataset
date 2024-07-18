@@ -15,6 +15,7 @@
 
 package org.opengroup.osdu.dataset.api;
 
+import com.google.api.client.http.HttpStatusCodes;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +24,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.opengroup.osdu.core.common.http.json.HttpResponseBodyParsingException;
+import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
 import org.opengroup.osdu.core.common.model.storage.Record;
 import org.opengroup.osdu.core.common.model.storage.StorageRole;
@@ -42,7 +45,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -163,6 +168,26 @@ public class DatasetRegistryApiTest {
         assertEquals(expectedResponse, response.getBody());
     }
 
+    @Test
+    public void should_return500_when_deleteMetadataByIdFailsWith500() throws HttpResponseBodyParsingException{
+        String recordId = "opendes:dataset--File.Generic:autotest5107375";
+        AppException exception = new AppException(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "Failed to parse error from Storage Service");
+        doThrow(exception).when(datasetRegistryService).deleteMetadataRecord(recordId);
+
+        AppException appException = assertThrows(AppException.class, ()->{
+            this.datasetRegistryApi.deleteMetadataById(recordId);
+        });
+        assertEquals(500, appException.getError().getCode());
+    }
+
+    @Test
+    public void should_return204_when_deleteMetadataByIdSuccessful() {
+        String recordId = "opendes:dataset--File.Generic:autotest5107375";
+        ResponseEntity response =  this.datasetRegistryApi.deleteMetadataById(recordId);
+        assertEquals(HttpStatusCodes.STATUS_CODE_NO_CONTENT, response.getStatusCode().value());
+    }
     @After
     public void tearDown(){
         reset(httpHeaders);

@@ -173,20 +173,20 @@ public abstract class DatasetIT extends TestBase {
         getTestStorageInstructions(kindSubType, 400);
     }
 
-    private StorageInstructionsResponse storageInstructions(String kindSubType) throws Exception {
+    public StorageInstructionsResponse storageInstructions(String kindSubType) throws Exception {
         StorageInstructionsResponse getStorageInstResponse = getTestStorageInstructions(kindSubType, 200);
         validateStorageInstructions(getStorageInstResponse);
         return getStorageInstResponse;
     }
 
-    private String uploadFileToSignedUrl(StorageInstructionsResponse getStorageInstResponse, String fileName, String fileContents) throws Exception {
+    public String uploadFileToSignedUrl(StorageInstructionsResponse getStorageInstResponse, String fileName, String fileContents) throws Exception {
         String fileSource = cloudStorageUtil.uploadCloudFileUsingProvidedCredentials(fileName,
                 getStorageInstResponse.getStorageLocation(), fileContents);
         uploadedCloudFileUnsignedUrls.add(fileSource);
         return fileSource;
     }
 
-    private CloseableHttpResponse getTestRetrievalInstructions(List<String> datasetRegistryIds) throws Exception {
+    public CloseableHttpResponse getTestRetrievalInstructions(List<String> datasetRegistryIds) throws Exception {
         RetrievalInstructionsRequest getDatasetRequest = new RetrievalInstructionsRequest();
         getDatasetRequest.setDatasetRegistryIds(datasetRegistryIds);
 
@@ -196,7 +196,7 @@ public abstract class DatasetIT extends TestBase {
                 "");
     }
 
-    private CloseableHttpResponse testRegisterDatasetRequest(List<Record> datasetRegistries) throws Exception {
+    public CloseableHttpResponse testRegisterDatasetRequest(List<Record> datasetRegistries) throws Exception {
         TestGetCreateUpdateDatasetRegistryRequest datasetRegistryRequest = new TestGetCreateUpdateDatasetRegistryRequest(new ArrayList<>());
         datasetRegistryRequest.getDatasetRegistries().addAll(datasetRegistries);
 
@@ -205,7 +205,7 @@ public abstract class DatasetIT extends TestBase {
                 jsonMapper.writeValueAsString(datasetRegistryRequest));
     }
 
-    private StorageInstructionsResponse getTestStorageInstructions(String kindSubType, int expectedStatusCode) throws Exception {
+    public StorageInstructionsResponse getTestStorageInstructions(String kindSubType, int expectedStatusCode) throws Exception {
         CloseableHttpResponse getStorageInstClientResp = TestUtils.send("storageInstructions", "POST",
                 HeaderUtils.getHeaders(TenantUtils.getTenantName(), testUtils.getToken()),
                 "", String.format("?kindSubType=%s", kindSubType));
@@ -221,7 +221,7 @@ public abstract class DatasetIT extends TestBase {
         return jsonMapper.readValue(getStorageRespStr, StorageInstructionsResponse.class);
     }
 
-    private static Record createDatasetRegistry(String id, String filename, String fileSource) {
+    public static Record createDatasetRegistry(String id, String filename, String fileSource) {
         TestGetCreateUpdateDatasetRegistryRequest request = new TestGetCreateUpdateDatasetRegistryRequest();
 
         Record datasetRegistry = new Record();
@@ -261,7 +261,7 @@ public abstract class DatasetIT extends TestBase {
         return datasetRegistry;
     }
 
-    private static String getAclSuffix() {
+    public static String getAclSuffix() {
         String environment = TestUtils.getEnvironment();
         if (environment.equalsIgnoreCase("empty")) {
             environment = "";

@@ -14,17 +14,14 @@
 
 package org.opengroup.osdu.dataset.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.opengroup.osdu.core.common.dms.model.CopyDmsRequest;
 import org.opengroup.osdu.core.common.dms.model.CopyDmsResponse;
 import org.opengroup.osdu.core.common.http.json.HttpResponseBodyMapper;
 import org.opengroup.osdu.core.common.http.json.HttpResponseBodyParsingException;
+import org.opengroup.osdu.core.common.logging.JaxRsDpsLog;
 import org.opengroup.osdu.core.common.model.http.AppException;
 import org.opengroup.osdu.core.common.model.http.DpsException;
 import org.opengroup.osdu.core.common.model.http.DpsHeaders;
@@ -38,16 +35,28 @@ import org.opengroup.osdu.dataset.dms.DmsException;
 import org.opengroup.osdu.dataset.dms.DmsServiceProperties;
 import org.opengroup.osdu.dataset.dms.IDmsFactory;
 import org.opengroup.osdu.dataset.dms.IDmsProvider;
+import org.opengroup.osdu.dataset.model.MetadataRecordData;
 import org.opengroup.osdu.dataset.model.request.SchemaExceptionResponse;
 import org.opengroup.osdu.dataset.model.request.SchemaExceptionResponseBody;
 import org.opengroup.osdu.dataset.model.request.StorageExceptionResponse;
 import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryResponse;
 import org.opengroup.osdu.dataset.model.validation.DmsValidationDoc;
+import org.opengroup.osdu.dataset.provider.interfaces.ICloudStorage;
 import org.opengroup.osdu.dataset.provider.interfaces.IDatasetDmsServiceMap;
 import org.opengroup.osdu.dataset.schema.ISchemaFactory;
 import org.opengroup.osdu.dataset.schema.ISchemaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.opengroup.osdu.dataset.util.ExceptionUtils.handleDmsException;
 
@@ -61,9 +70,14 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
      * example: dataset--File.Generic
      * Official Dataset Kinds: https://community.opengroup.org/osdu/data/data-definitions/-/tree/master/E-R/dataset
      * Regex defined per ADR: https://community.opengroup.org/osdu/platform/system/storage/-/issues/26
-     * 
+     *
      */
     final String DATASET_KIND_REGEX = "^[\\w\\-\\.]+:[\\w\\-\\.]+:dataset--+[\\w\\-\\.]+:[0-9]+.[0-9]+.[0-9]+$";
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    @Autowired
+    private ICloudStorage cloudStorage;
 
     @Inject
     private HttpResponseBodyMapper bodyMapper;
@@ -82,6 +96,9 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
 
     @Inject
     private IDatasetDmsServiceMap dmsServiceMap;
+
+    @Inject
+    private JaxRsDpsLog logger;
 
     Pattern datasetKindPattern = Pattern.compile(DATASET_KIND_REGEX);
 
@@ -237,17 +254,17 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
                                 "Failed to parse error from Schema Service", e1);
                     }
                 }
-            }           
+            }
 
 
-            /* TODO: The R3 schema object is not yet available, 
-             * it will be hard to validate the properties without it, 
-             * so skipping further validation for now            
+            /* TODO: The R3 schema object is not yet available,
+             * it will be hard to validate the properties without it,
+             * so skipping further validation for now
             */
 
             //validate record against schema
             //this.validateDatasetRegistrySchema(dataset, datasetRegistrySchema);
-            
+
             //validate dataset properties field exists
             // if (!dataset.getData().containsKey(DATASET_REGISTRY_DATASET_PROPERTIES_NAME))
             //     throw new AppException(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), DatasetRegistryValidationDoc.MISSING_DATASET_PROPERTIES_VALIDATION);
@@ -332,5 +349,25 @@ public class DatasetRegistryServiceImpl implements DatasetRegistryService {
             }
         }
         return datasetRegistryRequestMap;
+    }
+
+    @Override
+    public void deleteMetadataRecord(String recordId) {
+        deleteDatasetRegistry(recordId);
+        addToBePurgedContainer(recordId);
+    }
+
+    private void addToBePurgedContainer(String recordId) {
+        String partitionId = headers.getPartitionId();
+        this.cloudStorage.createStorage(partitionId);
+        this.cloudStorage.writeToStorage(partitionId, new MetadataRecordData(recordId, getCurrentDateTime()));
+        this.logger.info("Content updated successfully");
+    }
+
+    private static String getCurrentDateTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
+        return formattedDateTime;
     }
 }
