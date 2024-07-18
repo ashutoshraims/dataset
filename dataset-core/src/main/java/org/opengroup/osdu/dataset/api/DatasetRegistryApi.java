@@ -31,6 +31,7 @@ import org.opengroup.osdu.dataset.model.response.GetCreateUpdateDatasetRegistryR
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,4 +91,22 @@ public interface DatasetRegistryApi {
     @PreAuthorize("@authorizationFilter.hasRole('" + StorageRole.CREATOR + "', '" + StorageRole.ADMIN + "', '" + StorageRole.VIEWER + "')")
     ResponseEntity<GetCreateUpdateDatasetRegistryResponse> getDatasetRegistry(@Parameter(description = "Dataset registry ids")
                                                                               @RequestBody @Valid @NotNull GetDatasetRegistryRequest request);
+
+
+	@Operation(summary = "${datasetRegistryApi.deleteMetadataById.summary}", description = "${datasetRegistryApi.deleteMetadataById.description}",
+			security = {@SecurityRequirement(name = "Authorization")}, tags = { "dataset" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Record deleted successfully."),
+			@ApiResponse(responseCode = "400", description = "Bad Request",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "403", description = "User not authorized to perform the action",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "404", description = "Record Not Found",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "502", description = "Bad Gateway",  content = {@Content(schema = @Schema(implementation = AppError.class))}),
+			@ApiResponse(responseCode = "503", description = "Service Unavailable",  content = {@Content(schema = @Schema(implementation = AppError.class))})
+	})
+
+	@PostMapping("/metadataRecord/{id}/softDelete")
+    @PreAuthorize("@authorizationFilter.hasRole('" + StorageRole.CREATOR + "', '" + StorageRole.ADMIN + "')")
+    public ResponseEntity<Void> deleteMetadataById(@Parameter(description = "Metadata Record Id.")  @PathVariable("id") String id);
 }
