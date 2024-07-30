@@ -28,7 +28,7 @@ conf:
   postgresSecretName: "dataset-postgres-secret"
   appName: "dataset"
   datasetRedisSecretName: "dataset-redis-secret"
-  replicas: 1
+  replicas: 2
 
 istio:
   proxyCPU: "5m"
