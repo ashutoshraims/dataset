@@ -35,7 +35,7 @@
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <core-lib-azure-spring6.version>0.27.0-rc3</core-lib-azure-spring6.version>
+        <core-lib-azure-spring6.version>0.27.0-rc7</core-lib-azure-spring6.version>
         <nimbus-jose-jwt.version>7.9</nimbus-jose-jwt.version>
         <reactor-netty.version>1.1.14</reactor-netty.version>
         <reactor-core.version>3.4.19</reactor-core.version>
