@@ -3,6 +3,7 @@ package org.opengroup.osdu.dataset.azure;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.opengroup.osdu.core.common.dms.model.DatasetRetrievalProperties;
 import org.opengroup.osdu.core.common.dms.model.RetrievalInstructionsResponse;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
 import org.opengroup.osdu.dataset.DatasetFileCollectionIT;
@@ -54,8 +55,12 @@ public class TestDatasetFileCollectionAzure extends DatasetFileCollectionIT {
                                               int expectedDatasets) {
         assertEquals(expectedDatasets, retrievalInstructions.getDatasets().size());
         retrievalInstructions.getDatasets().stream().forEach(
-                datasetRetrievalProperties ->
-                        assertEquals("AZURE", datasetRetrievalProperties.getProviderKey()));
+                datasetRetrievalProperties -> assertDatasetRetrievalProperties(datasetRetrievalProperties));
+    }
 
+    private void assertDatasetRetrievalProperties(DatasetRetrievalProperties datasetRetrievalProperties){
+        assertEquals("AZURE", datasetRetrievalProperties.getProviderKey());
+        assertTrue(datasetRetrievalProperties.getRetrievalProperties().containsKey("fileCount"));
+        assertTrue(datasetRetrievalProperties.getRetrievalProperties().containsKey("fileNames"));
     }
 }
