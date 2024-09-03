@@ -31,27 +31,28 @@ First you need to set variables in **values.yaml** file using any code editor. S
 | Name | Description | Type | Default |Required |
 |------|-------------|------|---------|---------|
 **global.domain** | your domain for the external endpoint, ex `example.com` | string | - | yes
-**global.onPremEnabled** | whether on-prem is enabled | boolean | false | yes
-**global.limitsEnabled** | whether CPU and memory limits are enabled | boolean | true | yes
+**global.onPremEnabled** | whether on-prem is enabled | boolean | `false` | yes
+**global.limitsEnabled** | whether CPU and memory limits are enabled | boolean | `true` | yes
+**global.logLevel** | severity of logging level | string | `ERROR` | yes
 
 ### Configmap variables
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
-**data.logLevel** | logging level | string | "ERROR" | yes
+**data.logLevel** | logging severity level for this service only  | string | - | yes, only if differs from the `global.logLevel`
 **data.redisDatasetHost** | The host for an external redis instance. If empty (by default), helm installs an internal redis instance | string | - | yes
-**data.redisDatasetPort** | The port for an external redis instance | digit | 6379 | yes
+**data.redisDatasetPort** | The port for an external redis instance | digit | `6379` | yes
 
 ### Deployment variables
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
-**data.requestsCpu** | amount of requested CPU | string | "20m" | yes
-**data.requestsMemory** | amount of requested memory| string | "400Mi" | yes
-**data.limitsCpu** | CPU limit | string | "1" | only if `global.limitsEnabled` is true
-**data.limitsMemory** | memory limit | string | "1G" | only if `global.limitsEnabled` is true
+**data.requestsCpu** | amount of requested CPU | string | `20m` | yes
+**data.requestsMemory** | amount of requested memory| string | `400Mi` | yes
+**data.limitsCpu** | CPU limit | string | `1` | only if `global.limitsEnabled` is true
+**data.limitsMemory** | memory limit | string | `1G` | only if `global.limitsEnabled` is true
 **data.serviceAccountName** | name of your service account | string | - | yes
-**data.imagePullPolicy** | when to pull image | string | "IfNotPresent" | yes
+**data.imagePullPolicy** | when to pull image | string | `IfNotPresent` | yes
 **data.image** | service image | string | - | yes
 **data.redisImage** | image for internal redis | string | `redis:7` | yes
 
@@ -59,20 +60,20 @@ First you need to set variables in **values.yaml** file using any code editor. S
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|---------|
-**conf.configmap** | configmap to be used | string | "dataset-config" | yes
-**conf.appName** | name of the app | string | "dataset" | yes
-**conf.postgresSecretName** | secret for Postgres | string | "dataset-postgres-secret" | yes
+**conf.configmap** | configmap to be used | string | `dataset-config` | yes
+**conf.appName** | name of the app | string | `dataset` | yes
+**conf.postgresSecretName** | secret for Postgres | string | `dataset-postgres-secret` | yes
 **conf.datasetRedisSecretName** | secret for redis that contains redis password with REDIS_PASSWORD key | string | `dataset-redis-secret` | yes
 
 ### ISTIO variables
 
 | Name | Description | Type | Default |Required |
 |------|-------------|------|---------|---------|
-**istio.proxyCPU** | CPU request for Envoy sidecars | string | 10m | yes
-**istio.proxyCPULimit** | CPU limit for Envoy sidecars | string | 200m | yes
-**istio.proxyMemory** | memory request for Envoy sidecars | string | 100Mi | yes
-**istio.proxyMemoryLimit** | memory limit for Envoy sidecars | string | 256Mi | yes
-**istio.sidecarInject** | whether Istio sidecar will be injected. Setting to "false" fails communication with file via authorization policy. | boolean | true | yes
+**istio.proxyCPU** | CPU request for Envoy sidecars | string | `10m` | yes
+**istio.proxyCPULimit** | CPU limit for Envoy sidecars | string | `200m` | yes
+**istio.proxyMemory** | memory request for Envoy sidecars | string | `100Mi` | yes
+**istio.proxyMemoryLimit** | memory limit for Envoy sidecars | string | `256Mi` | yes
+**istio.sidecarInject** | whether Istio sidecar will be injected. Setting to `false` fails communication with file via authorization policy. | boolean | `true` | yes
 
 ### Install the helm chart
 

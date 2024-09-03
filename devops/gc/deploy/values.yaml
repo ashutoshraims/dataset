@@ -6,10 +6,11 @@ global:
   domain: ""
   onPremEnabled: false
   limitsEnabled: true
+  logLevel: "ERROR"
 
 data:
   # Configmap
-  logLevel: "ERROR"
+  logLevel: ""
   # Deployment
   requestsCpu: "5m"
   requestsMemory: "300Mi"
