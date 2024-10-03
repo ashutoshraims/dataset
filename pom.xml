@@ -27,7 +27,6 @@
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-core-common.version>0.27.0-rc1</os-core-common.version>
-		<spring-security.version>6.2.4</spring-security.version>
 		<jackson.version>2.17.1</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
@@ -36,9 +35,10 @@
 		<log4j2.version>2.17.1</log4j2.version>
 		<openapi.version>2.3.0</openapi.version>
 		<json-smart.version>2.4.9</json-smart.version>
-		<spring-boot.version>3.3.1</spring-boot.version>
-		<spring-security.version>6.3.1</spring-security.version>
-		<spring-framework.version>6.1.10</spring-framework.version>
+		<spring-boot.version>3.3.3</spring-boot.version>
+		<spring-security.version>6.2.4</spring-security.version>
+		<spring-security.version>6.3.2</spring-security.version>
+		<spring-framework.version>6.1.13</spring-framework.version>
 	</properties>
 
 	<licenses>
@@ -73,6 +73,11 @@
 				<version>${spring-security.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>6.1.13</version>
 			</dependency>
 			<!-- <dependency>
 				<groupId>io.netty</groupId>
@@ -157,12 +162,6 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring-security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -171,10 +170,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
