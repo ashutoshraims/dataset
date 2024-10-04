@@ -36,7 +36,6 @@
 		<openapi.version>2.3.0</openapi.version>
 		<json-smart.version>2.4.9</json-smart.version>
 		<spring-boot.version>3.3.3</spring-boot.version>
-		<spring-security.version>6.2.4</spring-security.version>
 		<spring-security.version>6.3.2</spring-security.version>
 		<spring-framework.version>6.1.13</spring-framework.version>
 	</properties>
@@ -77,15 +76,8 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
-				<version>6.1.13</version>
+				<version>${spring-framework.version}</version>
 			</dependency>
-			<!-- <dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-bom</artifactId>
-				<version>${netty.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency> -->
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-to-slf4j</artifactId>
@@ -101,11 +93,6 @@
 				<artifactId>os-core-common-spring6</artifactId>
 				<version>${os-core-common.version}</version>
 			</dependency>
-			<!-- <dependency>
-				<groupId>com.nimbusds</groupId>
-				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>${nimbusds.version}</version>
-			</dependency> -->
 			<dependency>
  				<groupId>com.fasterxml.jackson.core</groupId>
  				<artifactId>jackson-core</artifactId>
