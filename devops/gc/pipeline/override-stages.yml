@@ -9,7 +9,3 @@ gc-test:
 gc-dev2-test:
   variables:
     LEGAL_TAG: datatest-int-tag
-
-gc-baremetal-test:
-  variables:
-    LEGAL_TAG: public-usa-dataset-1
