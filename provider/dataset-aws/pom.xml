@@ -48,8 +48,9 @@
             <dependency>
 	            <groupId>org.springframework.security</groupId>
 	            <artifactId>spring-security-bom</artifactId>
-	            <version>6.2.2</version>
+	            <version>6.3.4</version>
                 <type>pom</type>
+                <scope>import</scope>
 	        </dependency>
         </dependencies>
     </dependencyManagement>
@@ -110,6 +111,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-common</artifactId>
+            <version>4.1.115.Final</version>
         </dependency>
         <!-- Testing packages -->
         <dependency>
