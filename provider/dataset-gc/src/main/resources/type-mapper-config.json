@@ -1,0 +1,17 @@
+{
+  "instrumentations": [
+    {
+      "entityType": "org.opengroup.osdu.dataset.provider.gcp.model.dataset.DmsServicePropertiesEntity",
+      "fieldNameCustomMapping": {},
+      "fieldTypeCustomMapping": {},
+      "identityTranslator": {
+        "getIdMethod": "getDatasetKind",
+        "setIdMethod": "setDatasetKind",
+        "keyClass": "java.lang.String"
+      },
+      "keyFields": [
+        "datasetKind"
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ COPY tmp/os-osm-postgres-*.jar plugins/osm-postgres.jar
 ARG PORT
 ENV PORT $PORT
 # Copy the jar to the production image from the builder stage.
-COPY dataset-${PROVIDER_NAME}/target/dataset-${PROVIDER_NAME}-*.jar dataset-${PROVIDER_NAME}.jar
+COPY dataset-${PROVIDER_NAME}/target/dataset-${PROVIDER_NAME}-*-spring-boot.jar dataset-${PROVIDER_NAME}.jar
 # Add a non-root user
 RUN groupadd -g 10001 -r nonroot \
   && useradd -g 10001 -r -u 10001 nonroot

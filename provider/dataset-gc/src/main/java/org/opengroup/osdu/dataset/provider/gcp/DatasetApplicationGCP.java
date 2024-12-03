@@ -29,10 +29,11 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationPropertiesScan(basePackages = "org.opengroup")
 @PropertySource("classpath:swagger.properties")
 @ComponentScan(value = {"org.opengroup.osdu"}, excludeFilters = {
-	@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {DatasetApplication.class})})
+    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = {DatasetApplication.class,
+        DatasetCorePlusApplication.class})})
 public class DatasetApplicationGCP {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DatasetApplicationGCP.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(DatasetApplicationGCP.class, args);
+  }
 }

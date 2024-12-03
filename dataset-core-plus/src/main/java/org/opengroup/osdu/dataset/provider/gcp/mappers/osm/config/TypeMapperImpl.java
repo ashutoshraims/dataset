@@ -17,7 +17,6 @@
 
 package org.opengroup.osdu.dataset.provider.gcp.mappers.osm.config;
 
-import com.google.cloud.datastore.Key;
 import java.util.Collections;
 import org.opengroup.osdu.core.osm.core.persistence.IdentityTranslator;
 import org.opengroup.osdu.core.osm.core.translate.Instrumentation;
