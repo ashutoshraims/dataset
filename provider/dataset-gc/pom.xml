@@ -29,136 +29,12 @@
 	<description>Dataset Registry service on Google Cloud</description>
 	<packaging>jar</packaging>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.google.cloud</groupId>
-				<artifactId>libraries-bom</artifactId>
-				<version>26.15.0</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>com.fasterxml.jackson</groupId>
-				<artifactId>jackson-bom</artifactId>
-				<version>2.17.1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.17.1</version>
-      </dependency>
-			<dependency>
-				<groupId>com.squareup.okhttp3</groupId>
-				<artifactId>okhttp</artifactId>
-				<version>4.9.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>dataset-core</artifactId>
+			<artifactId>dataset-core-plus</artifactId>
 			<version>0.28.0-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.powermock</groupId>
-					<artifactId>powermock-api-mockito</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<dependency>
-			<artifactId>spring-security-web</artifactId>
-			<groupId>org.springframework.security</groupId>
-		</dependency>
-		<dependency>
-			<artifactId>spring-security-core</artifactId>
-			<groupId>org.springframework.security</groupId>
-		</dependency>
-		<dependency>
-			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>os-core-common-spring6</artifactId>
-			<exclusions>
-				<!-- conflict with http client from core-lib-gc -->
-				<exclusion>
-					<groupId>com.google.http-client</groupId>
-					<artifactId>google-http-client</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-  			<groupId>org.opengroup.osdu</groupId>
-  			<artifactId>core-lib-gc-spring6</artifactId>
-  			<version>0.26.0-rc5</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>5.10.2</version>
-      <scope>test</scope>
-    </dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.7.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.7.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
-		<dependency>
-		    <groupId>org.yaml</groupId>
-		    <artifactId>snakeyaml</artifactId>
-		    <version>2.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>oqm</artifactId>
-			<version>0.25.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.opengroup.osdu</groupId>
-			<artifactId>osm</artifactId>
-			<version>0.27.0-rc2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback.contrib</groupId>
-			<artifactId>logback-json-classic</artifactId>
-			<version>0.1.5</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback.contrib</groupId>
-			<artifactId>logback-jackson</artifactId>
-			<version>0.1.5</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -167,16 +43,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>3.2.3</version>
-				<configuration>
-					<mainClass>org.opengroup.osdu.dataset.provider.gcp.DatasetApplicationGCP</mainClass>
-				</configuration>
 				<executions>
 					<execution>
 						<goals>
 							<goal>repackage</goal>
 						</goals>
 						<configuration>
-							<mainClass>org.opengroup.osdu.dataset.provider.gcp.DatasetApplicationGCP</mainClass>
+							<mainClass>org.springframework.boot.loader.launch.PropertiesLauncher</mainClass>
 						</configuration>
 					</execution>
 				</executions>
