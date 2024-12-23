@@ -13,20 +13,20 @@
 #  limitations under the License.
 
 # https://docs.spring.io/spring-boot/docs/current/reference/html/deployment.html
+FROM registry.repo.osdu.aws/amazoncorretto:17-alpine
 
-FROM public.ecr.aws/amazoncorretto/amazoncorretto:17
-
-RUN yum update -y && yum install -y shadow-utils
-
-RUN groupadd -g 10001 -r appgroup \
-  && useradd -M -g 10001 -r -u 10001 appuser
+RUN apk update && \
+    apk add --no-cache \
+    bash \
+    curl \
+    shadow \
+    && \
+    /usr/sbin/groupadd -g 10001 -r appgroup && \
+    /usr/sbin/useradd -M -g 10001 -r -u 10001 appuser
 
 ARG JAR_FILE=provider/dataset-aws/target/*spring-boot.jar
 WORKDIR /
 
-#Default to using self signed generated TLS cert
-
-WORKDIR /
 COPY ${JAR_FILE} app.jar
 COPY /provider/dataset-aws/build-aws/entrypoint.sh /entrypoint.sh
 EXPOSE 8080
