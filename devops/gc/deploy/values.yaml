@@ -41,10 +41,10 @@ istio:
   sidecarInject: true
 
 hpa:
-  minReplicas: 6
+  minReplicas: 3
   maxReplicas: 15
   targetType: "AverageValue"
-  targetValue: 136 #80*0.85*2
+  targetValue: 100
   behaviorScaleUpStabilizationWindowSeconds: 10
   behaviorScaleUpPoliciesValue: 50
   behaviorScaleUpPoliciesPeriodSeconds: 15
@@ -53,6 +53,6 @@ hpa:
   behaviorScaleDownPoliciesPeriodSeconds: 60
 
 limits:
-  maxTokens: 80
-  tokensPerFill: 80
+  maxTokens: 75
+  tokensPerFill: 75
   fillInterval: "1s"
