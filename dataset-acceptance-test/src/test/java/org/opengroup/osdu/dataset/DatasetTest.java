@@ -33,7 +33,7 @@ import org.opengroup.osdu.dataset.model.response.IntTestGetDatasetStorageInstruc
 import org.opengroup.osdu.dataset.model.shared.DatasetConfiguration;
 import org.opengroup.osdu.dataset.util.TokenTestUtils;
 import org.opengroup.osdu.dataset.util.CloudStorageUtil;
-import org.opengroup.osdu.dataset.util.CloudStorageUtilAnthos;
+import org.opengroup.osdu.dataset.util.CloudStorageUtilImpl;
 import org.opengroup.osdu.dataset.util.FileUtils;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public final class DatasetTest extends TestBase {
 
     @BeforeClass
     public static void classSetup() throws Exception {
-        cloudStorageUtil = new CloudStorageUtilAnthos();
+        cloudStorageUtil = new CloudStorageUtilImpl();
         DatasetConfiguration.datasetSetup(datasetTestUtils.getToken());
     }
 

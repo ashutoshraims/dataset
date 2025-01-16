@@ -2,18 +2,19 @@
 
 You will need to have the following environment variables defined.
 
-| name                    | value                                            | description                   | sensitive? | source | required |
-|-------------------------|--------------------------------------------------|-------------------------------|------------|--------|----------|
-| `DOMAIN`                | ex `osdu`                                        | Domain name                   | no         | -      | yes      |
-| `TENANT_NAME`           | ex `osdu`                                        | Shared Tenant name            | no         | -      | yes      |
-| `PROVIDER_KEY`          | ex `anthos`                                      | Provider Key                  | no         | -      | yes      |
-| `KIND_SUBTYPE`          | ex `DatasetTest`                                 | Kind Subtype                  | no         | -      | yes      |
-| `LEGAL_TAG`             | ex `public-usa-dataset-1`                        | Legal Tag name                | no         | -      | yes      |
-| `ENTITLEMENTS_BASE_URL` | ex `http://localhost:8080`                       | Entitlements service Base URL | no         | -      | yes      |
-| `STORAGE_BASE_URL`      | ex `http://localhost:8080/api/storage/v2/`       | Storage Service Base URL      | no         | -      | yes      |
-| `DATASET_BASE_URL`      | ex `http://localhost:8080/api/dataset/v1/`       | Dataset Service Base URL      | no         | -      | yes      |
-| `SCHEMA_BASE_URL`       | ex `http://localhost:8080/api/schema-service/v1` | Schema Service Base URL       | no         | -      | yes      |
-| `LEGAL_BASE_URL`        | ex `http://localhost:8080/api/legal/v1/`         | Legal Service Base URL        | no         | -      | yes      |
+| name                    | value                                            | description                                                           | sensitive? | source | required |
+|-------------------------|--------------------------------------------------|-----------------------------------------------------------------------|------------|--------|----------|
+| `DOMAIN`                | ex `osdu`                                        | Domain name                                                           | no         | -      | yes      |
+| `TENANT_NAME`           | ex `osdu`                                        | Shared Tenant name                                                    | no         | -      | yes      |
+| `PROVIDER_KEY`          | ex `anthos`                                      | Provider Key                                                          | no         | -      | yes      |
+| `KIND_SUBTYPE`          | ex `DatasetTest`                                 | Kind Subtype                                                          | no         | -      | yes      |
+| `LEGAL_TAG`             | ex `public-usa-dataset-1`                        | Legal Tag name                                                        | no         | -      | yes      |
+| `ENTITLEMENTS_BASE_URL` | ex `http://localhost:8080`                       | Entitlements service Base URL                                         | no         | -      | yes      |
+| `STORAGE_BASE_URL`      | ex `http://localhost:8080/api/storage/v2/`       | Storage Service Base URL                                              | no         | -      | yes      |
+| `DATASET_BASE_URL`      | ex `http://localhost:8080/api/dataset/v1/`       | Dataset Service Base URL                                              | no         | -      | yes      |
+| `SCHEMA_BASE_URL`       | ex `http://localhost:8080/api/schema-service/v1` | Schema Service Base URL                                               | no         | -      | yes      |
+| `LEGAL_BASE_URL`        | ex `http://localhost:8080/api/legal/v1/`         | Legal Service Base URL                                                | no         | -      | yes      |
+| `EXECUTE_IT_TESTS`      | ex `true` or `false`                             | Execute exhaustive IT tests including delete operation, default false | no         | -      | no       |
 
 Authentication can be provided as OIDC config:
 
@@ -28,6 +29,20 @@ Or tokens can be used directly from env variables:
 | name                    | value      | description           | sensitive? | source |
 |-------------------------|------------|-----------------------|------------|--------|
 | `PRIVILEGED_USER_TOKEN` | `********` | Privileged User Token | yes        | -      |
+
+
+**Entitlements configuration for integration accounts**
+
+| INTEGRATION_TESTER        |
+|---------------------------| 
+| users                     | 
+| service.entitlements.user |
+| service.storage.admin     |
+| service.legal.user        |
+| service.search.user       |
+| service.delivery.viewer   |
+| service.dataset.viewers   |
+| service.dataset.editors   |
 
 Execute following command to build code and run all the integration tests:
 

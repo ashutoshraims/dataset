@@ -39,13 +39,12 @@ import java.util.Map;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
-public class CloudStorageUtilAnthos extends CloudStorageUtil {
+public class CloudStorageUtilImpl extends CloudStorageUtil {
 
     private final ObjectMapper objectMapper;
 
-    public CloudStorageUtilAnthos() {
+    public CloudStorageUtilImpl() {
         objectMapper = MapperConfig.getObjectMapper();
-
     }
 
     public String uploadCloudFileUsingProvidedCredentials(String fileName, Object storageLocationProperties,
@@ -119,9 +118,5 @@ public class CloudStorageUtilAnthos extends CloudStorageUtil {
             log.error( "Download file by signed URL FAIL", e);
         }
         return null;
-    }
-
-    public void deleteCloudFile(String unsignedUrl) {
-        //TODO
     }
 }

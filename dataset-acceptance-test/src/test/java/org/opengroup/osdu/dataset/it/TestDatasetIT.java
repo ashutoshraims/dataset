@@ -56,7 +56,7 @@ public final class TestDatasetIT extends TestBase {
 
     @BeforeClass
     public static void classSetup() throws Exception {
-        cloudStorageUtil = new CloudStorageUtilAnthos();
+        cloudStorageUtil = new CloudStorageUtilImpl();
         classSetup(datasetTestUtils.getToken());
     }
 

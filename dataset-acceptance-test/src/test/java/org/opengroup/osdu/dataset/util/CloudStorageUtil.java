@@ -23,7 +23,5 @@ public abstract class CloudStorageUtil {
   public abstract String uploadCloudFileUsingProvidedCredentials(String fileName, Object storageLocationProperties, String fileContents) throws Exception;
 
   public abstract String downloadCloudFileUsingDeliveryItem(Object deliveryItem) throws Exception;
-
-  public abstract void deleteCloudFile(String unsignedUrl);
 }
 
