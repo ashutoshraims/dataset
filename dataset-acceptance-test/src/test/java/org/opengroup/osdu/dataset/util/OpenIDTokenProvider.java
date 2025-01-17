@@ -38,21 +38,15 @@ public class OpenIDTokenProvider {
     private final URI tokenEndpointURI;
     private final Scope scope;
     private final ClientAuthentication clientAuthentication;
-    //private final ClientAuthentication noAccessClientAuthentication;
 
     public OpenIDTokenProvider() {
         this.tokenEndpointURI = openIDProviderConfig.getProviderMetadata().getTokenEndpointURI();
         this.scope = new Scope(openIDProviderConfig.getScopes());
         this.clientAuthentication =
-            new ClientSecretBasic(
-                new ClientID(openIDProviderConfig.getClientId()),
-                new Secret(openIDProviderConfig.getClientSecret())
-            );
-//        this.noAccessClientAuthentication =
-//            new ClientSecretBasic(
-//                new ClientID(openIDProviderConfig.getNoAccessClientId()),
-//                new Secret(openIDProviderConfig.getNoAccessClientSecret())
-//            );
+                new ClientSecretBasic(
+                        new ClientID(openIDProviderConfig.getClientId()),
+                        new Secret(openIDProviderConfig.getClientSecret())
+                );
     }
 
     public String getToken() {
@@ -60,30 +54,22 @@ public class OpenIDTokenProvider {
             TokenRequest request = new TokenRequest(this.tokenEndpointURI, this.clientAuthentication, this.clientGrant, this.scope);
             return requestToken(request);
         } catch (ParseException | IOException e) {
-            throw new RuntimeException("Unable get credentials from INTEGRATION_TESTER variables", e);        }
+            throw new RuntimeException("Unable to get token from INTEGRATION_TESTER variables", e);
+        }
     }
-
-//    public String getNoAccessToken() {
-//        try {
-//            TokenRequest request = new TokenRequest(this.tokenEndpointURI, this.noAccessClientAuthentication, this.clientGrant, this.scope);
-//            return requestToken(request);
-//        } catch (ParseException | IOException e) {
-//            throw new RuntimeException("Unable get credentials from INTEGRATION_TESTER variables", e);
-//        }
-//    }
 
     private String requestToken(TokenRequest tokenRequest) throws ParseException, IOException {
 
         TokenResponse parse = OIDCTokenResponseParser.parse(tokenRequest.toHTTPRequest().send());
 
         if (!parse.indicatesSuccess()) {
-            throw new RuntimeException("Unable get credentials from INTEGRATION_TESTER variables");
+            throw new RuntimeException("Unable to request credentials from INTEGRATION_TESTER variables");
         }
 
         JSONObject jsonObject = parse.toSuccessResponse().toJSONObject();
         String idTokenValue = jsonObject.getAsString(ID_TOKEN);
         if (Objects.isNull(idTokenValue) || idTokenValue.isEmpty()) {
-            throw new RuntimeException("Unable get credentials from INTEGRATION_TESTER variables");
+            throw new RuntimeException("Invalid token fetched from INTEGRATION_TESTER variables");
         }
         return idTokenValue;
     }

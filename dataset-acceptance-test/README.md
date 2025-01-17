@@ -44,6 +44,11 @@ Or tokens can be used directly from env variables:
 | service.dataset.viewers   |
 | service.dataset.editors   |
 
+
+**Note**
+- The acceptance tests currently do not support deletion of the generated dataset files in Storage, so the multiple runs of this test pipeline would let the files accumulate over time, which might need to be cleaned up.
+
+
 Execute following command to build code and run all the integration tests:
 
  ```bash

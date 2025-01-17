@@ -18,6 +18,7 @@ package org.opengroup.osdu.dataset.it;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
@@ -44,6 +45,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@Slf4j
 public final class TestDatasetIT extends TestBase {
     private static CloudStorageUtil cloudStorageUtil;
     private static TestUtils datasetTestUtils = new TokenTestUtils();
@@ -86,7 +88,7 @@ public final class TestDatasetIT extends TestBase {
         Record datasetRegistry = createDatasetRegistry(datasetRegistryId, fileName, fileSource);
 
         CloseableHttpResponse datasetRegistryResponse = testRegisterDatasetRequest(Collections.singletonList(datasetRegistry));
-        System.out.println("Registry response " + EntityUtils.toString(datasetRegistryResponse.getEntity()));
+        log.info("Registry response {}", EntityUtils.toString(datasetRegistryResponse.getEntity()));
         Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
         registeredDatasetRegistryIds.add(datasetRegistryId);
@@ -192,14 +194,13 @@ public final class TestDatasetIT extends TestBase {
         Record datasetRegistry = createDatasetRegistry(datasetRegistryId, fileName, fileSource);
 
         CloseableHttpResponse datasetRegistryResponse = testRegisterDatasetRequest(Collections.singletonList(datasetRegistry));
-        System.out.println("Registry response " + EntityUtils.toString(datasetRegistryResponse.getEntity()));
+        log.info("Registry response {}", EntityUtils.toString(datasetRegistryResponse.getEntity()));
         Assert.assertEquals(201, datasetRegistryResponse.getCode());
 
         registeredDatasetRegistryIds.add(datasetRegistryId);
 
         //Step 4: send delete metadata request
         CloseableHttpResponse deleteDatasetResponse = sendDeleteDatasetRequest(datasetRegistryId);
-        System.out.println("Delete response " + EntityUtils.toString(deleteDatasetResponse.getEntity()));
         Assert.assertEquals(204, deleteDatasetResponse.getCode());
     }
 
@@ -260,8 +261,6 @@ public final class TestDatasetIT extends TestBase {
     }
 
     public static Record createDatasetRegistry(String id, String filename, String fileSource) {
-        TestGetCreateUpdateDatasetRegistryRequest request = new TestGetCreateUpdateDatasetRegistryRequest();
-
         Record datasetRegistry = new Record();
 
         datasetRegistry.setId(id);

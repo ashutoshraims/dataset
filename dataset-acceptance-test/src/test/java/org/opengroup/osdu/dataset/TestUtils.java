@@ -40,7 +40,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class TestUtils {
     protected static String token = null;
-//    protected static String noDataAccessToken = null;
 
     protected static String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
     public static final boolean EXECUTE_IT_TESTS = Boolean.parseBoolean(System.getProperty("EXECUTE_IT_TESTS",System.getenv("EXECUTE_IT_TESTS")));
@@ -82,8 +81,6 @@ public abstract class TestUtils {
     }
 
     public abstract String getToken() throws Exception;
-
-    //public abstract String getNoDataAccessToken() throws Exception;
 
     private static void log(String httpMethod, String url, String body) {
         log.info(String.format("%s: %s", httpMethod, url));

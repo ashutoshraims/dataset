@@ -29,7 +29,6 @@ public class TokenTestUtils extends TestUtils {
 
     public TokenTestUtils() {
         token = System.getProperty("PRIVILEGED_USER_TOKEN", System.getenv("PRIVILEGED_USER_TOKEN"));
-        //noDataAccessToken = System.getProperty("NO_ACCESS_USER_TOKEN", System.getenv("NO_ACCESS_USER_TOKEN"));
         domain = Optional.ofNullable(System.getProperty("GROUP_ID", System.getenv("GROUP_ID")))
                 .orElse("group");
 

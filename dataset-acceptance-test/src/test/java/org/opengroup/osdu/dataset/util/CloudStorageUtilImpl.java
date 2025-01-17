@@ -64,56 +64,11 @@ public class CloudStorageUtilImpl extends CloudStorageUtil {
         return fileInstructionsItem.getFileSource();
     }
 
-    @SneakyThrows
-    public String uploadCollectionUsingProvidedCredentials(String fileName, IntTestFileCollectionInstructionsItem collectionInstructionsItem,
-        String fileContents) {
-        Map<String, String> options = collectionInstructionsItem.getSigningOptions();
-
-        MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
-        multipartBuilder.setType(MultipartBody.FORM);
-        for (Map.Entry<String, String> entry : options.entrySet()) {
-            multipartBuilder.addFormDataPart(entry.getKey(), entry.getValue());
-        }
-
-        String fileFolderAndName = collectionInstructionsItem.getFileCollectionSource() + "/" + fileName;
-        multipartBuilder.addFormDataPart("key", fileFolderAndName);
-
-        multipartBuilder.addFormDataPart("file", fileName, RequestBody.create(fileContents.getBytes(), null));
-        Request request = new Request.Builder()
-            .url(collectionInstructionsItem.getUrl())
-            .post(multipartBuilder.build())
-            .build();
-
-        OkHttpClient httpClient = new OkHttpClient().newBuilder().build();
-        Response response = httpClient.newCall(request).execute();
-        assertTrue(response.isSuccessful());
-        return collectionInstructionsItem.getUrl() + fileFolderAndName;
-    }
-
     public String downloadCloudFileUsingDeliveryItem(Object deliveryItem) {
         IntTestFileInstructionsItem fileInstructionsItem = objectMapper
             .convertValue(deliveryItem, IntTestFileInstructionsItem.class);
         try {
             return FileUtils.readFileFromUrl(fileInstructionsItem.getSignedUrl());
-        } catch (IOException e) {
-            log.error( "Download file by signed URL FAIL", e);
-        }
-        return null;
-    }
-
-    public String downloadCollectionFileUsingDeliveryItem(Object deliveryItem, String fileName) {
-        Map<String, Object> retrievalProperties = objectMapper.convertValue(deliveryItem,
-            new TypeReference<Map<String, Object>>() {
-            });
-
-        List<IntTestFileInstructionsItem> collectionInstructionsItem = objectMapper
-            .convertValue(retrievalProperties.get("retrievalPropertiesList"), new TypeReference<List<IntTestFileInstructionsItem>>() {
-            });
-
-        IntTestFileInstructionsItem instructionsItem = collectionInstructionsItem.get(0);
-
-        try {
-            return FileUtils.readFileFromUrl(instructionsItem.getSignedUrl());
         } catch (IOException e) {
             log.error( "Download file by signed URL FAIL", e);
         }
