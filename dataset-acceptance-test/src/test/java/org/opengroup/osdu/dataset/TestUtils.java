@@ -42,7 +42,7 @@ public abstract class TestUtils {
     protected static String token = null;
 
     protected static String domain = System.getProperty("DOMAIN",System.getenv("DOMAIN"));
-    public static final boolean EXECUTE_IT_TESTS = Boolean.parseBoolean(System.getProperty("EXECUTE_IT_TESTS",System.getenv("EXECUTE_IT_TESTS")));
+    public static final boolean EXECUTE_DELETE_TEST = Boolean.parseBoolean(System.getProperty("EXECUTE_DELETE_TEST",System.getenv("EXECUTE_DELETE_TEST")));
     public static final String STORAGE_BASE_URL = System.getProperty("STORAGE_BASE_URL",System.getenv("STORAGE_BASE_URL"));
     public static final String LEGAL_BASE_URL = System.getProperty("LEGAL_BASE_URL",System.getenv("LEGAL_BASE_URL"));
     public static final String DATASET_BASE_URL = System.getProperty("DATASET_BASE_URL",System.getenv("DATASET_BASE_URL"));

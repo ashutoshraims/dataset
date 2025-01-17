@@ -15,10 +15,13 @@
 
 package org.opengroup.osdu.dataset;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 public class HeaderUtils {
 
 	public static Map<String, String> getHeaders(String tenantName, String token) {
@@ -30,7 +33,7 @@ public class HeaderUtils {
 		headers.put("Authorization", token);
 
 		final String correlationId = UUID.randomUUID().toString();
-		System.out.printf("Using correlation-id for the request: %s \n", correlationId);
+		log.info("Using correlation-id for the request: {}", correlationId);
 		headers.put("correlation-id", correlationId);
 		return headers;
 	}

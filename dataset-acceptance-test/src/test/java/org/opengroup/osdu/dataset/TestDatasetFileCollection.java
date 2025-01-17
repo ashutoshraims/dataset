@@ -1,4 +1,4 @@
-package org.opengroup.osdu.dataset.it;
+package org.opengroup.osdu.dataset;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,10 +6,6 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.*;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
-import org.opengroup.osdu.dataset.HeaderUtils;
-import org.opengroup.osdu.dataset.TenantUtils;
-import org.opengroup.osdu.dataset.TestBase;
-import org.opengroup.osdu.dataset.TestUtils;
 import org.opengroup.osdu.dataset.util.LegalTagUtils;
 import org.opengroup.osdu.dataset.util.TokenTestUtils;
 
@@ -20,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
  * End-to-end functionality cannot be generically tested due to varying storage implementations across CSPs.
  * This test only verifies that the signing options are not null.
  */
-public final class TestDatasetFileCollectionIT extends TestBase {
+public final class TestDatasetFileCollection extends TestBase {
 
     private static TestUtils fileCollectionTokenUtils = new TokenTestUtils();
     private static String LEGAL_TAG = LegalTagUtils.createRandomName();
@@ -41,7 +37,6 @@ public final class TestDatasetFileCollectionIT extends TestBase {
 
     @Test
     public void validate_storage_instructions() throws Exception {
-        Assume.assumeTrue(TestUtils.EXECUTE_IT_TESTS);
         String kindSubType = "dataset--FileCollection.Generic";
 
         //Get Storage Instructions for File

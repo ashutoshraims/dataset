@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.opengroup.osdu.dataset.it;
+package org.opengroup.osdu.dataset;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,10 +31,6 @@ import org.opengroup.osdu.core.common.model.entitlements.Acl;
 import org.opengroup.osdu.core.common.model.legal.Legal;
 import org.opengroup.osdu.core.common.model.legal.LegalCompliance;
 import org.opengroup.osdu.core.common.model.storage.Record;
-import org.opengroup.osdu.dataset.HeaderUtils;
-import org.opengroup.osdu.dataset.TenantUtils;
-import org.opengroup.osdu.dataset.TestBase;
-import org.opengroup.osdu.dataset.TestUtils;
 import org.opengroup.osdu.dataset.model.shared.TestGetCreateUpdateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.util.*;
 
@@ -70,7 +66,6 @@ public final class TestDatasetIT extends TestBase {
 
     @Test
     public void upload_file_register_it_and_retrieve_it() throws Exception {
-        Assume.assumeTrue(TestUtils.EXECUTE_IT_TESTS);
         String kindSubType = "dataset--File.Generic";
 
         //Step 1: Get Storage Instructions for File
@@ -110,7 +105,6 @@ public final class TestDatasetIT extends TestBase {
 
     @Test
     public void upload_multiple_files_register_it_and_retrieve_it() throws Exception {
-        Assume.assumeTrue(TestUtils.EXECUTE_IT_TESTS);
         String kindSubType = "dataset--File.Generic";
 
         //Step 1: Get Storage Instructions for File 1
@@ -168,14 +162,13 @@ public final class TestDatasetIT extends TestBase {
 
     @Test
     public void invalid_kind_subtype_returns_400() throws Exception {
-        Assume.assumeTrue(TestUtils.EXECUTE_IT_TESTS);
         String kindSubType = "dataset--Foo.Generic";
         getTestStorageInstructions(kindSubType, 400);
     }
 
     @Test
     public void upload_file_register_it_and_delete_it() throws Exception {
-        Assume.assumeTrue(TestUtils.EXECUTE_IT_TESTS);
+        Assume.assumeTrue(TestUtils.EXECUTE_DELETE_TEST);
         String kindSubType = "dataset--File.Generic";
 
         //Step 1: Get Storage Instructions for File
