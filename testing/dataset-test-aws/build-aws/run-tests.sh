@@ -51,7 +51,7 @@ export AWS_COGNITO_AUTH_PARAMS_USER_NO_ACCESS=$USER_NO_ACCESS
 #  environment variable. In the future, this will not be the case, but for now, we must assume
 #  that the No-Access user and Admin user have the same password.
 #export AWS_COGNITO_AUTH_PARAMS_PASSWORD=$USER_NO_ACCESS_PASSWORD
-export JAVA_HOME='/usr/lib/jvm/java-17-openjdk-amd64'
+export JAVA_HOME=$JAVA17_HOME
 
 #### RUN INTEGRATION TEST #########################################################################
 
