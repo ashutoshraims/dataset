@@ -31,6 +31,7 @@ import org.opengroup.osdu.core.common.model.entitlements.Acl;
 import org.opengroup.osdu.core.common.model.legal.Legal;
 import org.opengroup.osdu.core.common.model.legal.LegalCompliance;
 import org.opengroup.osdu.core.common.model.storage.Record;
+import org.opengroup.osdu.dataset.model.configuration.MapperConfig;
 import org.opengroup.osdu.dataset.model.shared.TestGetCreateUpdateDatasetRegistryRequest;
 import org.opengroup.osdu.dataset.util.*;
 
@@ -49,8 +50,7 @@ public final class TestDatasetIT extends TestBase {
     private static ArrayList<String> uploadedCloudFileUnsignedUrls = new ArrayList<>();
     private static ArrayList<String> registeredDatasetRegistryIds = new ArrayList<>();
     private static final String LEGAL_TAG = LegalTagUtils.createRandomName();
-
-    private ObjectMapper jsonMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+    private ObjectMapper jsonMapper = MapperConfig.getObjectMapper();
 
     @BeforeClass
     public static void classSetup() throws Exception {

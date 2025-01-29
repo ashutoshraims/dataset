@@ -1,11 +1,13 @@
 package org.opengroup.osdu.dataset;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.*;
 import org.opengroup.osdu.core.common.dms.model.StorageInstructionsResponse;
+import org.opengroup.osdu.dataset.model.configuration.MapperConfig;
 import org.opengroup.osdu.dataset.util.LegalTagUtils;
 import org.opengroup.osdu.dataset.util.TokenTestUtils;
 
@@ -21,9 +23,7 @@ public final class TestDatasetFileCollection extends TestBase {
     private static TestUtils fileCollectionTokenUtils = new TokenTestUtils();
     private static String LEGAL_TAG = LegalTagUtils.createRandomName();
     private static final String SIGNING_OPTIONS = "signingOptions";
-
-    private ObjectMapper jsonMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
-
+    private ObjectMapper jsonMapper = MapperConfig.getObjectMapper();
 
     @BeforeClass
     public static void classSetup() throws Exception {

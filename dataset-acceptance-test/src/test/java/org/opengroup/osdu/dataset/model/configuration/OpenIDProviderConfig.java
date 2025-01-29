@@ -27,8 +27,6 @@ public class OpenIDProviderConfig {
 
     private String clientId;
     private String clientSecret;
-//    private String noAccessClientId;
-//    private String noAccessClientSecret;
     private String url;
     private final String[] scopes = {"openid"};
     private static final OpenIDProviderConfig openIDProviderConfig = new OpenIDProviderConfig();
