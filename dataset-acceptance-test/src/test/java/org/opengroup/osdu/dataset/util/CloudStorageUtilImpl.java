@@ -17,26 +17,18 @@
 
 package org.opengroup.osdu.dataset.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
-import org.opengroup.osdu.dataset.model.configuration.IntTestFileCollectionInstructionsItem;
 import org.opengroup.osdu.dataset.model.configuration.IntTestFileInstructionsItem;
 import org.opengroup.osdu.dataset.model.configuration.MapperConfig;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertTrue;
 
 @Slf4j
 public class CloudStorageUtilImpl extends CloudStorageUtil {
