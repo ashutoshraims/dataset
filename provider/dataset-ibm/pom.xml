@@ -41,6 +41,14 @@
                   <groupId>org.springframework</groupId>
                   <artifactId>spring-core</artifactId>
               </exclusion>
+              <exclusion>
+                  <groupId>io.netty</groupId>
+                  <artifactId>netty-handler</artifactId>
+              </exclusion>
+              <exclusion>
+                  <groupId>commons-io</groupId>
+                  <artifactId>commons-io</artifactId>
+              </exclusion>
           </exclusions>
       </dependency>
 
@@ -69,6 +77,16 @@
       	<groupId>io.netty</groupId>
         <artifactId>netty-codec</artifactId>
       </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>4.1.118.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.14.0</version>
+        </dependency>
       	<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-to-slf4j</artifactId>
@@ -101,6 +119,10 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-handler</artifactId>
                 </exclusion>
             </exclusions>
          </dependency>
