@@ -61,8 +61,8 @@ phases:
       - GIT_SECRETS_SCAN_RESULT=$(git secrets --scan 2> ${OUTPUT_DIR}/git_secrets.out.txt && echo OK || echo FAILED)
       - if [ "$GIT_SECRETS_SCAN_RESULT" = "FAILED" ]; then echo "Secrets detected!" && exit 1; fi
       - echo "Building primary service assemblies..."
-      - mvn -ntp -B test install -pl .,dataset-core,provider/dataset-aws -Ddeployment.environment=prod  
-      - mvn sonar:sonar -pl .,provider/dataset-aws -Dsonar.login=${SONAR_USERNAME} -Dsonar.password=${SONAR_PASSWORD} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.host.url=${SONAR_URL}
+      - mvn -ntp -B test install -pl .,dataset-core,provider/dataset-aws -P core,aws -Ddeployment.environment=prod
+      - mvn sonar:sonar -pl .,provider/dataset-aws -P aws -Dsonar.login=${SONAR_USERNAME} -Dsonar.password=${SONAR_PASSWORD} -Dsonar.branch.name=${BRANCH_NAME} -Dsonar.host.url=${SONAR_URL}
 
       - echo "Skipping integration test build for now..."
       # - echo "Building integration testing assemblies and gathering artifacts..."
