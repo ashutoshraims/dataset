@@ -212,6 +212,40 @@
 				</publish.releases.url>
 			</properties>
 		</profile>
+		<profile>
+			<id>core</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>dataset-core</module>
+				<module>dataset-core-plus</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>aws</id>
+			<modules>
+				<module>provider/dataset-aws</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>azure</id>
+			<modules>
+				<module>provider/dataset-azure</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>ibm</id>
+			<modules>
+				<module>provider/dataset-ibm</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>gc</id>
+			<modules>
+				<module>provider/dataset-gc</module>
+			</modules>
+		</profile>
 	</profiles>
 
 	<repositories>
@@ -231,16 +265,6 @@
 			<url>${publish.snapshots.url}</url>
 		</snapshotRepository>
 	</distributionManagement>
-
-	<modules>
-		<module>dataset-core</module>
-		<module>provider/dataset-aws</module>
-		<module>provider/dataset-ibm</module>
-		<module>provider/dataset-gc</module>
-		<module>provider/dataset-azure</module>
-		<module>dataset-core-plus</module>
-
-	</modules>
 
 	<build>
 		<pluginManagement>
