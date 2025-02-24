@@ -21,7 +21,7 @@
     <parent>
         <artifactId>os-dataset</artifactId>
         <groupId>org.opengroup.osdu</groupId>
-        <version>0.28.0-SNAPSHOT</version>
+        <version>0.29.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -33,7 +33,7 @@
     <properties>
         <aws.version>1.12.261</aws.version>
         <deployment.environment>dev</deployment.environment>
-        <version.number>0.28.0-SNAPSHOT</version.number>
+        <version.number>0.29.0-SNAPSHOT</version.number>
     </properties>
 
     <dependencyManagement>
