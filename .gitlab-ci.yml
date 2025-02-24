@@ -25,47 +25,61 @@ variables:
 include:
   - project: "osdu/platform/ci-cd-pipelines"
     file: "standard-setup.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "build/maven.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "scanners/fossa-maven.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/aws-global.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/aws-maven.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/azure.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/ibm.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "scanners/gitlab-ultimate.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/gc-global.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/core-global.yml"
+    ref: release/0.28
 
   - local: "devops/core-plus/pipeline/override-stages.yml"
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/aws-one-pipeline.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/azure-one-pipeline.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/gc-one-pipeline.yml"
+    ref: release/0.28
 
   - project: "osdu/platform/ci-cd-pipelines"
     file: "cloud-providers/ibm-one-pipeline.yml"
+    ref: release/0.28
 
   - local: "devops/gc/pipeline/override-stages.yml"
   - local: "/publish.yml"
@@ -79,7 +93,7 @@ eslint-sast:
 
 .maven:
   image: maven:3.9.3-eclipse-temurin-17
-  tags: ["osdu-medium"]
+  tags: [ "osdu-medium" ]
   variables:
     MAVEN_REPO_PATH: "$CI_PROJECT_DIR/.m2/repository"
     MAVEN_CLI_OPTS: "--batch-mode --settings=$CI_PROJECT_DIR/.mvn/community-maven.settings.xml"
