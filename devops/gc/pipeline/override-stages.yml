@@ -22,6 +22,9 @@ download_gc_plugins:
 gc-containerize-gitlab:
   needs: ["gc-compile-and-unit-test", "download_gc_plugins"]
 
+gc-containerize-gcr:
+  needs: ["gc-compile-and-unit-test", "download_gc_plugins"]
+
 gc-test:
   variables:
     LEGAL_TAG: datatest-int-tag
