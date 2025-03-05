@@ -14,52 +14,10 @@ updates:
       - "dependencies"
       - "azure"         
     groups:
-      spring:
-        patterns:
-          - "org.springframework*"
-          - "org.springframework.boot:spring-boot*"
-          - "org.springframework.security:spring-security*"
-          - "org.springdoc:springdoc-openapi*"
-        update-types:
-          - "patch"
-      osdu-core:
-        patterns:
-          - "org.opengroup.osdu:os-core-common"
-        update-types:
-          - "patch"
-          - "minor"
-          - "major"
-      build-tools:
-        patterns:
-          - "org.projectlombok:lombok"
-          - "com.google.guava:guava"
-          - "io.github.git-commit-id:*"
-          - "org.springframework.boot:spring-boot-maven-plugin"
-        update-types:
-          - "minor"
-          - "patch"
-      logging:
-        patterns:
-          - "org.apache.logging.log4j:*"
-          - "ch.qos.logback:*"
-          - "org.slf4j:*"
-        update-types:
-          - "minor"
-          - "patch"
-      data-format:
-        patterns:
-          - "com.fasterxml.jackson*"
-          - "net.minidev:json-smart"
-          - "com.google.code.gson:gson"
-          - "org.yaml:snakeyaml"
-        update-types:
-          - "minor"
-          - "patch"
-      common-utils:
-        patterns:
-          - "commons-beanutils:commons-beanutils"
-          - "io.github.resilience4j:*"
-          - "org.apache.commons:*"
-        update-types:
-          - "minor"
-          - "patch"
+        azure-dependencies:
+            patterns:
+                - "*"
+            update-types:
+              - "major"
+              - "minor"
+              - "patch"
