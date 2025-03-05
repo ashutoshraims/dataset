@@ -4,8 +4,10 @@ updates:
   - package-ecosystem: "maven"
     directory: "/dataset-core-plus"
     schedule:
-      interval: "daily"
-      time: "09:00"
+        interval: "daily"
+        time: "09:00"
     target-branch: "main"
+    allow:
+        - dependency-type: "all"
     ignore:
-     - dependency-name: "*"
+        - dependency-name: "*"
