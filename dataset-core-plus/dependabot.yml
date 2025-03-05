@@ -7,5 +7,7 @@ updates:
       interval: "daily"
       time: "09:00"
     target-branch: "main"
+    allow:
+      - dependency-type: "all"
     ignore:
-     - dependency-name: "*"
+      - dependency-name: "*"
