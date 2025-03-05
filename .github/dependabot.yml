@@ -5,21 +5,14 @@ updates:
   #    Scans the root POM, but ignores any dependencies physically declared in
   #    testing/**, dataset-acceptance-test/**, etc.
   - package-ecosystem: "maven"
-    directory: "/"
+    directory: "/provider/datset-azure"
     schedule:
       interval: "daily"
       time: "09:00"
     target-branch: "main"
     labels:
       - "dependencies"
-      - "common"
-    # ***IMPORTANT***
-    ignore:
-      - dependency-name: "*"
-        directories:
-          - "/testing"
-          - "/dataset-acceptance-test"
-          - "/dataset-core-plus"
+      - "azure"         
     groups:
       spring:
         patterns:
