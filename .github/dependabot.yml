@@ -3,13 +3,12 @@ updates:
 
   # 1) TOP-LEVEL AGGREGATOR
   #    Scans the root POM, but ignores any dependencies physically declared in
-  #    testing/**, <service>-acceptance-test/**, etc.
+  #    testing/**, dataset-acceptance-test/**, etc.
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "09:00"
+      interval: "daily"
+      time: "19:00"
     target-branch: "main"
     labels:
       - "dependencies"
@@ -17,10 +16,10 @@ updates:
     # ***IMPORTANT***
     ignore:
       - dependency-name: "*"
-        paths:
+        directories:
           - "testing/**"
-          - "<service>-acceptance-test/**"
-          - "<service>-core-plus/**"
+          - "dataset-acceptance-test/**"
+          - "dataset-core-plus/**"
     groups:
       spring:
         patterns:
@@ -71,134 +70,3 @@ updates:
         update-types:
           - "minor"
           - "patch"
-
-  # 2) <service> CORE
-  - package-ecosystem: "maven"
-    directory: "/<service>-core"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "09:00"
-    labels:
-      - "dependencies"
-      - "common"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-    groups:
-      core-dependencies:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # 3) SPI AZURE
-  - package-ecosystem: "maven"
-    directory: "/provider/<service>-azure"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-      time: "09:00"
-    labels:
-      - "dependencies"
-      - "azure"
-    groups:
-      azure-dependencies:
-        patterns:
-          - "*"
-        update-types:
-          - "major"
-          - "minor"
-          - "patch"
-
-  # 4) SPI AWS (corrected directory to /provider/<service>-aws)
-  - package-ecosystem: "maven"
-    directory: "/provider/<service>-aws"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-
-  # 5) SPI GC
-  - package-ecosystem: "maven"
-    directory: "/provider/<service>-gc"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-
-  # 6) SPI IBM
-  - package-ecosystem: "maven"
-    directory: "/provider/<service>-ibm"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-
-  # 7) <service> CORE PLUS
-  - package-ecosystem: "maven"
-    directory: "/<service>-core-plus"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-
-  # 8) <service> ACCEPTANCE TEST
-  - package-ecosystem: "maven"
-    directory: "/<service>-acceptance-test"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-
-  # 9) TESTING 
-  - package-ecosystem: "maven"
-    directory: "/testing"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-core-plus"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-baremetal"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-azure"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-core"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-ibm"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-aws"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  - package-ecosystem: "maven"
-    directory: "/testing/<service>-test-gc"
-    schedule:
-      interval: "never"
-    ignore:
-      - dependency-name: "*"
-  
