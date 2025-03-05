@@ -1,141 +1,200 @@
-# Fork Management Template
+# OSDU Dataset Service
 
-This repository provides an automated template for managing long-lived forks of upstream repositories, ensuring controlled synchronization and release management. For detailed design and requirements, see the [Product Requirements Document](doc/prd.md).
+## Contents
 
-## Features
+[[_TOC_]]
 
-This template automates the process of maintaining a fork while keeping it updated with upstream changes. When you create a repository from this template, it will:
+## Documentation
 
-- Set up a structured branch strategy for controlled upstream synchronization
-- Configure automated workflows to handle syncing, validation, and releases
-- Enforce branch protection rules to maintain repository integrity
-- Manage releases with semantic versioning and upstream tracking
+Official documentation home for [Dataset Service](https://osdu.pages.opengroup.org/platform/system/dataset/)
 
-## Prerequisites
+## Introduction
 
-Before starting, ensure you have:
-- GitHub account with repository creation permissions
-- Personal Access Token (PAT) with required permissions:
-  - `repo` (Full control of private repositories)
-  - `workflow` (Update GitHub Action workflows)
-  - `admin:repo_hook` (Full control of repository hooks)
+The OSDU Dataset service provides internal and external API endpoints to allow and application or user fetch storage/retrieval instructions for various types of datasets.  (ex. File Datasets)
 
-## Quick Start
+The Dataset service requires that various DMS services are registered per dataset schema type.  For example the schema subType '`dataset--File.*`' can be mapped to the FileDMS service's endpoint
 
-### 1. Create New Repository
-1. Click the "Use this template" button above
-2. Choose a name and owner for your new repository
-3. Create repository
+## System interactions
 
-### 2. Initialize Repository
-1. Go to Actions → Select "Initialize Fork" → Click "Run workflow" (if not already running)
-2. An initialization issue will appear in the Issues tab
-3. Follow the instructions in the issue from the bot to complete setup
+The File service defines the following workflows:
 
-## Branch Structure
+* Dataset Storage Instructions
+* Dataset Retrieval Instructions
+* Dataset Registry Registration
+* Dataset Registry Retrieval
 
-The permanent branches control how upstream updates flow through validation before reaching the main branch:
+### Dataset Storage Instructions
 
-```
-             ┌────────────────────────┐
-             │ fork_upstream          │
-             │ (Tracks Upstream)      │
-             └────────────────────────┘
-                      ↓
-             ┌───────────────────────┐
-             │ fork_integration      │
-             │ (Conflict Resolution) │
-             └───────────────────────┘
-                      ↓
-             ┌───────────────────────┐
-             │ main                  │
-             │ (Stable)              │
-             └───────────────────────┘
-              ↑                     ↑
-        Feature Branches       Certified Tags
-        (Feature1, etc.)      (Downstream Pull)
-```
+The dataset storage instructions workflow is defined for the `/v1/getStorageInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-## Automated Workflows
+![OSDU Dataset Service getStorageInstructions](docs/docs/img/getStorageInstructions.png)
 
-These workflows keep your fork in sync, enforce validation rules, and manage releases automatically:
+### Dataset Retrieval Instructions
 
-### 1. Upstream Sync
-- Scheduled automatic sync from upstream repository
-- Manual sync available via Actions tab
-- Automated conflict detection and notification
-- [Details →](doc/sync-workflow.md)
+The dataset retrieval instructions workflow is defined for the `/v1/getRetrievalInstructions` API endpoint.  The following diagram illustrates the workflow.
 
-### 2. Validation
-- Enforces commit format and branch status
-- Prevents merging of invalid PRs
-- Ensures code quality and consistency
-- [Details →](doc/validation-workflow.md)
+![OSDU Dataset Service getRetrievalInstructions](docs/docs/img/getRetrievalInstructions.png)
 
-### 3. Release Management
-- Automated versioning and changelogs
-- Tracks upstream versions with release tags
-- [Details →](doc/release-workflow.md)
+### Dataset Registry Registration
 
-## Development Workflow
+The dataset registry registration workflow is defined for the `/v1/registerDataset` API endpoint. The following diagram illustrates the workflow.
 
-```mermaid
-gitGraph
-    checkout main
-    commit id: "Init Repo" tag: "0.0.0"
+![OSDU Dataset Service registerDatasetRegistry](docs/docs/img/registerDatasetRegistry.png)
 
-    branch upstream
-    checkout upstream
-    commit id: "Upstream Sync 1" tag: "upstream-v1.0.0"
+### Dataset Registry Retrieval
 
-    checkout main
-    branch integration
-    checkout integration
+The dataset registry retrieval workflow is defined for the `/v1/getDatasetRegistry` API endpoints (GET/POST). The following diagram illustrates the workflow.
+
+![OSDU Dataset Service getDatasetRegistry](docs/docs/img/getDatasetRegistry.png)
+
+## Validations
+
+The Dataset service's current implementation performs a general check of the validity of the
+authorization token and data partition ID before the service starts the core function of each service.
+
+However, the Dataset service doesn't perform any verification whether a
+dataset upload/download happened or whether the user registered a dataset after upload.
+
+## API Request/Response
+
+API information is available in the swagger doc located in the docs folder: [Dataset Swagger Doc](docs/dataset.swagger.yaml)
+
+### Open API 3.0 - Swagger
+- Swagger UI : https://host/context-path/swagger (will redirect to https://host/context-path/swagger-ui/index.html)
+- api-docs (JSON) : https://host/context-path/api-docs
+- api-docs (YAML) : https://host/context-path/api-docs.yaml
+
+All the Swagger and OpenAPI related common properties are managed here [swagger.properties](./dataset-core/src/main/resources/swagger.properties)
+
+#### Server Url(full path vs relative path) configuration
+- `api.server.fullUrl.enabled=true` It will generate full server url in the OpenAPI swagger
+- `api.server.fullUrl.enabled=false` It will generate only the contextPath only
+- default value is false (Currently only in Azure it is enabled)
+[Reference]:(https://springdoc.org/faq.html#_how_is_server_url_generated) 
+
+## Service Provider Interfaces
+
+The Dataset service has a few Service Provider Interfaces that can be implemented.
+
+| Interface              | Required/Optional       | Path                                                                        |
+| ---------------------- | ----------------------- | ------------------------------------------------------------------------    |
+| DatasetDmsService      | Optional to implement   | `dataset-core/src/main/java/.../service/DatasetDmsService`                  |
+| DatasetRegistryService | Optional to implement   | `dataset-core/src/main/java/.../provider/interfaces/DatasetRegistryService` |
+| IDatasetDmsServiceMap  | Required to implement   | `dataset-core/src/main/java/.../provider/interfaces/IDatasetDmsServiceMap`  |
+
+## Running integration tests
+
+Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
 
-    merge upstream 
+## Implementation
+
+### Running the Dataset Registry Service locally
+
+The Dataset Registry Service is a Maven multi-module project with each cloud implemention placed in its submodule.
+
+###***REMOVED***
+
+1. Navigate to the module of the cloud of interest, for example, ```dataset-aws```. Configure ```application.properties``` and optionally ```logback-spring.xml```. Intead of changing these files in the source, you can also provide external files at run time.
+
+2. Navigate to the root of the dataset registry project, build and run unit tests in command line:
+
+    ```bash
+    mvn clean package
+    ```
+
+3. Install Redis
+
+    You can follow the [tutorial to install Redis locally](https://koukia.ca/installing-redis-on-windows-using-docker-containers-7737d2ebc25e) or install [docker for windows](https://docs.docker.com/docker-for-windows/install/). Make sure you are running docker with linux containers as Redis does not have a Windows image.
+
+    ```bash
+    #Pull redis image on docker
+    docker pull redis
+    #Run redis on docker
+    docker run --name some-redis -d redis
+    ```
+
+    Install windows Redis client by following the instructions [here](https://github.com/MicrosoftArchive/redis/releases). Use default port 6379.
+
+4. Set environment variables:
+
+**AWS**: AWS service account credentials are read from the environment variables in order to
+authenticate AWS requests. The following variables can be set as either system environment
+variables or user environment variables. User values will take precedence if both are set.
+
+1. `AWS_ACCESS_KEY_ID=<YOURAWSACCESSKEYID>`
+2. `AWS_SECRET_KEY=<YOURAWSSECRETKEY>`
+
+Note that these values can be found in the IAM stack's export values in the AWS console. To
+deploy resources to the AWS console, see the deployment section below.
+
+1. Run dataset service in command line:
+
+    ```bash
+    # Running AWS:
+    java -jar provider\dataset-aws\target\dataset-aws-0.0.1-SNAPSHOT-spring-boot.jar
+    ```
+
+2. Access the service:
+
+    The port and path for the service endpoint can be configured in ```application.properties``` in the provider folder as following. If not specified, then  the web container (ex. Tomcat) default is used:
+
+    ```bash
+    server.servlet.contextPath=/api/dataset/v1/
+    server.port=8080
+    ```
+
+3. Build and test in IntelliJ:
+    1. Import the maven project from the root of this project.
+    2. Create a ```JAR Application``` in ```Run/Debug Configurations``` with the ```Path to JAR``` set to the target jar file.
+    3. To run unit tests, creat a ```JUnit``` configuration in ```Run/Debug Configurations```, specify, for example:
+
+    ```text
+    Test kind: All in a package
+    Search for tests: In whole project
+    ```
+
+### Cloud Deployment
+
+This section describes the deployment process for each cloud provider.
+
+##***REMOVED***
+
+ This service is deployed as part of the CloudFormation package
+
+##***REMOVED***
+
+All documentation for the Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gc/README.md)
+
+### Azure
+
+Documentation for the Azure Cloud implementation of `os-dataset` can be found [here](./provider/dataset-azure/README.md)
 
 
-    commit id: "Bugfix 1"
+## Running integration tests
 
-    checkout upstream
-    commit id: "Upstream Sync 2" tag: "upstream-v2.0.0"
+Integration tests are located in a separate project for each cloud in the ```testing``` directory under the project root directory.
 
-    checkout integration
-    merge upstream
+##***REMOVED***
 
+Instructions for running the AWS integration tests can be found [here](./provider/dataset-aws/README.md)
 
-    commit id: "Bugfix 2"
+##***REMOVED***
 
-    checkout main
-    commit id: "Feature Work 1" tag: "0.0.1"
-    commit id: "Feature Work 2" tag: "0.1.0"
+All documentation for Google Cloud implementation of `os-dataset` can be found [here](./provider/dataset-gc/README.md)
 
-    merge integration tag: "2.0.0"
+## License
 
-    commit id: "Feature Work 3" tag: "2.1.1"
-    commit id: "Feature Work 4" tag: "2.1.2"
+Copyright © 2021 Amazon Web Services
 
-```
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-### 1. Feature Development
-1. Branch from main: `git checkout -b feature/my-feature main`
-2. Make changes and test
-3. Use conventional commits:
-   ```
-   feat: new feature
-   fix: bug fix
-   feat!: breaking change
-   ```
-4. Create PR → Review → Merge
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-### 2. Upstream Sync Process
-1. Auto-sync PR created daily
-2. Review changes
-3. Resolve conflicts if needed
-4. Merge sync PR
-
-### 3. Release Process
-1. Merge to main with conventional commits
-2. Release Please handles versioning and changelog
-3. Release includes upstream version tracking
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

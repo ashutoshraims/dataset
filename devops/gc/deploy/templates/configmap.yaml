@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: {{ .Values.conf.appName | quote }}
+  name: {{ .Values.conf.configmap | quote }}
+  namespace: {{ .Release.Namespace | quote }}
+data:
+  LOG_LEVEL: {{ .Values.data.logLevel | default .Values.global.logLevel | quote }}
+  {{- if .Values.data.redisDatasetHost }}
+  REDIS_GROUP_HOST: {{ .Values.data.redisDatasetHost | quote }}
+  {{- else }}
+  REDIS_GROUP_HOST: {{ printf "redis-%s" .Values.conf.appName | quote }}
+  {{- end }}
+  REDIS_GROUP_PORT: {{ .Values.data.redisDatasetPort | quote }}
+  {{- if .Values.global.onPremEnabled }}
+  SPRING_PROFILES_ACTIVE: "anthos"
+  {{- else }}
+  SPRING_PROFILES_ACTIVE: "gcp"
+  {{- end }}

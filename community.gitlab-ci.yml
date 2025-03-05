@@ -1,0 +1,62 @@
+variables:
+  AWS_BUILD_SUBDIR: provider/dataset-aws/build-aws
+  AWS_TEST_SUBDIR: testing/dataset-test-aws
+  AWS_SERVICE: dataset
+  AWS_ENVIRONMENT: dev
+  AWS_DEPLOY_TARGET: HELM
+  AWS_EKS_DEPLOYMENT_NAME: os-dataset
+
+  IBM_BUILD_SUBDIR: provider/dataset-ibm
+  IBM_INT_TEST_SUBDIR: testing/dataset-test-ibm
+
+  #Azure
+  AZURE_SERVICE: dataset
+  AZURE_BUILD_SUBDIR: provider/dataset-azure
+  AZURE_TEST_SUBDIR: testing/dataset-test-azure
+  AZURE_COVERAGE_THRESHOLD: $AZURE_CODE_COVERAGE_THRESHOLD
+
+include:
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "standard-setup.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "build/maven.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "scanners/fossa-maven.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "cloud-providers/aws-global.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "cloud-providers/aws-maven.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "cloud-providers/azure.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "cloud-providers/ibm.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "scanners/gitlab-ultimate.yml"
+    ref: release/0.28
+
+  - project: "osdu/platform/ci-cd-pipelines"
+    file: "cloud-providers/gc-gke.yml"
+    ref: release/0.28
+
+  - local: "devops/gc/pipeline/override-stages.yml"
+
+# disable the eslint scanner
+# I think this is being generated from the presence of an HTML file, but there
+# is no javascript to scan, so the job isn't helpful and just gets in the way
+eslint-sast:
+  rules:
+    - when: never
