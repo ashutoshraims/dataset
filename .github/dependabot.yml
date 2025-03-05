@@ -8,7 +8,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "19:00"
+      time: "09:00"
     target-branch: "main"
     labels:
       - "dependencies"
@@ -17,9 +17,9 @@ updates:
     ignore:
       - dependency-name: "*"
         directories:
-          - "testing/**"
-          - "dataset-acceptance-test/**"
-          - "dataset-core-plus/**"
+          - "/testing"
+          - "/dataset-acceptance-test"
+          - "/dataset-core-plus"
     groups:
       spring:
         patterns:
