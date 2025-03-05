@@ -9,7 +9,7 @@ updates:
     target-branch: "main"
     labels:
       - "dependencies"
-      - "azure"
+      - "common"
     groups:
       spring:
         patterns:
@@ -20,15 +20,13 @@ updates:
         update-types:
           - "patch"
           - "minor"
-      azure:
+      osdu-core:
         patterns:
-          - "com.azure*"
-          - "com.azure.spring*"
-          - "com.microsoft.azure*"
-          - "com.microsoft.graph*"
+          - "org.opengroup.osdu:os-core-common*"
         update-types:
           - "patch"
           - "minor"
+          - "major"
       build-tools:
         patterns:
           - "org.projectlombok:lombok"
