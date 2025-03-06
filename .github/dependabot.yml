@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "10:00"
+      time: "09:00"
     target-branch: "main"
     labels:
       - "dependencies"
@@ -70,3 +70,27 @@ updates:
           - "patch"
           - "minor"
           - "major"
+  - package-ecosystem: "maven"
+    directory: "/dataset-core-plus"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+    target-branch: "main"
+    ignore:
+      - dependency-name: "*"
+  - package-ecosystem: "maven"
+    directory: "/provider/dataset-aws"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+    target-branch: "main"
+    ignore:
+      - dependency-name: "*"
+  - package-ecosystem: "maven"
+    directory: "/provider/dataset-gc"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+    target-branch: "main"
+    ignore:
+      - dependency-name: "*"
