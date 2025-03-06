@@ -27,17 +27,17 @@
 		<docker.image.prefix>opendes</docker.image.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<os-core-common.version>0.27.0-rc1</os-core-common.version>
-		<jackson.version>2.17.1</jackson.version>
+		<jackson.version>2.18.3</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
-		<commons-codec.version>1.14</commons-codec.version>
+		<commons-codec.version>1.18.0</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
-		<log4j2.version>2.17.1</log4j2.version>
-		<openapi.version>2.3.0</openapi.version>
-		<json-smart.version>2.4.9</json-smart.version>
-		<spring-boot.version>3.3.7</spring-boot.version>
-		<spring-security.version>6.3.4</spring-security.version>
-		<spring-framework.version>6.1.16</spring-framework.version>
+		<log4j2.version>2.24.3</log4j2.version>
+		<openapi.version>2.8.5</openapi.version>
+		<json-smart.version>2.5.2</json-smart.version>
+		<spring-boot.version>3.4.3</spring-boot.version>
+		<spring-security.version>6.4.3</spring-security.version>
+		<spring-framework.version>6.2.3</spring-framework.version>
 	</properties>
 
 	<licenses>
@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.26</version>
+			<version>1.18.36</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- swagger dependency -->
@@ -139,12 +139,12 @@
 		<dependency>
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
-		    <version>2.0</version>
+		    <version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>32.1.1-jre</version>
+			<version>33.4.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -272,7 +272,7 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					<version>3.2.3</version>
+					<version>3.4.3</version>
 					<executions>
 						<execution>
 							<id>build-info</id>
@@ -289,7 +289,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
+				<version>0.8.12</version>
 				<executions>
 					<execution>
 						<goals>
@@ -308,7 +308,7 @@
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
-				<version>8.0.2</version>
+				<version>9.0.1</version>
 				<executions>
 					<execution>
 						<goals>

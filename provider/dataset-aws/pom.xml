@@ -31,7 +31,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <aws.version>1.12.261</aws.version>
+        <aws.version>1.12.782</aws.version>
         <deployment.environment>dev</deployment.environment>
         <version.number>0.29.0-SNAPSHOT</version.number>
     </properties>
@@ -48,7 +48,7 @@
             <dependency>
 	            <groupId>org.springframework.security</groupId>
 	            <artifactId>spring-security-bom</artifactId>
-	            <version>6.3.4</version>
+	            <version>6.4.3</version>
                 <type>pom</type>
                 <scope>import</scope>
 	        </dependency>
@@ -81,7 +81,7 @@
         <dependency>
              <groupId>net.minidev</groupId>
              <artifactId>json-smart</artifactId>
-             <version>2.4.10</version>
+             <version>2.5.2</version>
          </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -111,12 +111,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.1.14</version>
+            <version>6.2.3</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-common</artifactId>
-            <version>4.1.115.Final</version>
+            <version>4.1.119.Final</version>
         </dependency>
         <!-- Testing packages -->
         <dependency>
@@ -127,13 +127,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.5.1</version>
+            <version>5.16.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>org.junit.vintage</groupId>
           <artifactId>junit-vintage-engine</artifactId>
-          <version>5.10.2</version>
+          <version>5.12.0</version>
           <scope>test</scope>
         </dependency>
         <dependency>
@@ -155,12 +155,12 @@
         <dependency>
             <groupId>uk.org.webcompere</groupId>
             <artifactId>system-stubs-core</artifactId>
-            <version>2.0.2</version>
+            <version>2.1.7</version>
         </dependency>
         <dependency>
             <groupId>uk.org.webcompere</groupId>
             <artifactId>system-stubs-junit4</artifactId>
-            <version>2.0.2</version>
+            <version>2.1.7</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -186,7 +186,7 @@
 		<dependency>
 		    <groupId>org.yaml</groupId>
 		    <artifactId>snakeyaml</artifactId>
-		    <version>2.0</version>
+		    <version>2.4</version>
 		</dependency>
 
     </dependencies>
@@ -196,7 +196,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.4.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -212,7 +212,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <goals>
