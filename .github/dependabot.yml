@@ -78,6 +78,7 @@ updates:
     target-branch: "main"
     ignore:
       - dependency-name: "*"
+        update-types: ["version-update:semver-patch","version-update:semver-minor", "version-update:semver-major"]
   - package-ecosystem: "maven"
     directory: "/provider/dataset-aws"
     schedule:
@@ -86,6 +87,7 @@ updates:
     target-branch: "main"
     ignore:
       - dependency-name: "*"
+        update-types: ["version-update:semver-patch","version-update:semver-minor", "version-update:semver-major"]
   - package-ecosystem: "maven"
     directory: "/provider/dataset-gc"
     schedule:
@@ -94,3 +96,4 @@ updates:
     target-branch: "main"
     ignore:
       - dependency-name: "*"
+        update-types: ["version-update:semver-patch","version-update:semver-minor", "version-update:semver-major"]
