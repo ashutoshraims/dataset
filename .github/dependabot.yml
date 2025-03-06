@@ -10,6 +10,9 @@ updates:
     labels:
       - "dependencies"
       - "common"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
   - package-ecosystem: "maven"
     directory: "/dataset-core-plus"
     schedule:
