@@ -10,6 +10,11 @@ updates:
     labels:
       - "dependencies"
       - "common"
+    ignore:
+      - dependency-name: "*"
+        paths:
+          - "provider/dataset-aws/**"
+          - "dataset-core-plus/**"
     groups:
       spring:
         patterns:
