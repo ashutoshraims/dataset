@@ -4,5 +4,13 @@
     "config:base"
   ],
   "schedule": [ "before 5am on Monday" ],
+  "packageRules": [
+    {
+      "packagePatterns": [ "*" ],
+      "managers": [ "maven" ],
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": true
+    }
+  ],
   "dependencyDashboard": true
 }
