@@ -12,5 +12,8 @@
       "automerge": true
     }
   ],
+  "ignorePaths": [
+    "**/.gitlab-ci.yml"
+  ],
   "dependencyDashboard": true
 }
