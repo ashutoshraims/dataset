@@ -85,9 +85,9 @@
   ],
   "ignorePaths": [
     "**/.gitlab-ci.yml",
-    "testing/*",
-    "dataset-acceptance-test/*",
-    "dataset-core-plus/*"
+    "**/testing/**",
+    "**/dataset-acceptance-test/**",
+    "**/dataset-core-plus/**"
   ],
   "dependencyDashboard": true
 }
