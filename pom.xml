@@ -30,7 +30,7 @@
 		<jackson.version>2.17.1</jackson.version>
 		<netty.version>4.1.51.Final</netty.version>
 		<snakeyaml.version>2.0</snakeyaml.version>
-		<commons-codec.version>1.14</commons-codec.version>
+		<commons-codec.version>1.18.0</commons-codec.version>
 		<nimbusds.version>7.9</nimbusds.version>
 		<log4j2.version>2.17.1</log4j2.version>
 		<openapi.version>2.3.0</openapi.version>
