@@ -30,7 +30,7 @@
         <project.main.basedir>${project.basedir}</project.main.basedir>
         <osdu.oscorecommon.version>0.25.0</osdu.oscorecommon.version>
         <jackson-databind.version>2.13.2.2</jackson-databind.version>
-        <jackson.version>2.13.2</jackson.version>
+        <jackson.version>2.18.3</jackson.version>
     </properties>
     <dependencies>
         <dependency>
