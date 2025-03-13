@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "labels": [ "dependencies" ],
   "assignees": [ "ashutoshraims" ],
@@ -10,7 +10,8 @@
     "**/.gitlab-ci.yml",
     "**/testing/**",
     "**/dataset-acceptance-test/**",
-    "**/dataset-core-plus/**"
+    "**/dataset-core-plus/**",
+    "**/provider/dataset-ibm/**"
   ],
   "packageRules": [
     {
