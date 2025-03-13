@@ -4,14 +4,11 @@
     "config:base"
   ],
   "schedule": [ "before 5am on Monday" ],
-  "maven": {
-    "enabled": true,
-    "registryUrls": [ "https://repo.maven.apache.org/maven2", "https://repo1.maven.org/maven2" ]
-  },
   "packageRules": [
     {
       "packagePatterns": [ "*" ],
       "managers": [ "maven" ],
+      "registryUrls": [ "https://repo.maven.apache.org/maven2", "https://repo1.maven.org/maven2" ],
       "updateTypes": [ "minor", "patch", "major" ],
       "automerge": true
     }
