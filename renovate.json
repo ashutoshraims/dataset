@@ -3,14 +3,84 @@
   "extends": [
     "config:base"
   ],
+  "labels": [ "dependencies" ],
+  "assignees": [ "ashutoshraims" ],
   "schedule": [ "before 5am on Monday" ],
   "packageRules": [
     {
-      "packagePatterns": [ "*" ],
+      "description": "Group Spring related dependencies",
       "managers": [ "maven" ],
-      "registryUrls": ["https://repo1.maven.org/maven2" ],
-      //"updateTypes": [ "minor", "patch", "major" ],
-      "automerge": true
+      "matchPackageNames": [
+        "org.springframework*",
+        "org.springframework.boot:spring-boot*",
+        "org.springframework.security:spring-security*",
+        "org.springdoc:springdoc-openapi*"
+      ],
+      "groupName": "spring-framework",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
+    },
+    {
+      "description": "Group osdu-core related dependencies",
+      "managers": [ "maven" ],
+      "matchPackageNames": [
+        "org.opengroup.osdu:os-core-common*"
+      ],
+      "groupName": "osdu-core",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
+    },
+    {
+      "description": "Group build tools related dependencies",
+      "managers": [ "maven" ],
+      "matchPackageNames": [
+        "org.projectlombok:lombok*",
+        "com.google.guava:guava*"
+      ],
+      "groupName": "build-tools",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
+    },
+    {
+      "description": "Group logging related dependencies",
+      "managers": [ "maven" ],
+      "matchPackageNames": [
+        "org.apache.logging.log4j:*",
+        "ch.qos.logback:*",
+        "org.slf4j:*"
+      ],
+      "groupName": "logging",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
+    },
+    {
+      "description": "Group data format related dependencies",
+      "managers": [ "maven" ],
+      "matchPackageNames": [
+        "com.fasterxml.jackson*",
+        "net.minidev:json-smart",
+        "com.google.code.gson:gson",
+        "org.yaml:snakeyaml",
+        "org.json:json"
+      ],
+      "groupName": "data-format",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
+    },
+    {
+      "description": "Group common utils related dependencies",
+      "managers": [ "maven" ],
+      "matchPackageNames": [
+        "commons-beanutils:commons-beanutils",
+        "io.github.resilience4j:*",
+        "org.apache.commons:*",
+        "org.redisson:redisson",
+        "io.netty:*",
+        "io.lettuce:*"
+      ],
+      "groupName": "common-utils",
+      "updateTypes": [ "minor", "patch", "major" ],
+      "automerge": false
     }
   ],
   "ignorePaths": [
