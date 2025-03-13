@@ -9,7 +9,7 @@
       "packagePatterns": [ "*" ],
       "managers": [ "maven" ],
       "registryUrls": [ "https://repo.maven.apache.org/maven2", "https://repo1.maven.org/maven2" ],
-      "updateTypes": [ "minor", "patch", "major" ],
+      //"updateTypes": [ "minor", "patch", "major" ],
       "automerge": true
     }
   ],
