@@ -6,6 +6,12 @@
   "labels": [ "dependencies" ],
   "assignees": [ "ashutoshraims" ],
   "schedule": [ "before 5am on Monday" ],
+  "ignorePaths": [
+    "**/.gitlab-ci.yml",
+    "**/testing/**",
+    "**/dataset-acceptance-test/**",
+    "**/dataset-core-plus/**"
+  ],
   "packageRules": [
     {
       "description": "Group Spring related dependencies",
@@ -82,12 +88,6 @@
       "updateTypes": [ "minor", "patch", "major" ],
       "automerge": false
     }
-  ],
-  "ignorePaths": [
-    "**/.gitlab-ci.yml",
-    "testing/*",
-    "dataset-acceptance-test/*",
-    "dataset-core-plus/*"
   ],
   "dependencyDashboard": true
 }
