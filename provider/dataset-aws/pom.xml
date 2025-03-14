@@ -48,7 +48,7 @@
             <dependency>
 	            <groupId>org.springframework.security</groupId>
 	            <artifactId>spring-security-bom</artifactId>
-	            <version>6.3.4</version>
+	            <version>6.4.3</version>
                 <type>pom</type>
                 <scope>import</scope>
 	        </dependency>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>6.1.14</version>
+            <version>6.2.4</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -196,7 +196,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.4.3</version>
                 <executions>
                     <execution>
                         <goals>
